@@ -1,10 +1,20 @@
 {
-  "$schema": "../../node_modules/@angular-devkit/architect/src/builders-schema.json",
+  "$schema": "@angular-devkit/architect/src/builders-schema.json",
   "builders": {
-    "build": {
-      "implementation": "./src/builders/build/builder",
-      "schema": "./src/builders/build/schema.json",
-      "description": "build builder"
+    "run-ios": {
+      "implementation": "./src/builders/run-ios/run-ios.impl",
+      "schema": "./src/builders/run-ios/schema.json",
+      "description": "Runs iOS application."
+    },
+    "bundle": {
+      "implementation": "./src/builders/bundle/bundle.impl",
+      "schema": "./src/builders/bundle/schema.json",
+      "description": "Builds the JS bundle."
+    },
+    "start": {
+      "implementation": "./src/builders/start/start.impl",
+      "schema": "./src/builders/start/schema.json",
+      "description": "Starts the dev server for JS bundle."
     }
   }
 }

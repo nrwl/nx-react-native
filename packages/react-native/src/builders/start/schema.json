@@ -1,0 +1,22 @@
+{
+  "title": "JS Bundle for React Native",
+  "description": "JS Bundle target options",
+  "type": "object",
+  "properties": {
+    "host": {
+      "type": "string",
+      "description": "The host to listen on.",
+      "default": "localhost"
+    },
+    "port": {
+      "type": "number",
+      "description": "The port to listen on.",
+      "default": 8081
+    },
+    "resetCache": {
+      "type": "boolean",
+      "description": "Resets metro cache.",
+      "default": false
+    }
+  }
+}

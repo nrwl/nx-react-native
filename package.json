@@ -29,10 +29,12 @@
   "dependencies": {},
   "devDependencies": {
     "@nrwl/nx-plugin": "10.2.1",
+    "@nrwl/react": "10.2.1",
     "@nrwl/workspace": "10.2.1",
     "@types/node": "~8.9.4",
     "dotenv": "6.2.0",
     "eslint": "6.8.0",
+    "metro-resolver": "0.58.0",
     "prettier": "2.0.4",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
@@ -45,5 +47,8 @@
     "jest": "26.2.2",
     "@types/jest": "26.0.8",
     "ts-jest": "26.1.4"
+  },
+  "resolutions": {
+    "rxjs": "6.6.0"
   }
 }

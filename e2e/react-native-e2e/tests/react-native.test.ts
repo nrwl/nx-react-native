@@ -1,48 +1,20 @@
 import {
-  checkFilesExist,
   ensureNxProject,
-  readJson,
   runNxCommandAsync,
   uniq,
+  checkFilesExist,
 } from '@nrwl/nx-plugin/testing';
-describe('react-native e2e', () => {
-  it('should create react-native', async (done) => {
-    const plugin = uniq('react-native');
-    ensureNxProject('@nrwl/react-native', 'dist/packages/react-native');
-    await runNxCommandAsync(
-      `generate @nrwl/react-native:reactNative ${plugin}`
-    );
 
-    const result = await runNxCommandAsync(`build ${plugin}`);
-    expect(result.stdout).toContain('Builder ran');
+test('bundling ios app', async () => {
+  const appName = uniq('my-app');
+  ensureNxProject('@nrwl/react-native', 'dist/packages/react-native');
+  await runNxCommandAsync(`generate @nrwl/react-native:app ${appName}`);
 
-    done();
-  });
-
-  describe('--directory', () => {
-    it('should create src in the specified directory', async (done) => {
-      const plugin = uniq('react-native');
-      ensureNxProject('@nrwl/react-native', 'dist/packages/react-native');
-      await runNxCommandAsync(
-        `generate @nrwl/react-native:reactNative ${plugin} --directory subdir`
-      );
-      expect(() =>
-        checkFilesExist(`libs/subdir/${plugin}/src/index.ts`)
-      ).not.toThrow();
-      done();
-    });
-  });
-
-  describe('--tags', () => {
-    it('should add tags to nx.json', async (done) => {
-      const plugin = uniq('react-native');
-      ensureNxProject('@nrwl/react-native', 'dist/packages/react-native');
-      await runNxCommandAsync(
-        `generate @nrwl/react-native:reactNative ${plugin} --tags e2etag,e2ePackage`
-      );
-      const nxJson = readJson('nx.json');
-      expect(nxJson.projects[plugin].tags).toEqual(['e2etag', 'e2ePackage']);
-      done();
-    });
-  });
-});
+  const result = await runNxCommandAsync(
+    `bundle ${appName} --platform=ios --entryFile=./index.js --bundle-output=index.ios.bundle`
+  );
+  expect(result.stdout).toContain('Done writing bundle output');
+  expect(() =>
+    checkFilesExist(`apps/${appName}/index.ios.bundle`)
+  ).not.toThrow();
+}, 120000);

@@ -45,17 +45,17 @@ jobs:
       - run:
           name: Run Unit Tests
           command: yarn test
-#  end-to-end-tests:
-#    docker:
-#      - image: circleci/node:12-browsers
-#    steps:
-#      - checkout
-#      - attach_workspace:
-#          at: ~/project
-#      - run:
-#          name: E2E
-#          command: yarn e2e
-#          no_output_timeout: 30m
+  end-to-end-tests:
+    docker:
+      - image: circleci/node:12-browsers
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: E2E
+          command: yarn e2e
+          no_output_timeout: 30m
 
 workflows:
   version: 2.1

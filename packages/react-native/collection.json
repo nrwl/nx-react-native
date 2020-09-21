@@ -1,12 +1,26 @@
 {
-  "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
-  "name": "react-native",
-  "version": "0.0.1",
+  "name": "Nx React Native",
+  "version": "0.1",
+  "extends": ["@nrwl/react"],
   "schematics": {
-    "react-native": {
-      "factory": "./src/schematics/react-native/schematic",
-      "schema": "./src/schematics/react-native/schema.json",
-      "description": "react-native schematic"
+    "init": {
+      "factory": "./src/schematics/init/init.impl",
+      "schema": "./src/schematics/init/schema.json",
+      "description": "Initialize the @nrwl/react-native plugin",
+      "aliases": ["ng-add"],
+      "hidden": true
+    },
+    "application": {
+      "factory": "./src/schematics/application/application.impl",
+      "schema": "./src/schematics/application/schema.json",
+      "description": "Create an application",
+      "aliases": ["app"]
+    },
+    "library": {
+      "factory": "./src/schematics/library/library.impl",
+      "schema": "./src/schematics/library/schema.json",
+      "description": "Create an library",
+      "aliases": ["lib"]
     }
   }
 }

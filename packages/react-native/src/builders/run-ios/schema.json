@@ -1,0 +1,25 @@
+{
+  "title": "Run iOS application",
+  "description": "Run iOS target options",
+  "type": "object",
+  "properties": {
+    "configuration": {
+      "type": "string",
+      "description": "Explicitly set the Xcode configuration to use",
+      "default": "Debug"
+    },
+    "scheme": {
+      "type": "string",
+      "description": "Explicitly set the Xcode scheme to use"
+    },
+    "simulator": {
+      "type": "string",
+      "description": "Explicitly set simulator to use. Optionally include iOS version between parenthesis at the end to match an exact version: \"iPhone X (12.1)\"",
+      "default": "iPhone X"
+    },
+    "device": {
+      "type": "string",
+      "description": "Explicitly set device to use by name. The value is not required if you have a single device connected."
+    }
+  }
+}
