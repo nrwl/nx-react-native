@@ -1,0 +1,70 @@
+orbs:
+  node: circleci/node@2.0.2
+
+version: 2.1
+
+commands:
+  yarn_install:
+    description: 'Install Dependencies'
+    steps:
+      - run: yarn install --frozen-lockfile --non-interactive
+      - save_cache:
+          key: yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+  restore_yarn_cache:
+    description: 'Restore Cached Dependencies'
+    steps:
+      - restore_cache:
+          keys:
+            - yarn-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - yarn-
+
+jobs:
+  install:
+    docker:
+      - image: circleci/node:12-browsers
+    steps:
+      - checkout
+      - restore_yarn_cache
+      - yarn_install
+      - persist_to_workspace:
+          root: ~/project
+          paths: .
+  lint-and-test:
+    docker:
+      - image: circleci/node:12-browsers
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Lint
+          command: yarn lint
+      - run:
+          name: Run Unit Tests
+          command: yarn test
+#  end-to-end-tests:
+#    docker:
+#      - image: circleci/node:12-browsers
+#    steps:
+#      - checkout
+#      - attach_workspace:
+#          at: ~/project
+#      - run:
+#          name: E2E
+#          command: yarn e2e
+#          no_output_timeout: 30m
+
+workflows:
+  version: 2.1
+  default_workflow:
+    jobs:
+      - install
+      - lint-and-test:
+          requires:
+            - install
+      - end-to-end-tests:
+          requires:
+            - install
