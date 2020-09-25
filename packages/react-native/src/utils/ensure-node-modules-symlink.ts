@@ -6,13 +6,19 @@ export function ensureNodeModulesSymlink(
   workspaceRoot: string,
   projectRoot: string
 ) {
-  const reactNativePath = join(workspaceRoot, 'node_modules', 'react-native');
   const appNodeModulesPath = join(projectRoot, 'node_modules');
   if (
     !existsSync(appNodeModulesPath) ||
     lstatSync(appNodeModulesPath).isSymbolicLink()
   ) {
     createDirectory(appNodeModulesPath);
-    symlinkSync(reactNativePath, join(appNodeModulesPath, 'react-native'));
+    symlinkSync(
+      join(workspaceRoot, 'node_modules', 'react-native'),
+      join(appNodeModulesPath, 'react-native')
+    );
+    symlinkSync(
+      join(workspaceRoot, 'node_modules', 'jsc-android'),
+      join(appNodeModulesPath, 'jsc-android')
+    );
   }
 }
