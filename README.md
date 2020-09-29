@@ -20,7 +20,7 @@
 npx create-nx-workspace --cli=nx --preset=empty
 ```
 
-### Install Gatsby plugin
+### Install React Native plugin
 
 ```
 # Using npm
