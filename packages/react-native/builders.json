@@ -1,6 +1,11 @@
 {
   "$schema": "@angular-devkit/architect/src/builders-schema.json",
   "builders": {
+    "run-android": {
+      "implementation": "./src/builders/run-android/run-android.impl",
+      "schema": "./src/builders/run-android/schema.json",
+      "description": "Runs Android application."
+    },
     "run-ios": {
       "implementation": "./src/builders/run-ios/run-ios.impl",
       "schema": "./src/builders/run-ios/schema.json",
