@@ -12,10 +12,9 @@
       "type": "string",
       "description": "The entry file relative to project root."
     },
-    "outputPath": {
+    "bundleOutput": {
       "type": "string",
-      "description": "The output path of the generated files.",
-      "alias": "bundleOutput"
+      "description": "The output path of the generated files."
     },
     "maxWorkers": {
       "type": "number",
@@ -34,5 +33,5 @@
       ]
     }
   },
-  "required": ["outputPath"]
+  "required": ["platform", "entryFile", "bundleOutput"]
 }
