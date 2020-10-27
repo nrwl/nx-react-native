@@ -32,6 +32,7 @@ import init from '../init/init.impl';
 import { Schema } from './schema';
 import { podInstallTask } from '../../utils/pod-install-task';
 import { extraEslintDependencies, reactEslintJson } from '@nrwl/react';
+import { chmodTask } from '../../utils/chmod-task';
 
 interface NormalizedSchema extends Schema {
   projectName: string;
@@ -57,6 +58,8 @@ export default function (schema: Schema): Rule {
       addProject(options),
       addJest(options),
       podInstallTask(join(options.appProjectRoot, 'ios')),
+      chmodTask(join(options.appProjectRoot, 'android', 'gradlew'), 0o775),
+      updateFiles(options),
       formatFiles(options),
     ]);
   };
@@ -95,14 +98,6 @@ function addProject(options: NormalizedSchema): Rule {
   return updateWorkspaceInTree((json) => {
     const architect: { [key: string]: any } = {};
 
-    architect.bundle = {
-      builder: '@nrwl/react-native:bundle',
-      options: {
-        entryFile: 'index.js',
-        outputPath: join(normalize('dist'), options.appProjectRoot),
-      },
-    };
-
     architect.start = {
       builder: '@nrwl/react-native:start',
       options: {
@@ -114,6 +109,33 @@ function addProject(options: NormalizedSchema): Rule {
       builder: '@nrwl/react-native:run-ios',
       options: {
         port: 8081,
+      },
+    };
+
+    architect['run-android'] = {
+      builder: '@nrwl/react-native:run-android',
+      options: {
+        port: 8081,
+      },
+    };
+
+    architect['bundle-ios'] = {
+      builder: '@nrwl/react-native:bundle',
+      outputs: [`${options.appProjectRoot}/dist/ios`],
+      options: {
+        entryFile: 'index.js',
+        platform: 'ios',
+        bundleOutput: 'dist/ios/index.bundle',
+      },
+    };
+
+    architect['bundle-android'] = {
+      builder: '@nrwl/react-native:bundle',
+      outputs: [`${options.appProjectRoot}/dist/android`],
+      options: {
+        entryFile: 'index.js',
+        platform: 'android',
+        bundleOutput: 'dist/android/index.bundle',
       },
     };
 
@@ -146,6 +168,12 @@ function addJest(options: NormalizedSchema): Rule {
         setupFile: 'none',
       })
     : noop();
+}
+
+function updateFiles(options: NormalizedSchema): Rule {
+  return (host: Tree) => {
+    // test
+  };
 }
 
 function normalizeOptions(host: Tree, options: Schema): NormalizedSchema {
