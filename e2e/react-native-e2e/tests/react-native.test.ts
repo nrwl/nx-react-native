@@ -20,4 +20,4 @@ test('bundling ios app', async () => {
   expect(() =>
     checkFilesExist(`apps/${appName}/dist/android/index.bundle`)
   ).not.toThrow();
-}, 120000);
+}, 240000);

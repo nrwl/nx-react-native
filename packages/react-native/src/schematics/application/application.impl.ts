@@ -59,7 +59,6 @@ export default function (schema: Schema): Rule {
       addJest(options),
       podInstallTask(join(options.appProjectRoot, 'ios')),
       chmodTask(join(options.appProjectRoot, 'android', 'gradlew'), 0o775),
-      updateFiles(options),
       formatFiles(options),
     ]);
   };
@@ -107,26 +106,27 @@ function addProject(options: NormalizedSchema): Rule {
 
     architect['run-ios'] = {
       builder: '@nrwl/react-native:run-ios',
-      options: {
-        port: 8081,
-      },
-    };
-
-    architect['run-android'] = {
-      builder: '@nrwl/react-native:run-android',
-      options: {
-        port: 8081,
-      },
+      options: {},
     };
 
     architect['bundle-ios'] = {
       builder: '@nrwl/react-native:bundle',
-      outputs: [`${options.appProjectRoot}/dist/ios`],
+      outputs: [`${options.appProjectRoot}/build`],
       options: {
         entryFile: 'index.js',
         platform: 'ios',
         bundleOutput: 'dist/ios/index.bundle',
       },
+    };
+
+    architect['run-android'] = {
+      builder: '@nrwl/react-native:run-android',
+      options: {},
+    };
+
+    architect['build-android'] = {
+      builder: '@nrwl/react-native:build-android',
+      options: {},
     };
 
     architect['bundle-android'] = {
@@ -142,7 +142,8 @@ function addProject(options: NormalizedSchema): Rule {
     architect.lint = generateProjectLint(
       normalize(options.appProjectRoot),
       join(normalize(options.appProjectRoot), 'tsconfig.json'),
-      Linter.EsLint
+      Linter.EsLint,
+      [`${options.appProjectRoot}/**/*.{js,ts,tsx}`]
     );
 
     json.projects[options.projectName] = {
@@ -170,12 +171,6 @@ function addJest(options: NormalizedSchema): Rule {
     : noop();
 }
 
-function updateFiles(options: NormalizedSchema): Rule {
-  return (host: Tree) => {
-    // test
-  };
-}
-
 function normalizeOptions(host: Tree, options: Schema): NormalizedSchema {
   const appDirectory = options.directory
     ? `${toFileName(options.directory)}/${toFileName(options.name)}`
@@ -189,6 +184,7 @@ function normalizeOptions(host: Tree, options: Schema): NormalizedSchema {
 
   return {
     ...options,
+    displayName: options.displayName || options.name,
     className,
     lowerCaseName: className.toLowerCase(),
     name: toFileName(options.name),
