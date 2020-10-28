@@ -1,5 +1,6 @@
 export interface Schema {
   name: string;
+  displayName?: string;
   style?: string;
   skipFormat: boolean;
   directory?: string;
@@ -7,6 +8,5 @@ export interface Schema {
   unitTestRunner: 'jest' | 'none';
   pascalCaseFiles?: boolean;
   classComponent?: boolean;
-  displayName?: boolean;
   js?: boolean;
 }

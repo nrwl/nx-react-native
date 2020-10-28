@@ -16,6 +16,11 @@
       "schema": "./src/builders/bundle/schema.json",
       "description": "Builds the JS bundle."
     },
+    "build-android": {
+      "implementation": "./src/builders/build-android/build-android.impl",
+      "schema": "./src/builders/build-android/schema.json",
+      "description": "Release Build for Android."
+    },
     "start": {
       "implementation": "./src/builders/start/start.impl",
       "schema": "./src/builders/start/schema.json",

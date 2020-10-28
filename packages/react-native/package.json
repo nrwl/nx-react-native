@@ -35,7 +35,7 @@
   "dependencies": {
     "@nrwl/jest": "*",
     "@nrwl/react": "*",
-    "@angular-devkit/schematics": "10.0.3",
-    "metro-resolver": "0.63.0"
+    "@angular-devkit/schematics": "10.1.7",
+    "metro-resolver": "0.58.0"
   }
 }
