@@ -3,7 +3,7 @@ import { createDirectory, toFileName } from '@nrwl/workspace';
 import { JsonObject } from '@angular-devkit/core';
 import { from, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { dirname, join } from 'path';
+import { dirname, join, relative, sep } from 'path';
 import { getProjectRoot } from '../../utils/get-project-root';
 import { ensureNodeModulesSymlink } from '../../utils/ensure-node-modules-symlink';
 import { fork } from 'child_process';
@@ -29,6 +29,13 @@ function run(
 ): Observable<ReactNativeBuildOutput> {
   return from(getProjectRoot(context)).pipe(
     tap((root) => {
+      // Since cwd is in `apps/[name]` we need to make output dir relative to it
+      options.bundleOutput = relative(context.workspaceRoot, root)
+        .split(sep)
+        .map(() => '..')
+        .concat(options.bundleOutput)
+        .join(sep);
+
       createDirectory(dirname(join(root, options.bundleOutput)));
       ensureNodeModulesSymlink(context.workspaceRoot, root);
     }),

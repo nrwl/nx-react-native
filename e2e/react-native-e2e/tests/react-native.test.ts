@@ -10,7 +10,7 @@ test('bundling ios app', async () => {
   );
   expect(iosBundleResult.stdout).toContain('Done writing bundle output');
   expect(() =>
-    checkFilesExist(`apps/${appName}/dist/ios/index.bundle`)
+    checkFilesExist(`dist/apps/${appName}/ios/index.bundle`)
   ).not.toThrow();
 
   const androidBundleResult = await runNxCommandAsync(
@@ -18,6 +18,6 @@ test('bundling ios app', async () => {
   );
   expect(androidBundleResult.stdout).toContain('Done writing bundle output');
   expect(() =>
-    checkFilesExist(`apps/${appName}/dist/android/index.bundle`)
+    checkFilesExist(`dist/apps/${appName}/android/index.bundle`)
   ).not.toThrow();
 }, 240000);
