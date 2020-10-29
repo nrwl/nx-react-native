@@ -2,6 +2,12 @@ import * as metroResolver from 'metro-resolver';
 import { loadConfig, createMatchPath } from 'tsconfig-paths';
 import type { MatchPath } from 'tsconfig-paths';
 
+/*
+ * Use tsconfig to resolve additional workspace libs.
+ *
+ * This resolve function requires projectRoot to be set to
+ * workspace root in order modules and assets to be registered and watched.
+ */
 export function resolveRequest(
   _context: any,
   moduleName: string,

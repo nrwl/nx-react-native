@@ -78,6 +78,8 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
+    entryFile: "<%= appProjectRoot %>/index.js",
+    root: "../../<%= offsetFromRoot %>",
     enableHermes: false
 ]
 

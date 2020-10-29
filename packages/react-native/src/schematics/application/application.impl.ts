@@ -113,9 +113,9 @@ function addProject(options: NormalizedSchema): Rule {
       builder: '@nrwl/react-native:bundle',
       outputs: [`${options.appProjectRoot}/build`],
       options: {
-        entryFile: 'index.js',
+        entryFile: `${options.appProjectRoot}/index.js`,
         platform: 'ios',
-        bundleOutput: 'dist/ios/index.bundle',
+        bundleOutput: `dist/${options.appProjectRoot}/ios/index.bundle`,
       },
     };
 
@@ -131,11 +131,10 @@ function addProject(options: NormalizedSchema): Rule {
 
     architect['bundle-android'] = {
       builder: '@nrwl/react-native:bundle',
-      outputs: [`${options.appProjectRoot}/dist/android`],
       options: {
-        entryFile: 'index.js',
+        entryFile: `${options.appProjectRoot}/index.js`,
         platform: 'android',
-        bundleOutput: 'dist/android/index.bundle',
+        bundleOutput: `dist/${options.appProjectRoot}/android/index.bundle`,
       },
     };
 
