@@ -13,6 +13,7 @@ let added = false;
 
 export function chmodTask(file: string, mode: number | string): Rule {
   return (host: Tree, context: SchematicContext) => {
+    if (!context.engine.workflow) return;
     if (!added) {
       const engineHost = (context.engine.workflow as any)._engineHost;
       engineHost.registerTaskExecutor(createRunChmodTask());

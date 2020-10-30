@@ -45,6 +45,6 @@ describe('app', () => {
     const tsconfig = readJsonInTree(tree, 'apps/my-app/tsconfig.json');
     expect(tsconfig.extends).toEqual('../../tsconfig.base.json');
 
-    expect(tree.exists('apps/my-app/.eslintrc')).toBe(true)
+    expect(tree.exists('apps/my-app/.eslintrc.json')).toBe(true)
   });
 });

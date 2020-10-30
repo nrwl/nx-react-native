@@ -161,12 +161,32 @@ function addProject(options: NormalizedSchema): Rule {
 
 function addJest(options: NormalizedSchema): Rule {
   return options.unitTestRunner === 'jest'
-    ? externalSchematic('@nrwl/jest', 'jest-project', {
-        project: options.projectName,
-        supportTsx: true,
-        skipSerializers: true,
-        setupFile: 'none',
-      })
+    ? chain([
+        externalSchematic('@nrwl/jest', 'jest-project', {
+          project: options.projectName,
+          supportTsx: true,
+          skipSerializers: true,
+          setupFile: 'none',
+        }),
+        (host) => {
+          const configPath = `${options.appProjectRoot}/jest.config.js`;
+          const content = `const workspacePreset = require('../../jest.preset')
+module.exports = {
+  ...workspacePreset,
+  displayName: '${options.name}',
+  preset: 'react-native',
+  moduleFileExtensions: ['ts', 'js', 'html', 'tsx', 'jsx'],
+  setupFilesAfterEnv: ['<rootDir>/test-setup.ts'],
+  transform: {
+    '\\\\.(js|ts|tsx)$': require.resolve('react-native/jest/preprocessor.js'),
+    '^.+\\\\.(bmp|gif|jpg|jpeg|mp4|png|psd|svg|webp)$': require.resolve(
+      'react-native/jest/assetFileTransformer.js',
+    ),
+  },
+};`;
+          host.overwrite(configPath, content);
+        },
+      ])
     : noop();
 }
 
