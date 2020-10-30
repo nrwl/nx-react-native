@@ -14,6 +14,10 @@ import {
   typesReactNativeVersion,
   reactNativeCommunityCliPlatformIos,
   metroReactNativeBabelPresetVersion,
+  testingLibraryReactNativeVersion,
+  jestReactNativeVersion,
+  testingLibraryJestNativeVersion,
+  reactTestRenderer,
 } from '../../utils/versions';
 import { JsonObject } from '@angular-devkit/core';
 import ignore from 'ignore';
@@ -40,6 +44,10 @@ export function addDependencies(): Rule {
       '@types/react-native': typesReactNativeVersion,
       '@react-native-community/cli-platform-ios': reactNativeCommunityCliPlatformIos,
       'metro-react-native-babel-preset': metroReactNativeBabelPresetVersion,
+      '@testing-library/react-native': testingLibraryReactNativeVersion,
+      '@testing-library/jest-native': testingLibraryJestNativeVersion,
+      'jest-react-native': jestReactNativeVersion,
+      'react-test-renderer': reactTestRenderer,
     }
   );
 }
