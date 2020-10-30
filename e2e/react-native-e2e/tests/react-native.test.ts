@@ -1,13 +1,20 @@
-import { checkFilesExist, ensureNxProject, runNxCommandAsync, uniq } from '@nrwl/nx-plugin/testing';
+import {
+  checkFilesExist,
+  ensureNxProject,
+  runNxCommandAsync,
+  uniq,
+} from '@nrwl/nx-plugin/testing';
 
 test('bundling ios app', async () => {
   const appName = uniq('my-app');
   ensureNxProject('@nrwl/react-native', 'dist/packages/react-native');
   await runNxCommandAsync(`generate @nrwl/react-native:app ${appName}`);
 
-  const iosBundleResult = await runNxCommandAsync(
-    `bundle-ios ${appName}`
-  );
+  await expect(runNxCommandAsync(`test ${appName}`)).resolves.toMatchObject({
+    stdout: expect.any(String),
+  });
+
+  const iosBundleResult = await runNxCommandAsync(`bundle-ios ${appName}`);
   expect(iosBundleResult.stdout).toContain('Done writing bundle output');
   expect(() =>
     checkFilesExist(`dist/apps/${appName}/ios/index.bundle`)
