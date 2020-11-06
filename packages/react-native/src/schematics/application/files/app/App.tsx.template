@@ -29,7 +29,7 @@ const App = () => {
         >
           <View style={styles.header}>
             <Image style={styles.logo} source={require('./logo.png')} />
-            <Text style={styles.heading}>Welcome to React Native</Text>
+            <Text style={styles.heading} testID="heading">Welcome to React Native</Text>
           </View>
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
