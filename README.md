@@ -60,10 +60,21 @@ iOS:
 npx nx run-ios <app-name>
 ```
 
-### Build/test/lint the app
+### Release build
+
+Android:
 
 ```
-npx nx build <app-name>
+npx nx build-android <app-name>
+```
+
+iOS:
+
+No CLI support yet. Run in the Xcode project. See: https://reactnative.dev/docs/running-on-device
+
+### Test/lint the app
+
+```
 npx nx test <app-name>
 npx nx lint <app-name>
 ```
@@ -80,6 +91,28 @@ This will generate the `UiButton` component, which you can use in your app.
 
 ```jsx
 import { UiButton } from '@myorg/ui-button';
+```
+
+## Contributing
+
+Running unit tests:
+
+```
+yarn test
+```
+
+Running e2e tests:
+
+```
+# This will generate a test workspace at 'tmp/nx-e2e/proj'
+# You can use this workspace to test manually
+yarn e2e
+```
+
+Building:
+
+```
+yarn build
 ```
 
 ## Learn more
