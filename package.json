@@ -9,6 +9,8 @@
     "test": "nx run-many --target=test --all --parallel",
     "lint": "nx workspace-lint && nx run-many --target=lint --all --parallel",
     "e2e": "nx e2e react-native-e2e",
+    "release": "./tools/scripts/publish.sh",
+    "local-registry": "./tools/scripts/local-registry.sh",
     "affected:apps": "nx affected:apps",
     "affected:libs": "nx affected:libs",
     "affected:build": "nx affected:build",
