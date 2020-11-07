@@ -27,7 +27,7 @@ npx create-nx-workspace --cli=nx --preset=empty
 npm install --save-dev @nrwl/react-native
 
 # Using yarn
-yarn -D @nrwl/react-native
+yarn add -D @nrwl/react-native
 ```
 
 ### Create an app
