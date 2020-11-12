@@ -1,23 +1,23 @@
 import { chain, Rule } from '@angular-devkit/schematics';
 import {
   addDepsToPackageJson,
-  updateJsonInTree,
   addPackageWithInit,
+  updateJsonInTree,
   updateWorkspace,
 } from '@nrwl/workspace';
 import { Schema } from './schema';
 import {
-  nxVersion,
-  reactVersion,
-  reactNativeVersion,
-  typesReactVersion,
-  typesReactNativeVersion,
-  reactNativeCommunityCliPlatformIos,
-  metroReactNativeBabelPresetVersion,
-  testingLibraryReactNativeVersion,
   jestReactNativeVersion,
-  testingLibraryJestNativeVersion,
+  metroReactNativeBabelPresetVersion,
+  nxVersion,
+  reactNativeCommunityCliPlatformIos,
+  reactNativeVersion,
   reactTestRenderer,
+  reactVersion,
+  testingLibraryJestNativeVersion,
+  testingLibraryReactNativeVersion,
+  typesReactNativeVersion,
+  typesReactVersion,
 } from '../../utils/versions';
 import { JsonObject } from '@angular-devkit/core';
 import ignore from 'ignore';
@@ -31,6 +31,60 @@ export default function (schema: Schema) {
     moveDependency(),
   ]);
 }
+
+const gitIgnoreEntriesForReactNative = `
+# React Native
+
+## Xcode
+
+**/ios/**/build/
+**/ios/**/*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+
+## Android
+
+**/android/**/build/
+**/android/**/.gradle
+**/android/**/local.properties
+**/android/**/*.iml
+
+## BUCK
+
+buck-out/
+\\.buckd/
+*.keystore
+!debug.keystore
+
+## fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
+#
+*/fastlane/report.xml
+*/fastlane/Preview.html
+*/fastlane/screenshots
+
+## Bundle artifact
+*.jsbundle
+
+## CocoaPods
+**/ios/Pods/
+`;
 
 export function addDependencies(): Rule {
   return addDepsToPackageJson(
@@ -85,11 +139,13 @@ function updateGitIgnore(): Rule {
     ig.add(host.read('.gitignore').toString());
 
     if (!ig.ignores('apps/example/ios/Pods/Folly')) {
-      const content = `${host
-        .read('.gitignore')!
-        .toString('utf-8')
-        .trimRight()}\nPods/\n`;
-      host.overwrite('.gitignore', content);
+      host.overwrite(
+        '.gitignore',
+        `${host
+          .read('.gitignore')!
+          .toString('utf-8')
+          .trimRight()}\n${gitIgnoreEntriesForReactNative}/\n`
+      );
     }
   };
 }
