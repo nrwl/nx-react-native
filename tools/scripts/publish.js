@@ -5,7 +5,7 @@ const { readFileSync, writeFileSync, existsSync } = require('fs');
 const { join } = require('path');
 
 function publish(dir) {
-  execSync(`npm publish ${dir}`);
+  execSync(`npm publish ${dir} --access public`);
 }
 
 function updatePackageJson(packageJsonPath, version) {
