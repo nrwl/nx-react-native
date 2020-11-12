@@ -1,10 +1,10 @@
 {
   "name": "@nrwl/react-native",
-  "version": "0.0.1",
+  "version": "10.4.0-beta.1",
   "description": "React Native Plugin for Nx",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nrwl/nx.git"
+    "url": "git+https://github.com/nrwl/nx-react-native.git"
   },
   "keywords": [
     "Monorepo",
@@ -19,7 +19,7 @@
   "author": "Victor Savkin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nrwl/nx/issues"
+    "url": "https://github.com/nrwl/nx-react-native/issues"
   },
   "homepage": "https://nx.dev",
   "builders": "./builders.json",
