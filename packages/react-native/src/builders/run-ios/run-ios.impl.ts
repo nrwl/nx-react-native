@@ -6,6 +6,7 @@ import { join } from 'path';
 import { getProjectRoot } from '../../utils/get-project-root';
 import { fork } from 'child_process';
 import { ensureNodeModulesSymlink } from '../../utils/ensure-node-modules-symlink';
+import { platform } from 'os';
 
 export interface ReactNativeRunIOsOptions extends JsonObject {
   configuration: string;
@@ -25,6 +26,9 @@ function run(
   options: ReactNativeRunIOsOptions,
   context: BuilderContext
 ): Observable<ReactNativeRunIOsOutput> {
+  if (platform() !== 'darwin') {
+    throw new Error(`The run-ios build requires OSX to run`);
+  }
   return from(getProjectRoot(context)).pipe(
     tap((root) => ensureNodeModulesSymlink(context.workspaceRoot, root)),
     switchMap((root) =>
@@ -32,7 +36,7 @@ function run(
     ),
     map(() => {
       return {
-        success: true
+        success: true,
       };
     })
   );

@@ -25,9 +25,6 @@ function run(
   options: ReactNativeDevServerOptions,
   context: BuilderContext
 ): Observable<ReactNativeDevServerBuildOutput> {
-  if (platform() !== 'darwin') {
-    throw new Error(`The run-ios build requires OSX to run`);
-  }
   return from(getProjectRoot(context)).pipe(
     tap((root) => ensureNodeModulesSymlink(context.workspaceRoot, root)),
     switchMap((root) =>
