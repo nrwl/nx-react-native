@@ -126,6 +126,10 @@ function addProject(options: NormalizedSchema): Rule {
 
     architect['build-android'] = {
       builder: '@nrwl/react-native:build-android',
+      outputs: [
+        `${options.appProjectRoot}/android/app/build/outputs/bundle`,
+        `${options.appProjectRoot}/android/app/build/outputs/apk`
+      ],
       options: {},
     };
 
