@@ -21,6 +21,7 @@ import {
 } from '../../utils/versions';
 import { JsonObject } from '@angular-devkit/core';
 import ignore from 'ignore';
+import { gitIgnoreEntriesForReactNative } from './lib/gitignore-entries';
 
 export default function (schema: Schema) {
   return chain([
@@ -31,60 +32,6 @@ export default function (schema: Schema) {
     moveDependency(),
   ]);
 }
-
-const gitIgnoreEntriesForReactNative = `
-# React Native
-
-## Xcode
-
-**/ios/**/build/
-**/ios/**/*.pbxuser
-!default.pbxuser
-*.mode1v3
-!default.mode1v3
-*.mode2v3
-!default.mode2v3
-*.perspectivev3
-!default.perspectivev3
-xcuserdata
-*.xccheckout
-*.moved-aside
-DerivedData
-*.hmap
-*.ipa
-*.xcuserstate
-
-## Android
-
-**/android/**/build/
-**/android/**/.gradle
-**/android/**/local.properties
-**/android/**/*.iml
-
-## BUCK
-
-buck-out/
-\\.buckd/
-*.keystore
-!debug.keystore
-
-## fastlane
-#
-# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
-# screenshots whenever they are needed.
-# For more information about the recommended setup visit:
-# https://docs.fastlane.tools/best-practices/source-control/
-#
-*/fastlane/report.xml
-*/fastlane/Preview.html
-*/fastlane/screenshots
-
-## Bundle artifact
-*.jsbundle
-
-## CocoaPods
-**/ios/Pods/
-`;
 
 export function addDependencies(): Rule {
   return addDepsToPackageJson(
@@ -135,17 +82,20 @@ function updateGitIgnore(): Rule {
       return;
     }
 
+    let content = host.read('.gitignore')!.toString('utf-8').trimRight();
+
     const ig = ignore();
     ig.add(host.read('.gitignore').toString());
 
     if (!ig.ignores('apps/example/ios/Pods/Folly')) {
-      host.overwrite(
-        '.gitignore',
-        `${host
-          .read('.gitignore')!
-          .toString('utf-8')
-          .trimRight()}\n${gitIgnoreEntriesForReactNative}/\n`
-      );
+      content = `${content}\n${gitIgnoreEntriesForReactNative}/\n`;
     }
+
+    // also ignore nested node_modules folders due to symlink for React Native
+    if (!ig.ignores('apps/example/node_mdules')) {
+      content = `${content}\n## Nested node_modules\n\nnode_modules/\n`;
+    }
+
+    host.overwrite('.gitignore', content);
   };
 }
