@@ -27,7 +27,7 @@ function run(
   context: BuilderContext
 ): Observable<ReactNativeRunIOsOutput> {
   if (platform() !== 'darwin') {
-    throw new Error(`The run-ios build requires OSX to run`);
+    throw new Error(`The run-ios build requires Mac to run`);
   }
   return from(getProjectRoot(context)).pipe(
     tap((root) => ensureNodeModulesSymlink(context.workspaceRoot, root)),
