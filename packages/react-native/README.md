@@ -40,21 +40,25 @@ npx nx g @nrwl/react-native:app <app-name>
 When using Nx, you can create multiple applications and themes in the same workspace. If you don't want to prefix your commands with npx, install `@nrwl/cli` globally.
 
 
-### Start the bundler
+### Start the JavaScript bundler
 
 ```
 npx nx start <app-name> 
 ```
 
+This will start the bundler at `http://localhost:8081`.
+
 ### Run on devices
 
-Android:
+Make sure the bundler server is running.
+
+**Android:**
 
 ```
 npx nx run-android <app-name>
 ```
 
-iOS:
+**iOS:** (Mac only)
 
 ```
 npx nx run-ios <app-name>
@@ -62,13 +66,13 @@ npx nx run-ios <app-name>
 
 ### Release build
 
-Android:
+**Android:**
 
 ```
 npx nx build-android <app-name>
 ```
 
-iOS:
+**iOS:** (Mac only)
 
 No CLI support yet. Run in the Xcode project. See: https://reactnative.dev/docs/running-on-device
 
