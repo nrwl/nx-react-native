@@ -23,6 +23,18 @@ describe('init', () => {
     expect(packageJson.devDependencies['@types/react-native']).toBeDefined();
   });
 
+  it('should add .gitignore entries for React native files and directories', async () => {
+    tree.create('/.gitignore', `
+/node_modules
+`)
+    tree=await runSchematic('init', {}, tree);
+
+    const content = tree.read('/.gitignore').toString()
+
+    expect(content).toMatch(/# React Native/);
+    expect(content).toMatch(/# Nested node_modules/);
+  });
+
   describe('defaultCollection', () => {
     it('should be set if none was set before', async () => {
       const result = await runSchematic('init', {}, tree);
