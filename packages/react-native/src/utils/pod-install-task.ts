@@ -41,6 +41,30 @@ class RunPodInstallTask
 
 const podInstallErrorMessage = `Running \`pod install\` failed, see above.\nDo you have CocoaPods (https://cocoapods.org/) installed?`;
 
+export function podInstall(iosRoot: string) {
+  return new Observable<void>((obs) => {
+    const process = spawn('pod', ['install'], {
+      cwd: iosRoot,
+      stdio: [0, 1, 2],
+    });
+
+    process.on('close', (code: number) => {
+      if (code === 0) {
+        obs.next();
+        obs.complete();
+      } else {
+        obs.error(new Error(podInstallErrorMessage));
+        obs.complete();
+      }
+    });
+
+    process.on('error', () => {
+      obs.error(new Error(podInstallErrorMessage));
+      obs.complete();
+    });
+  });
+}
+
 function createRunPodInstallTask(): TaskExecutorFactory<PodInstallTaskOptions> {
   return {
     name: 'RunPodInstall',
@@ -56,27 +80,7 @@ function createRunPodInstallTask(): TaskExecutorFactory<PodInstallTaskOptions> {
 
           context.logger.info(`Running \`pod install\` from "${options.cwd}"`);
 
-          return new Observable((obs) => {
-            const process = spawn('pod', ['install'], {
-              cwd: options.cwd,
-              stdio: [0, 1, 2],
-            });
-
-            process.on('close', (code: number) => {
-              if (code === 0) {
-                obs.next();
-                obs.complete();
-              } else {
-                obs.error(new Error(podInstallErrorMessage));
-                obs.complete();
-              }
-            });
-
-            process.on('error', () => {
-              obs.error(new Error(podInstallErrorMessage));
-              obs.complete();
-            });
-          });
+          return podInstall(options.cwd);
         }
       );
     },
