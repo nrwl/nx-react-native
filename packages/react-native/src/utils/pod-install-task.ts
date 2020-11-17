@@ -4,7 +4,7 @@ import {
   TaskConfiguration,
   TaskConfigurationGenerator,
   TaskExecutorFactory,
-  Tree
+  Tree,
 } from '@angular-devkit/schematics';
 import { Observable, of } from 'rxjs';
 import { spawn } from 'child_process';
@@ -27,18 +27,19 @@ interface PodInstallTaskOptions {
 
 class RunPodInstallTask
   implements TaskConfigurationGenerator<PodInstallTaskOptions> {
-  constructor(private cwd: string) {
-  }
+  constructor(private cwd: string) {}
 
   toConfiguration(): TaskConfiguration<PodInstallTaskOptions> {
     return {
       name: 'RunPodInstall',
       options: {
-        cwd: this.cwd
-      }
+        cwd: this.cwd,
+      },
     };
   }
 }
+
+const podInstallErrorMessage = `Running \`pod install\` failed, see above.\nDo you have CocoaPods (https://cocoapods.org/) installed?`;
 
 function createRunPodInstallTask(): TaskExecutorFactory<PodInstallTaskOptions> {
   return {
@@ -56,21 +57,28 @@ function createRunPodInstallTask(): TaskExecutorFactory<PodInstallTaskOptions> {
           context.logger.info(`Running \`pod install\` from "${options.cwd}"`);
 
           return new Observable((obs) => {
-            spawn('pod', ['install'], {
+            const process = spawn('pod', ['install'], {
               cwd: options.cwd,
-              stdio: [0, 1, 2]
-            }).on('close', (code: number) => {
+              stdio: [0, 1, 2],
+            });
+
+            process.on('close', (code: number) => {
               if (code === 0) {
                 obs.next();
                 obs.complete();
               } else {
-                const message = `Running \`pod install\` failed, see above.\nDo you have CocoaPods (https://cocoapods.org/) installed?`;
-                obs.error(new Error(message));
+                obs.error(new Error(podInstallErrorMessage));
+                obs.complete();
               }
+            });
+
+            process.on('error', () => {
+              obs.error(new Error(podInstallErrorMessage));
+              obs.complete();
             });
           });
         }
       );
-    }
+    },
   };
 }
