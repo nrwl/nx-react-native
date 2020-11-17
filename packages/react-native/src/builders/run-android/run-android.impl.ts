@@ -6,6 +6,7 @@ import { join } from 'path';
 import { getProjectRoot } from '../../utils/get-project-root';
 import { fork } from 'child_process';
 import { ensureNodeModulesSymlink } from '../../utils/ensure-node-modules-symlink';
+import { displayNewlyAddedDepsMessage, syncDeps } from '../sync-deps/sync-deps.impl';
 
 export interface ReactNativeRunAndroidOptions extends JsonObject {
   configuration: string;
@@ -13,6 +14,7 @@ export interface ReactNativeRunAndroidOptions extends JsonObject {
   scheme: string;
   simulator: string;
   device: string;
+  sync?: boolean;
 }
 
 export interface ReactNativeRunAndroidOutput {
@@ -27,6 +29,15 @@ function run(
 ): Observable<ReactNativeRunAndroidOutput> {
   return from(getProjectRoot(context)).pipe(
     tap((root) => ensureNodeModulesSymlink(context.workspaceRoot, root)),
+    tap(
+      (root) =>
+        options.sync &&
+        displayNewlyAddedDepsMessage(
+          context.target.project,
+          syncDeps(context.target.project, root),
+          context
+        )
+    ),
     switchMap((root) =>
       from(runCliRunAndroid(context.workspaceRoot, root, options))
     ),
@@ -58,6 +69,8 @@ function runCliRunAndroid(workspaceRoot, projectRoot, options) {
   });
 }
 
+const nxOptions = ['sync', 'install'];
+
 function createRunAndroidOptions(options) {
   return Object.keys(options).reduce((acc, k) => {
     const v = options[k];
@@ -65,7 +78,7 @@ function createRunAndroidOptions(options) {
       acc.push(`--main-activity`, v);
     } else if (k === 'jetifier' && v) {
       acc.push(`--no-jetifier`);
-    } else if (v) {
+    } else if (v && !nxOptions.includes(k)) {
       acc.push(`--${k}`, v);
     }
     return acc;

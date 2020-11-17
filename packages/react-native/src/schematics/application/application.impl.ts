@@ -128,7 +128,7 @@ function addProject(options: NormalizedSchema): Rule {
       builder: '@nrwl/react-native:build-android',
       outputs: [
         `${options.appProjectRoot}/android/app/build/outputs/bundle`,
-        `${options.appProjectRoot}/android/app/build/outputs/apk`
+        `${options.appProjectRoot}/android/app/build/outputs/apk`,
       ],
       options: {},
     };
@@ -148,6 +148,11 @@ function addProject(options: NormalizedSchema): Rule {
       Linter.EsLint,
       [`${options.appProjectRoot}/**/*.{js,ts,tsx}`]
     );
+
+    architect['sync-deps'] = {
+      builder: '@nrwl/react-native:sync-deps',
+      options: {},
+    };
 
     json.projects[options.projectName] = {
       root: options.appProjectRoot,

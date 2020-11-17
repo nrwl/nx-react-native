@@ -1,11 +1,16 @@
 import {
   checkFilesExist,
   ensureNxProject,
+  readFile,
   runNxCommandAsync,
+  tmpProjPath,
   uniq,
+  updateFile,
 } from '@nrwl/nx-plugin/testing';
+import { updateJsonFile } from '@nrwl/workspace';
+import { join } from 'path';
 
-test('bundling ios app', async () => {
+test('create ios and android JS bundles', async () => {
   const appName = uniq('my-app');
   ensureNxProject('@nrwl/react-native', 'dist/packages/react-native');
   await runNxCommandAsync(`generate @nrwl/react-native:app ${appName}`);
@@ -27,4 +32,29 @@ test('bundling ios app', async () => {
   expect(() =>
     checkFilesExist(`dist/apps/${appName}/android/index.bundle`)
   ).not.toThrow();
+}, 240000);
+
+test('sync npm dependencies for autolink', async () => {
+  const appName = uniq('my-app');
+  ensureNxProject('@nrwl/react-native', 'dist/packages/react-native');
+  await runNxCommandAsync(`generate @nrwl/react-native:app ${appName}`);
+  // Add npm package with native modules
+  updateFile(join('package.json'), (content) => {
+    const json = JSON.parse(content);
+    json.dependencies['react-native-image-picker'] = '1.0.0';
+    return JSON.stringify(json, null, 2);
+  });
+  // Add import for Nx to pick up
+  updateFile(join('apps', appName, 'App.tsx'), (content) => {
+    return `import { launchImageLibrary } from 'react-native-image-picker';\n${content}`;
+  });
+
+  await runNxCommandAsync(`sync-deps ${appName}`);
+
+  const result = JSON.parse(readFile(join('apps', appName, 'package.json')));
+  expect(result).toMatchObject({
+    dependencies: {
+      'react-native-image-picker': '*',
+    },
+  });
 }, 240000);

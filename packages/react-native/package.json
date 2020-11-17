@@ -33,6 +33,7 @@
     "react-native": "^0.63.0"
   },
   "dependencies": {
+    "chalk": "^4.1.0",
     "@nrwl/jest": "*",
     "@nrwl/react": "*",
     "@angular-devkit/schematics": "10.1.7",

@@ -33,6 +33,11 @@
       "type": "boolean",
       "description": "Run jetifier – the AndroidX transition tool. By default it runs before Gradle to ease working with libraries that don't support AndroidX yet.",
       "default": true
+    },
+    "sync": {
+      "type": "boolean",
+      "description": "Syncs npm dependencies to package.json (for React Native autolink).",
+      "default": true
     }
   }
 }
