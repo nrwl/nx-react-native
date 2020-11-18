@@ -6,7 +6,10 @@ import { join } from 'path';
 import { getProjectRoot } from '../../utils/get-project-root';
 import { fork } from 'child_process';
 import { ensureNodeModulesSymlink } from '../../utils/ensure-node-modules-symlink';
-import { displayNewlyAddedDepsMessage, syncDeps } from '../sync-deps/sync-deps.impl';
+import {
+  displayNewlyAddedDepsMessage,
+  syncDeps,
+} from '../sync-deps/sync-deps.impl';
 
 export interface ReactNativeRunAndroidOptions extends JsonObject {
   configuration: string;
