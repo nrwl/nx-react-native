@@ -20,6 +20,15 @@
     "device": {
       "type": "string",
       "description": "Explicitly set device to use by name. The value is not required if you have a single device connected."
+    },
+    "install": {
+      "type": "boolean",
+      "description": "Runs 'pod install' for native modules before building iOS app."
+    },
+    "sync": {
+      "type": "boolean",
+      "description": "Syncs npm dependencies to package.json (for React Native autolink). Always true when --install is used.",
+      "default": true
     }
   }
 }

@@ -25,6 +25,11 @@
       "implementation": "./src/builders/start/start.impl",
       "schema": "./src/builders/start/schema.json",
       "description": "Starts the dev server for JS bundle."
+    },
+    "sync-deps": {
+      "implementation": "./src/builders/sync-deps/sync-deps.impl",
+      "schema": "./src/builders/sync-deps/schema.json",
+      "description": "Syncs dependencies to package.json (required for autolinking)."
     }
   }
 }

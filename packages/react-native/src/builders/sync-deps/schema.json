@@ -1,0 +1,6 @@
+{
+  "title": "Sync Deps for React Native",
+  "description": "Updates package.json with project dependencies",
+  "type": "object",
+  "properties": {}
+}
