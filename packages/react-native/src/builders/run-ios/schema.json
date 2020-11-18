@@ -29,6 +29,11 @@
       "type": "boolean",
       "description": "Syncs npm dependencies to package.json (for React Native autolink). Always true when --install is used.",
       "default": true
+    },
+    "port": {
+      "type": "number",
+      "description": "The port where the JS bundler is listening on.",
+      "default": 8081
     }
   }
 }
