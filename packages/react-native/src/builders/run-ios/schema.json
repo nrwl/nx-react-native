@@ -23,7 +23,8 @@
     },
     "install": {
       "type": "boolean",
-      "description": "Runs 'pod install' for native modules before building iOS app."
+      "description": "Runs 'pod install' for native modules before building iOS app.",
+      "default": true
     },
     "sync": {
       "type": "boolean",
@@ -32,8 +33,13 @@
     },
     "port": {
       "type": "number",
-      "description": "The port where the JS bundler is listening on.",
+      "description": "The port where the packager server is listening on.",
       "default": 8081
+    },
+    "packager": {
+      "type": "boolean",
+      "description": "Starts the packager server",
+      "default": true
     }
   }
 }

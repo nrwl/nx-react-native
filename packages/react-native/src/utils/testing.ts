@@ -1,8 +1,12 @@
+import { schema } from '@angular-devkit/core';
+import { Architect } from '@angular-devkit/architect';
+import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { join } from 'path';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { Rule, Tree } from '@angular-devkit/schematics';
 import { names } from '@nrwl/workspace/src/utils/name-utils';
 import { updateWorkspace } from '@nrwl/workspace/src/utils/workspace';
+import { MockBuilderContext } from '@nrwl/workspace/testing';
 
 const testRunner = new SchematicTestRunner(
   '@nrwl/react-native',
@@ -36,4 +40,24 @@ export function createApp(tree: Tree, appName: string): Promise<Tree> {
     }),
     tree
   );
+}
+
+export async function getTestArchitect() {
+  const architectHost = new TestingArchitectHost('/root', '/root');
+  const registry = new schema.CoreSchemaRegistry();
+  registry.addPostTransform(schema.transforms.addUndefinedDefaults);
+
+  const architect = new Architect(architectHost, registry);
+
+  await architectHost.addBuilderFromPackage(join(__dirname, '../..'));
+
+  return { architect, architectHost };
+}
+
+export async function getMockContext() {
+  const { architect, architectHost } = await getTestArchitect();
+
+  const context = new MockBuilderContext(architect, architectHost);
+  await context.addBuilderFromPackage(join(__dirname, '../..'));
+  return context;
 }

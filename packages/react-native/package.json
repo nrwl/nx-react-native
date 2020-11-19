@@ -38,6 +38,7 @@
     "@nrwl/react": "*",
     "@angular-devkit/schematics": "10.1.7",
     "metro-resolver": "0.58.0",
-    "ignore": "^5.0.4"
+    "ignore": "^5.0.4",
+    "node-fetch": "2.6.1"
   }
 }

@@ -1,7 +1,7 @@
 import { BuilderContext, createBuilder } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
 import { from, Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { catchError, concatMap, map, switchMap, tap } from 'rxjs/operators';
 import { join } from 'path';
 import { fork } from 'child_process';
 import { platform } from 'os';
@@ -12,6 +12,7 @@ import {
   syncDeps,
 } from '../sync-deps/sync-deps.impl';
 import { podInstall } from '../../utils/pod-install-task';
+import { runCliStart } from '../start/lib/run-cli-start';
 
 export interface ReactNativeRunIOsOptions extends JsonObject {
   configuration: string;
@@ -19,6 +20,7 @@ export interface ReactNativeRunIOsOptions extends JsonObject {
   scheme: string;
   simulator: string;
   device: string;
+  packager: boolean;
   install?: boolean;
   sync?: boolean;
 }
@@ -47,18 +49,28 @@ function run(
           context
         )
     ),
-    switchMap((root) =>
+    concatMap((root) =>
       options.install
         ? podInstall(join(root, 'ios')).pipe(map(() => root))
         : of(root)
     ),
-    switchMap((root) =>
-      from(runCliRunIOS(context.workspaceRoot, root, options))
+    concatMap((root) =>
+      (options.packager
+        ? runCliStart(context.workspaceRoot, root, { port: options.port })
+        : new Observable((obs) => obs.next())
+      ).pipe(
+        switchMap(() =>
+          from(runCliRunIOS(context.workspaceRoot, root, options))
+        )
+      )
     ),
     map(() => {
       return {
         success: true,
       };
+    }),
+    catchError(() => {
+      return of({ success: false });
     })
   );
 }
@@ -67,8 +79,11 @@ function runCliRunIOS(workspaceRoot, projectRoot, options) {
   return new Promise((resolve, reject) => {
     const cp = fork(
       join(workspaceRoot, './node_modules/react-native/cli.js'),
-      ['run-ios', ...createRunIOSOptions(options)],
-      { cwd: projectRoot }
+      ['run-ios', ...createRunIOSOptions(options), '--no-packager'],
+      {
+        cwd: projectRoot,
+        env: { ...process.env, RCT_METRO_PORT: options.port },
+      }
     );
     cp.on('error', (err) => {
       reject(err);
@@ -83,7 +98,7 @@ function runCliRunIOS(workspaceRoot, projectRoot, options) {
   });
 }
 
-const nxOptions = ['sync', 'install', 'no-sync'];
+const nxOptions = ['sync', 'install', 'packager'];
 
 function createRunIOSOptions(options) {
   return Object.keys(options).reduce((acc, k) => {
