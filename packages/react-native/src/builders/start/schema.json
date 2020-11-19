@@ -1,13 +1,8 @@
 {
-  "title": "JS Bundle for React Native",
-  "description": "JS Bundle target options",
+  "title": "Packager Server for React Native",
+  "description": "Packager Server target options",
   "type": "object",
   "properties": {
-    "host": {
-      "type": "string",
-      "description": "The host to listen on.",
-      "default": "localhost"
-    },
     "port": {
       "type": "number",
       "description": "The port to listen on.",

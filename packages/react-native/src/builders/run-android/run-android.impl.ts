@@ -1,7 +1,7 @@
 import { BuilderContext, createBuilder } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
-import { from, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { catchError, concatMap, map, switchMap, tap } from 'rxjs/operators';
 import { join } from 'path';
 import { getProjectRoot } from '../../utils/get-project-root';
 import { fork } from 'child_process';
@@ -10,6 +10,7 @@ import {
   displayNewlyAddedDepsMessage,
   syncDeps,
 } from '../sync-deps/sync-deps.impl';
+import { runCliStart } from '../start/lib/run-cli-start';
 
 export interface ReactNativeRunAndroidOptions extends JsonObject {
   configuration: string;
@@ -17,6 +18,7 @@ export interface ReactNativeRunAndroidOptions extends JsonObject {
   scheme: string;
   simulator: string;
   device: string;
+  packager: boolean;
   sync?: boolean;
 }
 
@@ -41,13 +43,23 @@ function run(
           context
         )
     ),
-    switchMap((root) =>
-      from(runCliRunAndroid(context.workspaceRoot, root, options))
+    concatMap((root) =>
+      (options.packager
+        ? runCliStart(context.workspaceRoot, root, { port: options.port })
+        : new Observable((obs) => obs.next())
+      ).pipe(
+        switchMap(() =>
+          from(runCliRunAndroid(context.workspaceRoot, root, options))
+        )
+      )
     ),
     map(() => {
       return {
         success: true,
       };
+    }),
+    catchError(() => {
+      return of({ success: false });
     })
   );
 }
@@ -72,7 +84,7 @@ function runCliRunAndroid(workspaceRoot, projectRoot, options) {
   });
 }
 
-const nxOptions = ['sync', 'install'];
+const nxOptions = ['sync', 'install', 'packager'];
 
 function createRunAndroidOptions(options) {
   return Object.keys(options).reduce((acc, k) => {
