@@ -92,7 +92,7 @@ function updateGitIgnore(): Rule {
     }
 
     // also ignore nested node_modules folders due to symlink for React Native
-    if (!ig.ignores('apps/example/node_mdules')) {
+    if (!ig.ignores('apps/example/node_modules')) {
       content = `${content}\n## Nested node_modules\n\nnode_modules/\n`;
     }
 
