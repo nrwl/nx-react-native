@@ -1,5 +1,6 @@
-require_relative '../../../node_modules/@react-native-community/cli-platform-ios/native_modules'
-require_relative '../../../node_modules/react-native/scripts/react_native_pods'
+require_relative '<%= offsetFromRoot %>../node_modules/@react-native-community/cli-platform-ios/native_modules'
+require_relative '<%= offsetFromRoot %>../node_modules/react-native/scripts/react_native_pods'
+require_relative '<%= offsetFromRoot %>../node_modules/@nrwl/react-native/nx_post_install'
 
 platform :ios, '10.0'
 
@@ -8,12 +9,14 @@ target '<%= className %>' do
   puts config
   use_react_native!(:path => config[:reactNativePath])
 
-  # Enables Flipper.
-  #
-  # Note that if you have use_frameworks! enabled, Flipper will not work and
-  # you should disable these next few lines.
   use_flipper!
   post_install do |installer|
+    # Enables Flipper.
+    #
+    # Note that if you have use_frameworks! enabled, Flipper will not work and
+    # you should disable this next line.
     flipper_post_install(installer)
+
+    nx_post_install(installer)
   end
 end

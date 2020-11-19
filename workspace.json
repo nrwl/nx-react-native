@@ -41,6 +41,11 @@
               },
               {
                 "input": "./packages/react-native",
+                "glob": "*.rb",
+                "output": "."
+              },
+              {
+                "input": "./packages/react-native",
                 "glob": "collection.json",
                 "output": "."
               },
