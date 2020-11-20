@@ -1,17 +1,17 @@
-const { execSync } = require('child_process')
+const { execSync } = require('child_process');
 
 const { readFileSync, writeFileSync, existsSync } = require('fs');
 
 const { join } = require('path');
 
-function publish(dir) {
-  execSync(`npm publish ${dir} --access public`);
+function publish(dir, tag) {
+  execSync(`npm publish ${dir} --access public --tag ${tag}`);
 }
 
 function updatePackageJson(packageJsonPath, version) {
   const packageJson = JSON.parse(readFileSync(packageJsonPath).toString());
   packageJson.version = version;
-  writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2))
+  writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 }
 
 function getProject(project) {
@@ -19,7 +19,7 @@ function getProject(project) {
   return workspaceJson.projects[project];
 }
 
-const [_, _2, project, version] = process.argv;
+const [_, _2, project, version, tag = 'next'] = process.argv;
 
 if (!project) {
   throw new Error('Need the project');
@@ -34,6 +34,6 @@ if (!existsSync(outputPath)) {
 }
 
 const root = projectMeta.root;
-updatePackageJson(join(root, 'package.json'), version)
-updatePackageJson(join(outputPath, 'package.json'), version)
-publish(outputPath);
+updatePackageJson(join(root, 'package.json'), version);
+updatePackageJson(join(outputPath, 'package.json'), version);
+publish(outputPath, tag);

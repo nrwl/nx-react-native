@@ -60,7 +60,7 @@
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "node tools/scripts/publish.js react-native {args.version}"
+            "command": "node tools/scripts/publish.js react-native {args.version} {args.tag}"
           }
         }
       }

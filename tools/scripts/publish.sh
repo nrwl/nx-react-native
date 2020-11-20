@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 
-LOCAL=$2
+VERSION=$1
+TAG=$2
+LOCAL=$3
 
 NPM_REGISTRY=`npm config get registry`
+
+if [ "$TAG" = "--local" ]; then
+  TAG="next"
+  LOCAL="--local"
+fi
 
 echo "Publishing to registry:"
 
@@ -31,7 +38,7 @@ else
   npm login
 fi
 
-nx run-many --target publish --all --parallel -- --args="--version=$1"
+nx run-many --target publish --all --parallel -- --args="--version=$VERSION --tag=$TAG"
 
 if [ "$LOCAL" = "--local" ]; then
   echo "Published Locally"
