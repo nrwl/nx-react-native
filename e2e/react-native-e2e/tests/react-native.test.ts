@@ -3,11 +3,9 @@ import {
   ensureNxProject,
   readFile,
   runNxCommandAsync,
-  tmpProjPath,
   uniq,
   updateFile,
 } from '@nrwl/nx-plugin/testing';
-import { updateJsonFile } from '@nrwl/workspace';
 import { join } from 'path';
 
 test('create ios and android JS bundles', async () => {
@@ -49,12 +47,16 @@ test('sync npm dependencies for autolink', async () => {
     return `import { launchImageLibrary } from 'react-native-image-picker';\n${content}`;
   });
 
-  await runNxCommandAsync(`sync-deps ${appName}`);
+  await runNxCommandAsync(
+    `sync-deps ${appName} --include=react-native-gesture-handler,react-native-safe-area-context`
+  );
 
   const result = JSON.parse(readFile(join('apps', appName, 'package.json')));
   expect(result).toMatchObject({
     dependencies: {
       'react-native-image-picker': '*',
+      'react-native-gesture-handler': '*',
+      'react-native-safe-area-context': '*',
     },
   });
 }, 240000);

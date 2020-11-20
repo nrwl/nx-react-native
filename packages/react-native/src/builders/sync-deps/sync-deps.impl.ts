@@ -10,22 +10,24 @@ import { readJsonFile } from '@nrwl/workspace';
 import { writeJsonFile } from '@nrwl/workspace/src/utils/fileutils';
 import * as chalk from 'chalk';
 
-export interface ReactNativeDevServerOptions extends JsonObject {
-  host: string;
-  port: number;
-  resetCache: boolean;
+export interface ReactNativeSyncDepsOptions extends JsonObject {
+  include: string;
 }
 
-export interface ReactNativeggSyncDepsOutput {
+export interface ReactNativeSyncDepsOutput {
   success: boolean;
 }
 
-export function syncDeps(projectName: string, projectRoot: string): string[] {
+export function syncDeps(
+  projectName: string,
+  projectRoot: string,
+  include?: string
+): string[] {
   const graph = createProjectGraph();
   const npmDeps = findAllNpmDependencies(graph, projectName);
   const packageJsonPath = join(projectRoot, 'package.json');
   const packageJson = readJsonFile(packageJsonPath);
-  const newDeps = [];
+  const newDeps = include?.split(',') || [];
   let updated = false;
 
   if (!packageJson.dependencies) {
@@ -67,17 +69,17 @@ export function displayNewlyAddedDepsMessage(
   }
 }
 
-export default createBuilder<ReactNativeDevServerOptions>(run);
+export default createBuilder<ReactNativeSyncDepsOptions>(run);
 
 function run(
-  options: ReactNativeDevServerOptions,
+  options: ReactNativeSyncDepsOptions,
   context: BuilderContext
-): Observable<ReactNativeggSyncDepsOutput> {
+): Observable<ReactNativeSyncDepsOutput> {
   return from(getProjectRoot(context)).pipe(
     tap((root) =>
       displayNewlyAddedDepsMessage(
         context.target.project,
-        syncDeps(context.target.project, root),
+        syncDeps(context.target.project, root, options.include),
         context
       )
     ),

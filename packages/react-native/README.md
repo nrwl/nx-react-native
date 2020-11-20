@@ -16,7 +16,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Getting started](#getting-started)
   - [Create a new Nx workspace:](#create-a-new-nx-workspace)
   - [Install React Native plugin](#install-react-native-plugin)
@@ -61,18 +60,16 @@ yarn add -D @nrwl/react-native
 
 ### Create an app
 
-
 ```sh
 npx nx g @nrwl/react-native:app <app-name>
 ```
 
 When using Nx, you can create multiple applications and themes in the same workspace. If you don't want to prefix your commands with npx, install `@nrwl/cli` globally.
 
-
 ### Start the JavaScript bundler
 
 ```sh
-npx nx start <app-name> 
+npx nx start <app-name>
 ```
 
 This will start the bundler at `http://localhost:8081`.
@@ -158,7 +155,7 @@ Install dependencies for the Xcode project before building iOS app.
 
 #### `--sync`
 
-Sync app dependencies to its `package.json`. On by default, use `--no-sync` to turn it off. 
+Sync app dependencies to its `package.json`. On by default, use `--no-sync` to turn it off.
 
 ### `run-android`
 
@@ -175,6 +172,12 @@ Sync app dependencies to its `package.json`. On by default, use `--no-sync` to t
 ### `sync-deps`
 
 Sync app dependencies to its `package.json`.
+
+#### `--include [string]`
+
+A comma-separate list of additional packages to include.
+
+e.g. `nx sync-deps [app] --include react-native-gesture,react-native-safe-area-context`
 
 ## Learn more
 
