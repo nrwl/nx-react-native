@@ -40,6 +40,8 @@ test('sync npm dependencies for autolink', async () => {
   updateFile(join('package.json'), (content) => {
     const json = JSON.parse(content);
     json.dependencies['react-native-image-picker'] = '1.0.0';
+    json.dependencies['react-native-gesture-handler'] = '1.0.0';
+    json.dependencies['react-native-safe-area-contex'] = '1.0.0';
     return JSON.stringify(json, null, 2);
   });
   // Add import for Nx to pick up

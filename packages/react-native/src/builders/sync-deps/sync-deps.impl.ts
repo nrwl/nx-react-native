@@ -27,12 +27,17 @@ export function syncDeps(
   const npmDeps = findAllNpmDependencies(graph, projectName);
   const packageJsonPath = join(projectRoot, 'package.json');
   const packageJson = readJsonFile(packageJsonPath);
-  const newDeps = include?.split(',') || [];
+  const newDeps = [];
+  const includeDeps = include?.split(',');
   let updated = false;
 
   if (!packageJson.dependencies) {
     packageJson.dependencies = {};
     updated = true;
+  }
+
+  if (includeDeps) {
+    npmDeps.push(...includeDeps);
   }
 
   npmDeps.forEach((dep) => {
