@@ -79,8 +79,7 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     entryFile: "<%= appProjectRoot %>/index.js",
-    root: "../../<%= offsetFromRoot %>",
-    enableHermes: false
+    enableHermes: false,  // clean and rebuild if changing
 ]
 
 apply from: "../../<%= offsetFromRoot %>node_modules/react-native/react.gradle"
