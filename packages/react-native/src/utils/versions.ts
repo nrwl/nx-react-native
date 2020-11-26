@@ -1,4 +1,4 @@
-export const nxVersion = '*';
+export const nxVersion = '10.4.4';
 
 export const reactVersion = '16.13.1';
 export const typesReactVersion = '16.9.38';
