@@ -1,7 +1,6 @@
 {
   "name": "Nx React Native",
   "version": "0.1",
-  "extends": ["@nrwl/react"],
   "schematics": {
     "init": {
       "factory": "./src/schematics/init/init.impl",
