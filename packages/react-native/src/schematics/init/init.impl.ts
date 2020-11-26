@@ -41,6 +41,8 @@ export function addDependencies(): Rule {
     },
     {
       '@nrwl/react': nxVersion,
+      '@nrwl/jest': nxVersion,
+      '@nrwl/linter': nxVersion,
       '@types/react': typesReactVersion,
       '@types/react-native': typesReactNativeVersion,
       '@react-native-community/cli-platform-ios': reactNativeCommunityCliPlatformIos,

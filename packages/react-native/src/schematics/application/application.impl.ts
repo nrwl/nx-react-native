@@ -104,6 +104,13 @@ function addProject(options: NormalizedSchema): Rule {
       },
     };
 
+    architect.serve = {
+      builder: '@nrwl/workspace:run-commands',
+      options: {
+        command: `nx start ${options.name}`,
+      },
+    };
+
     architect['run-ios'] = {
       builder: '@nrwl/react-native:run-ios',
       options: {},

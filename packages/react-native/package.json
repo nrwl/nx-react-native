@@ -36,6 +36,7 @@
     "chalk": "^4.1.0",
     "@nrwl/jest": "*",
     "@nrwl/react": "*",
+    "@nrwl/linter": "*",
     "@angular-devkit/schematics": "10.1.7",
     "metro-resolver": "0.58.0",
     "ignore": "^5.0.4",
