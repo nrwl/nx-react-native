@@ -10,9 +10,9 @@ import {
   jestReactNativeVersion,
   metroReactNativeBabelPresetVersion,
   nxVersion,
-  reactNativeCommunityCliPlatformIos,
+  reactNativeCommunityCliIos,
   reactNativeVersion,
-  reactTestRenderer,
+  reactTestRendererVersion,
   reactVersion,
   testingLibraryJestNativeVersion,
   testingLibraryReactNativeVersion,
@@ -25,9 +25,9 @@ import { gitIgnoreEntriesForReactNative } from './lib/gitignore-entries';
 
 export default function (schema: Schema) {
   return chain([
+    addDependencies(),
     setWorkspaceDefaults(),
     addPackageWithInit('@nrwl/jest'),
-    addDependencies(),
     updateGitIgnore(),
     moveDependency(),
   ]);
@@ -45,12 +45,13 @@ export function addDependencies(): Rule {
       '@nrwl/linter': nxVersion,
       '@types/react': typesReactVersion,
       '@types/react-native': typesReactNativeVersion,
-      '@react-native-community/cli-platform-ios': reactNativeCommunityCliPlatformIos,
+      '@react-native-community/cli-platform-android': reactNativeCommunityCliIos,
+      '@react-native-community/cli-platform-ios': reactNativeCommunityCliIos,
       'metro-react-native-babel-preset': metroReactNativeBabelPresetVersion,
       '@testing-library/react-native': testingLibraryReactNativeVersion,
       '@testing-library/jest-native': testingLibraryJestNativeVersion,
       'jest-react-native': jestReactNativeVersion,
-      'react-test-renderer': reactTestRenderer,
+      'react-test-renderer': reactTestRendererVersion,
     }
   );
 }

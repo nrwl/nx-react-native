@@ -33,6 +33,7 @@ import { Schema } from './schema';
 import { podInstallTask } from '../../utils/pod-install-task';
 import { extraEslintDependencies, reactEslintJson } from '@nrwl/react';
 import { chmodTask } from '../../utils/chmod-task';
+import { symlinkTask } from '../../utils/symlink-task';
 
 interface NormalizedSchema extends Schema {
   projectName: string;
@@ -57,6 +58,7 @@ export default function (schema: Schema): Rule {
       updateNxJson(options),
       addProject(options),
       addJest(options),
+      symlinkTask(options.appProjectRoot),
       podInstallTask(join(options.appProjectRoot, 'ios')),
       chmodTask(join(options.appProjectRoot, 'android', 'gradlew'), 0o775),
       formatFiles(options),
