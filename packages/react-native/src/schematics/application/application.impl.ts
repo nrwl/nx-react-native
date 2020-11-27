@@ -51,7 +51,19 @@ export default function (schema: Schema): Rule {
         skipFormat: true,
       }),
       addLintFiles(options.appProjectRoot, Linter.EsLint, {
-        localConfig: reactEslintJson,
+        localConfig: {
+          ...reactEslintJson,
+          overrides: [
+            {
+              files: ['*.tsx', '*.ts'],
+              rules: { '@typescript-eslint/ban-ts-comment': 'off' },
+            },
+            {
+              files: ['*.js', '*.jsx'],
+              rules: { '@typescript-eslint/no-var-requires': 'off' },
+            },
+          ],
+        },
         extraPackageDeps: extraEslintDependencies,
       }),
       createApplicationFiles(options),
