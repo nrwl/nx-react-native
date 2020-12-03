@@ -15,11 +15,7 @@ export function resolveRequest(
   platform: string | null
 ) {
   const debug = process.env.NX_REACT_NATIVE_DEBUG === 'true';
-  console.log(
-    chalk.cyan(
-      `[Nx] Resolving: ${moduleName}`
-    )
-  );
+  console.log(chalk.cyan(`[Nx] Resolving: ${moduleName}`));
 
   const { resolveRequest, ...context } = _context;
   try {
@@ -39,16 +35,33 @@ export function resolveRequest(
       type: 'sourceFile',
       filePath: match,
     };
+  } else {
+    if (debug) {
+      console.log(
+        chalk.red(`[Nx] Failed to resolve ${chalk.bold(moduleName)}`)
+      );
+      console.log(
+        chalk.cyan(
+          `[Nx] The following tsconfig paths was used:\n:${chalk.bold(
+            JSON.stringify(paths, null, 2)
+          )}`
+        )
+      );
+    }
+    throw new Error(`Cannot resolve ${chalk.bold(moduleName)}`);
   }
 }
 
 let matcher: MatchPath;
+let absoluteBaseUrl: string;
+let paths: Record<string, string[]>;
 
 function getMatcher(debug?: boolean) {
   if (!matcher) {
     const result = loadConfig();
     if (result.resultType === 'success') {
-      const { absoluteBaseUrl, paths } = result;
+      absoluteBaseUrl = result.absoluteBaseUrl;
+      paths = result.paths;
       if (debug) {
         console.log(
           chalk.cyan(`[Nx] Located tsconfig at ${chalk.bold(absoluteBaseUrl)}`)
