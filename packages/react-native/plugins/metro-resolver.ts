@@ -1,6 +1,7 @@
 import * as metroResolver from 'metro-resolver';
-import { loadConfig, createMatchPath } from 'tsconfig-paths';
 import type { MatchPath } from 'tsconfig-paths';
+import { createMatchPath, loadConfig } from 'tsconfig-paths';
+import * as chalk from 'chalk';
 
 /*
  * Use tsconfig to resolve additional workspace libs.
@@ -13,13 +14,25 @@ export function resolveRequest(
   moduleName: string,
   platform: string | null
 ) {
+  const debug = process.env.NX_REACT_NATIVE_DEBUG === 'true';
+  console.log(
+    chalk.cyan(
+      `[Nx] Resolving: ${moduleName}`
+    )
+  );
+
   const { resolveRequest, ...context } = _context;
   try {
     return metroResolver.resolve(context, moduleName, platform);
   } catch {
-    // ignore
+    if (debug)
+      console.log(
+        chalk.cyan(
+          `[Nx] Unable to resolve with default Metro resolver: ${moduleName}`
+        )
+      );
   }
-  const matcher = getMatcher();
+  const matcher = getMatcher(debug);
   const match = matcher(moduleName);
   if (match) {
     return {
@@ -30,13 +43,27 @@ export function resolveRequest(
 }
 
 let matcher: MatchPath;
-function getMatcher() {
+
+function getMatcher(debug?: boolean) {
   if (!matcher) {
     const result = loadConfig();
     if (result.resultType === 'success') {
       const { absoluteBaseUrl, paths } = result;
+      if (debug) {
+        console.log(
+          chalk.cyan(`[Nx] Located tsconfig at ${chalk.bold(absoluteBaseUrl)}`)
+        );
+        console.log(
+          chalk.cyan(
+            `[Nx] Found the following paths:\n:${chalk.bold(
+              JSON.stringify(paths, null, 2)
+            )}`
+          )
+        );
+      }
       matcher = createMatchPath(absoluteBaseUrl, paths);
     } else {
+      console.log(chalk.cyan(`[Nx] Failed to locate tsconfig}`));
       throw new Error(`Could not load tsconfig for project`);
     }
   }
