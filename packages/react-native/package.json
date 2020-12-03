@@ -1,6 +1,6 @@
 {
   "name": "@nrwl/react-native",
-  "version": "10.4.7-beta.1",
+  "version": "10.4.7",
   "description": "React Native Plugin for Nx",
   "repository": {
     "type": "git",

@@ -73,6 +73,7 @@ export default function (schema: Schema): Rule {
       symlinkTask(options.appProjectRoot),
       podInstallTask(join(options.appProjectRoot, 'ios')),
       chmodTask(join(options.appProjectRoot, 'android', 'gradlew'), 0o775),
+      chmodTask(join(options.appProjectRoot, 'android', 'gradlew.bat'), 0o775),
       formatFiles(options),
     ]);
   };

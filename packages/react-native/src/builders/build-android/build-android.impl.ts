@@ -6,6 +6,7 @@ import { join } from 'path';
 import { getProjectRoot } from '../../utils/get-project-root';
 import { ensureNodeModulesSymlink } from '../../utils/ensure-node-modules-symlink';
 import { spawn } from 'child_process';
+import { chmodSync } from 'fs';
 
 export interface ReactNativeBuildOptions extends JsonObject {
   apk?: boolean;
@@ -22,7 +23,11 @@ function run(
   context: BuilderContext
 ): Observable<ReactNativeBuildOutput> {
   return from(getProjectRoot(context)).pipe(
-    tap((root) => ensureNodeModulesSymlink(context.workspaceRoot, root)),
+    tap((root) => {
+      ensureNodeModulesSymlink(context.workspaceRoot, root);
+      chmodSync(join(root, 'android', 'gradlew'), 0o775);
+      chmodSync(join(root, 'android', 'gradlew.bat'), 0o775);
+    }),
     switchMap((root) => runCliBuild(context.workspaceRoot, root, options)),
     map(() => {
       return {

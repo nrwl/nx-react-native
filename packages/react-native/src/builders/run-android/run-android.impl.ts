@@ -11,6 +11,7 @@ import {
   syncDeps,
 } from '../sync-deps/sync-deps.impl';
 import { runCliStart } from '../start/lib/run-cli-start';
+import { chmodSync } from 'fs';
 
 export interface ReactNativeRunAndroidOptions extends JsonObject {
   configuration: string;
@@ -33,7 +34,11 @@ function run(
   context: BuilderContext
 ): Observable<ReactNativeRunAndroidOutput> {
   return from(getProjectRoot(context)).pipe(
-    tap((root) => ensureNodeModulesSymlink(context.workspaceRoot, root)),
+    tap((root) => {
+      ensureNodeModulesSymlink(context.workspaceRoot, root);
+      chmodSync(join(root, 'android', 'gradlew'), 0o775);
+      chmodSync(join(root, 'android', 'gradlew.bat'), 0o775);
+    }),
     tap(
       (root) =>
         options.sync &&
