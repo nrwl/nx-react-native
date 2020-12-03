@@ -2,6 +2,7 @@ import { tmpdir } from 'os';
 import { join } from 'path';
 import * as fs from 'fs';
 import { ensureNodeModulesSymlink } from './ensure-node-modules-symlink';
+
 const workspaceDir = join(tmpdir(), 'nx-react-native-test');
 
 describe('ensureNodeModulesSymlink', () => {
@@ -61,6 +62,12 @@ describe('ensureNodeModulesSymlink', () => {
     expectSymlinkToExist('@react-native-community/cli-platform-ios');
     expectSymlinkToExist('@react-native-community/cli-platform-android');
     expectSymlinkToExist('@babel/runtime');
+  });
+
+  it('should throw error if package symlink is invalid', () => {
+    expect(() => {
+      ensureNodeModulesSymlink(workspaceDir, appDir);
+    }).toThrow(/Invalid symlink/);
   });
 
   it('should support pnpm', () => {

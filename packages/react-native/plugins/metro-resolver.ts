@@ -3,6 +3,7 @@ import type { MatchPath } from 'tsconfig-paths';
 import { createMatchPath, loadConfig } from 'tsconfig-paths';
 import * as chalk from 'chalk';
 
+const DEBUG = process.env.NX_REACT_NATIVE_DEBUG === 'true';
 /*
  * Use tsconfig to resolve additional workspace libs.
  *
@@ -14,21 +15,20 @@ export function resolveRequest(
   moduleName: string,
   platform: string | null
 ) {
-  const debug = process.env.NX_REACT_NATIVE_DEBUG === 'true';
-  console.log(chalk.cyan(`[Nx] Resolving: ${moduleName}`));
+  if (DEBUG) console.log(chalk.cyan(`[Nx] Resolving: ${moduleName}`));
 
   const { resolveRequest, ...context } = _context;
   try {
     return metroResolver.resolve(context, moduleName, platform);
   } catch {
-    if (debug)
+    if (DEBUG)
       console.log(
         chalk.cyan(
           `[Nx] Unable to resolve with default Metro resolver: ${moduleName}`
         )
       );
   }
-  const matcher = getMatcher(debug);
+  const matcher = getMatcher();
   const match = matcher(moduleName);
   if (match) {
     return {
@@ -36,7 +36,7 @@ export function resolveRequest(
       filePath: match,
     };
   } else {
-    if (debug) {
+    if (DEBUG) {
       console.log(
         chalk.red(`[Nx] Failed to resolve ${chalk.bold(moduleName)}`)
       );
@@ -56,13 +56,13 @@ let matcher: MatchPath;
 let absoluteBaseUrl: string;
 let paths: Record<string, string[]>;
 
-function getMatcher(debug?: boolean) {
+function getMatcher() {
   if (!matcher) {
     const result = loadConfig();
     if (result.resultType === 'success') {
       absoluteBaseUrl = result.absoluteBaseUrl;
       paths = result.paths;
-      if (debug) {
+      if (DEBUG) {
         console.log(
           chalk.cyan(`[Nx] Located tsconfig at ${chalk.bold(absoluteBaseUrl)}`)
         );

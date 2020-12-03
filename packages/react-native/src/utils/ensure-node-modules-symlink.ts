@@ -1,3 +1,4 @@
+import * as chalk from 'chalk';
 import { join } from 'path';
 import { platform } from 'os';
 import * as fs from 'fs';
@@ -29,6 +30,13 @@ export function ensureNodeModulesSymlink(
       if (isScopedPackage(p))
         createDirectory(join(appNodeModulesPath, getScopedData(p).scope));
       fs.symlinkSync(locateNpmPackage(workspaceRoot, p), dir, symlinkType);
+    }
+    if (!fs.existsSync(join(dir, 'package.json'))) {
+      throw new Error(
+        `Invalid symlink ${chalk.bold(dir)}. Remove ${chalk.bold(
+          appNodeModulesPath
+        )} and try again.`
+      );
     }
   });
 }
