@@ -4,6 +4,7 @@ import { createMatchPath, loadConfig } from 'tsconfig-paths';
 import * as chalk from 'chalk';
 
 const DEBUG = process.env.NX_REACT_NATIVE_DEBUG === 'true';
+
 /*
  * Use tsconfig to resolve additional workspace libs.
  *
@@ -12,8 +13,9 @@ const DEBUG = process.env.NX_REACT_NATIVE_DEBUG === 'true';
  */
 export function resolveRequest(
   _context: any,
-  moduleName: string,
-  platform: string | null
+  realModuleName: string,
+  platform: string | null,
+  moduleName: string
 ) {
   if (DEBUG) console.log(chalk.cyan(`[Nx] Resolving: ${moduleName}`));
 
@@ -29,7 +31,7 @@ export function resolveRequest(
       );
   }
   const matcher = getMatcher();
-  const match = matcher(moduleName);
+  const match = matcher(realModuleName);
   if (match) {
     return {
       type: 'sourceFile',
