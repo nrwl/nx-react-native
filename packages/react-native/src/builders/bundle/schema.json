@@ -26,11 +26,7 @@
     },
     "platform": {
       "description": "Platform to build for (ios, android).",
-      "anyOf": [
-        {
-          "enum": ["android", "ios"]
-        }
-      ]
+      "type": "string"
     }
   },
   "required": ["platform", "entryFile", "bundleOutput"]

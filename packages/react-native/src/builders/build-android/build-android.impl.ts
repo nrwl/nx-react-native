@@ -44,7 +44,7 @@ function runCliBuild(
 ) {
   return new Promise((resolve, reject) => {
     const cp = spawn(
-      join(projectRoot, 'android/gradlew'),
+      './gradlew',
       [options.apk ? 'assembleRelease' : 'bundleRelease'],
       {
         cwd: join(projectRoot, 'android'),
