@@ -29,5 +29,9 @@
       "type": "string"
     }
   },
-  "required": ["platform", "entryFile", "bundleOutput"]
+  "required": [
+    "platform",
+    "entryFile",
+    "bundleOutput"
+  ]
 }
