@@ -38,7 +38,10 @@ else
   npm login
 fi
 
-nx run-many --target publish --all --parallel -- --args="--version=$VERSION --tag=$TAG"
+export VERSION=$VERSION
+export TAG=$TAG
+
+nx run-many --target publish --all --parallel
 
 if [ "$LOCAL" = "--local" ]; then
   echo "Published Locally"

@@ -19,7 +19,9 @@ function getProject(project) {
   return workspaceJson.projects[project];
 }
 
-const [_, _2, project, version, tag = 'next'] = process.argv;
+const [_, _2, project] = process.argv;
+const version = process.env.VERSION
+const tag = process.env.TAG || 'next'
 
 if (!project) {
   throw new Error('Need the project');
