@@ -3,8 +3,6 @@ import type { MatchPath } from 'tsconfig-paths';
 import { createMatchPath, loadConfig } from 'tsconfig-paths';
 import * as chalk from 'chalk';
 
-const DEBUG = process.env.NX_REACT_NATIVE_DEBUG === 'true';
-
 /*
  * Use tsconfig to resolve additional workspace libs.
  *
@@ -17,6 +15,8 @@ export function resolveRequest(
   platform: string | null,
   moduleName: string
 ) {
+  const DEBUG = process.env.NX_REACT_NATIVE_DEBUG === 'true';
+
   if (DEBUG) console.log(chalk.cyan(`[Nx] Resolving: ${moduleName}`));
 
   const { resolveRequest, ...context } = _context;
@@ -59,6 +59,8 @@ let absoluteBaseUrl: string;
 let paths: Record<string, string[]>;
 
 function getMatcher() {
+  const DEBUG = process.env.NX_REACT_NATIVE_DEBUG === 'true';
+
   if (!matcher) {
     const result = loadConfig();
     if (result.resultType === 'success') {
