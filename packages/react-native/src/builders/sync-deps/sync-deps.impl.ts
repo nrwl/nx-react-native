@@ -7,7 +7,7 @@ import { join } from 'path';
 import { findAllNpmDependencies } from '../../utils/find-all-npm-dependencies';
 import { createProjectGraph } from '@nrwl/workspace/src/core/project-graph';
 import { readJsonFile } from '@nrwl/workspace';
-import { writeJsonFile } from '@nrwl/workspace/src/utils/fileutils';
+import { writeJsonFile } from '@nrwl/workspace/src/utilities/fileutils';
 import * as chalk from 'chalk';
 
 export interface ReactNativeSyncDepsOptions extends JsonObject {
