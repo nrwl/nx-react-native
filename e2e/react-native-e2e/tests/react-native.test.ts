@@ -20,7 +20,7 @@ test('create ios and android JS bundles', async () => {
   const iosBundleResult = await runNxCommandAsync(`bundle-ios ${appName}`);
   expect(iosBundleResult.stdout).toContain('Done writing bundle output');
   expect(() =>
-    checkFilesExist(`dist/apps/${appName}/ios/index.bundle`)
+    checkFilesExist(`dist/apps/${appName}/ios/main.bundle`)
   ).not.toThrow();
 
   const androidBundleResult = await runNxCommandAsync(
@@ -28,7 +28,7 @@ test('create ios and android JS bundles', async () => {
   );
   expect(androidBundleResult.stdout).toContain('Done writing bundle output');
   expect(() =>
-    checkFilesExist(`dist/apps/${appName}/android/index.bundle`)
+    checkFilesExist(`dist/apps/${appName}/android/main.bundle`)
   ).not.toThrow();
 }, 240000);
 
@@ -45,7 +45,7 @@ test('sync npm dependencies for autolink', async () => {
     return JSON.stringify(json, null, 2);
   });
   // Add import for Nx to pick up
-  updateFile(join('apps', appName, 'App.tsx'), (content) => {
+  updateFile(join('apps', appName, 'src/app/App.tsx'), (content) => {
     return `import { launchImageLibrary } from 'react-native-image-picker';\n${content}`;
   });
 

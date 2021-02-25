@@ -39,8 +39,8 @@ describe('app', () => {
 
   it('should generate files', async () => {
     const tree = await runSchematic('app', { name: 'myApp' }, appTree);
-    expect(tree.exists('apps/my-app/App.tsx')).toBeTruthy();
-    expect(tree.exists('apps/my-app/index.js')).toBeTruthy();
+    expect(tree.exists('apps/my-app/src/app/App.tsx')).toBeTruthy();
+    expect(tree.exists('apps/my-app/src/main.tsx')).toBeTruthy();
 
     const tsconfig = readJsonInTree(tree, 'apps/my-app/tsconfig.json');
     expect(tsconfig.extends).toEqual('../../tsconfig.base.json');
