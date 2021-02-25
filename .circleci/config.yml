@@ -1,44 +1,55 @@
-orbs:
-  node: circleci/node@2.0.2
-
 version: 2.1
 
+defaults: &defaults
+  working_directory: ~/repo
+  environment:
+    GIT_COMMIT_DESC: git log --format=oneline -n 1 $CIRCLE_SHA1
+
+executors:
+  linux:
+    <<: *defaults
+    docker:
+      - image: circleci/node:14
+  windows:
+    <<: *defaults
+    docker:
+      - image: circleci/windows@2.4.0
+  macos:
+    <<: *defaults
+    macos:
+      xcode: &_XCODE_VERSION '12.1.0'
+
 commands:
-  yarn_install:
-    description: 'Install Dependencies'
+  setup:
+    parameters:
+      os:
+        type: string
     steps:
-      - run: yarn install --frozen-lockfile --non-interactive
+      - checkout
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - nrwl-nx-yarn-packages-<< parameters.os >>-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install dependencies
+          command: yarn install --frozen-lockfile --non-interactive --cache-folder ~/.cache/yarn
       - save_cache:
-          key: yarn-{{ checksum "yarn.lock" }}
+          name: Save Yarn Package Cache
+          # Windows needs its own cache key because binaries in node_modules are different.
+          key: nrwl-nx-yarn-packages-<< parameters.os >>-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-  restore_yarn_cache:
-    description: 'Restore Cached Dependencies'
-    steps:
-      - restore_cache:
-          keys:
-            - yarn-{{ checksum "yarn.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - yarn-
 
 jobs:
-  install:
-    docker:
-      - image: circleci/node:12-browsers
+  checks-and-unit-tests:
+    parameters:
+      os:
+        type: string
+        default: 'linux'
+    executor: << parameters.os >>
     steps:
-      - checkout
-      - restore_yarn_cache
-      - yarn_install
-      - persist_to_workspace:
-          root: ~/project
-          paths: .
-  lint-and-test:
-    docker:
-      - image: circleci/node:12-browsers
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/project
+      - setup:
+          os: << parameters.os >>
       - run:
           name: Lint
           command: yarn lint
@@ -46,25 +57,24 @@ jobs:
           name: Run Unit Tests
           command: yarn test
   end-to-end-tests:
-    docker:
-      - image: circleci/node:12-browsers
+    parameters:
+      os:
+        type: string
+        default: 'macos'
+    executor: << parameters.os >>
     steps:
-      - checkout
-      - attach_workspace:
-          at: ~/project
+      - setup:
+          os: << parameters.os >>
       - run:
           name: E2E
           command: yarn e2e
           no_output_timeout: 30m
 
 workflows:
-  version: 2.1
-  default_workflow:
+  build:
     jobs:
-      - install
-      - lint-and-test:
-          requires:
-            - install
+      - checks-and-unit-tests
       - end-to-end-tests:
-          requires:
-            - install
+          matrix:
+            parameters:
+              os: ['macos']
