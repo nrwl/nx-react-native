@@ -10,6 +10,7 @@ import { Observable, of } from 'rxjs';
 import { spawn } from 'child_process';
 import * as os from 'os';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import * as chalk from 'chalk';
 
 export function podInstallTask(cwd: string): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -39,7 +40,16 @@ class RunPodInstallTask
   }
 }
 
-const podInstallErrorMessage = `Running \`pod install\` failed, see above.\nDo you have CocoaPods (https://cocoapods.org/) installed?`;
+const podInstallErrorMessage = `
+Running ${chalk.bold('pod install')} failed, see above.
+Do you have CocoaPods (https://cocoapods.org/) installed?
+
+Check that your XCode path is correct:
+${chalk.bold('sudo xcode-select --print-path')}
+
+If the path is wrong, switch the path: (your path may be different)
+${chalk.bold('sudo xcode-select --switch /Applications/Xcode.app')}
+`;
 
 export function podInstall(iosRoot: string) {
   return new Observable<void>((obs) => {
