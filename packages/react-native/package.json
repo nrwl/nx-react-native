@@ -34,9 +34,9 @@
   },
   "dependencies": {
     "chalk": "^4.1.0",
-    "@nrwl/jest": "11.4.0-rc.0",
-    "@nrwl/react": "11.4.0-rc.0",
-    "@nrwl/linter": "11.4.0-rc.0",
+    "@nrwl/jest": "11.4.0",
+    "@nrwl/react": "11.4.0",
+    "@nrwl/linter": "11.4.0",
     "@angular-devkit/schematics": "^11.2.2",
     "ignore": "^5.0.4",
     "node-fetch": "2.6.1"
