@@ -6,6 +6,8 @@ export const typesReactVersion = '16.9.56';
 export const reactNativeVersion = '0.63.4';
 export const typesReactNativeVersion = '0.63.18';
 
+export const metroVersion = '0.59.0'
+
 export const reactNativeCommunityCli = '4.14.0';
 export const reactNativeCommunityCliIos = '4.13.0';
 export const reactNativeCommunityCliAndroid = '4.13.0';

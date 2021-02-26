@@ -1,0 +1,49 @@
+{
+  "schematics": {
+    "update-11.4.0": {
+      "version": "11.4.0-beta.0",
+      "description": "Update libraries",
+      "factory": "./src/migrations/update-11-4-0/update-11-4-0"
+    },
+    "add-missing-dev-dependencies-11-4-0": {
+      "version": "11.4.0-beta.0",
+      "description": "Add missing libraries",
+      "factory": "./src/migrations/update-11-4-0/add-missing-dev-dependencies-11-4-0"
+    }
+  },
+  "packageJsonUpdates": {
+    "11.4.0": {
+      "version": "11.4.0-beta.0",
+      "packages": {
+        "metro": {
+          "version": "0.59.0",
+          "alwaysAddToPackageJson": false
+        },
+        "metro-resolver": {
+          "version": "0.59.0",
+          "alwaysAddToPackageJson": false
+        },
+        "@react-native-community/cli": {
+          "version": "4.14.0",
+          "alwaysAddToPackageJson": false
+        },
+        "react": {
+          "version": "17.0.1",
+          "alwaysAddToPackageJson": false
+        },
+        "@types/react": {
+          "version": "16.9.56",
+          "alwaysAddToPackageJson": false
+        },
+        "react-native": {
+          "version": "0.63.4",
+          "alwaysAddToPackageJson": false
+        },
+        "@types/react-native": {
+          "version": "0.63.18",
+          "alwaysAddToPackageJson": false
+        }
+      }
+    }
+  }
+}

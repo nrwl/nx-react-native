@@ -9,7 +9,9 @@ import { Schema } from './schema';
 import {
   jestReactNativeVersion,
   metroReactNativeBabelPresetVersion,
+  metroVersion,
   nxVersion,
+  reactNativeCommunityCli,
   reactNativeCommunityCliAndroid,
   reactNativeCommunityCliIos,
   reactNativeVersion,
@@ -46,12 +48,15 @@ export function addDependencies(): Rule {
       '@nrwl/linter': nxVersion,
       '@types/react': typesReactVersion,
       '@types/react-native': typesReactNativeVersion,
+      '@react-native-community/cli': reactNativeCommunityCli,
       '@react-native-community/cli-platform-android': reactNativeCommunityCliAndroid,
       '@react-native-community/cli-platform-ios': reactNativeCommunityCliIos,
       'metro-react-native-babel-preset': metroReactNativeBabelPresetVersion,
       '@testing-library/react-native': testingLibraryReactNativeVersion,
       '@testing-library/jest-native': testingLibraryJestNativeVersion,
       'jest-react-native': jestReactNativeVersion,
+      metro: metroVersion,
+      'metro-resolver': metroVersion,
       'react-test-renderer': reactTestRendererVersion,
     }
   );
