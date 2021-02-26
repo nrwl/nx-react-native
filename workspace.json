@@ -59,6 +59,11 @@
                 "input": "./packages/react-native",
                 "glob": "builders.json",
                 "output": "."
+              },
+              {
+                "input": "./packages/react-native",
+                "glob": "migrations.json",
+                "output": "."
               }
             ]
           },
