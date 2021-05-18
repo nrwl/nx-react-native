@@ -1,11 +1,7 @@
 {
   "name": "@nrwl/react-native",
-  "version": "11.4.1",
+  "version": "12.3.5",
   "description": "React Native Plugin for Nx",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nrwl/nx-react-native.git"
-  },
   "keywords": [
     "Monorepo",
     "React",
@@ -14,31 +10,36 @@
     "Native",
     "CLI"
   ],
-  "main": "index.js",
-  "types": "index.d.ts",
-  "author": "Victor Savkin",
-  "license": "MIT",
+  "homepage": "https://nx.dev",
   "bugs": {
     "url": "https://github.com/nrwl/nx-react-native/issues"
   },
-  "homepage": "https://nx.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nrwl/nx-react-native.git"
+  },
+  "license": "MIT",
+  "author": "Victor Savkin",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "dependencies": {
+    "@angular-devkit/architect": "^0.1200.0",
+    "@angular-devkit/schematics": "^12.0.0",
+    "@nrwl/jest": "12.3.5",
+    "@nrwl/linter": "12.3.5",
+    "@nrwl/react": "12.3.5",
+    "chalk": "^4.1.0",
+    "ignore": "^5.1.8",
+    "node-fetch": "2.6.1"
+  },
+  "peerDependencies": {
+    "@nrwl/workspace": "*",
+    "react-native": "0.64.1"
+  },
   "builders": "./builders.json",
-  "schematics": "./collection.json",
   "ng-update": {
     "requirements": {},
     "migrations": "./migrations.json"
   },
-  "peerDependencies": {
-    "@nrwl/workspace": "*",
-    "react-native": "^0.63.0"
-  },
-  "dependencies": {
-    "chalk": "^4.1.0",
-    "@nrwl/jest": "11.4.0",
-    "@nrwl/react": "11.4.0",
-    "@nrwl/linter": "11.4.0",
-    "@angular-devkit/schematics": "^11.2.2",
-    "ignore": "^5.0.4",
-    "node-fetch": "2.6.1"
-  }
+  "schematics": "./collection.json"
 }
