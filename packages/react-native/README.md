@@ -182,3 +182,15 @@ e.g. `nx sync-deps [app] --include react-native-gesture,react-native-safe-area-c
 ## Learn more
 
 Visit the [Nx Documentation](https://nx.dev) to learn more.
+
+## Contributing
+
+To publish packages to a local registry, do the following:
+
+- Download Nx main repo. In the nx main repo, run `yarn local-registry start` in Terminal 1 (keep it running)
+- In the Nx main repo, run `yarn local-registry clear`
+- In the current NX-react-native repo, run `yarn local-registry enable` in Terminal 3
+- Run `yarn build` in Terminal 3
+- Run `yarn release 999.9.9 latest --local` in Terminal 3
+- Run `cd /tmp` in Terminal 3
+- Run `npx create-nx-workspace` in Terminal 3

@@ -20,8 +20,8 @@ function getProject(project) {
 }
 
 const [_, _2, project] = process.argv;
-const version = process.env.VERSION
-const tag = process.env.TAG || 'next'
+const version = process.env.VERSION;
+const tag = process.env.TAG || 'next';
 
 if (!project) {
   throw new Error('Need the project');
@@ -30,7 +30,7 @@ if (!version) {
   throw new Error('Need the version');
 }
 const projectMeta = getProject(project);
-const outputPath = projectMeta.architect.build.options.outputPath;
+const outputPath = projectMeta.targets.build.options.outputPath;
 if (!existsSync(outputPath)) {
   throw new Error('Must build the project first');
 }

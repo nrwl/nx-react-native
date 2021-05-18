@@ -1,6 +1,4 @@
 import { ProjectGraph } from '@nrwl/workspace/src/core/project-graph';
-import { BuilderContext } from '@angular-devkit/architect';
-import * as chalk from 'chalk';
 
 export function findAllNpmDependencies(
   graph: ProjectGraph,

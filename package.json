@@ -31,13 +31,13 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "@nrwl/eslint-plugin-nx": "11.4.0-rc.0",
-    "@nrwl/devkit": "11.4.0-rc.0",
-    "@nrwl/jest": "11.4.0-rc.0",
-    "@nrwl/nx-plugin": "11.4.0-rc.0",
-    "@nrwl/react": "11.4.0-rc.0",
-    "@nrwl/tao": "11.4.0-rc.0",
-    "@nrwl/workspace": "11.4.0-rc.0",
+    "@nrwl/devkit": "12.3.1",
+    "@nrwl/eslint-plugin-nx": "12.3.1",
+    "@nrwl/jest": "12.3.1",
+    "@nrwl/nx-plugin": "12.3.1",
+    "@nrwl/react": "12.3.1",
+    "@nrwl/tao": "12.3.1",
+    "@nrwl/workspace": "12.3.1",
     "@types/jest": "26.0.8",
     "@types/node": "12.12.38",
     "@typescript-eslint/eslint-plugin": "2.19.2",
@@ -47,7 +47,7 @@
     "dotenv": "6.2.0",
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.0.0",
-    "ignore": "^5.0.4",
+    "ignore": "^5.1.8",
     "jest": "26.2.2",
     "metro-resolver": "0.59.0",
     "node-fetch": "^2.6.1",
@@ -56,8 +56,5 @@
     "ts-node": "9.1.1",
     "tslint": "6.1.3",
     "typescript": "4.0.5"
-  },
-  "resolutions": {
-    "rxjs": "6.6.0"
   }
 }
