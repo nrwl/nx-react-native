@@ -41,7 +41,6 @@ export default async function* runAndroidExecutor(
     );
   }
   if (options.packager) {
-    // TODO change runCliStart to promise
     await runCliStart(context.root, projectRoot, {
       port: options.port,
     });

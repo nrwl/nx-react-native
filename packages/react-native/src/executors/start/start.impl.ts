@@ -34,6 +34,9 @@ export default async function* startExecutor(
     baseUrl,
     success: true,
   };
+
+  // This Promise intentionally never resolves, leaving the process running
+  await new Promise(() => {});
 }
 
 /*
@@ -55,6 +58,7 @@ export function runCliStart(
       let count = 0;
       const check = setInterval(() => {
         isPackagerRunning(options.port).then((status) => {
+          console.log('start', 'count', count, 'status', status);
           if (count === 30) clearInterval(check); // if it is 30 times, stop checking
           if (status != 'running') {
             // if it is not running

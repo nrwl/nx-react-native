@@ -2,6 +2,7 @@ import {
   addProjectConfiguration,
   NxJsonProjectConfiguration,
   ProjectConfiguration,
+  TargetConfiguration,
 } from '@nrwl/devkit';
 import { NormalizedSchema } from './normalize-options';
 
@@ -24,29 +25,29 @@ export function addProject(host, options: NormalizedSchema) {
 }
 
 function getTargets(options: NormalizedSchema) {
-  const architect: { [key: string]: any } = {};
+  const architect: { [key: string]: TargetConfiguration } = {};
 
   architect.start = {
-    builder: '@nrwl/react-native:start',
+    executor: '@nrwl/react-native:start',
     options: {
       port: 8081,
     },
   };
 
   architect.serve = {
-    builder: '@nrwl/workspace:run-commands',
+    executor: '@nrwl/workspace:run-commands',
     options: {
       command: `nx start ${options.name}`,
     },
   };
 
   architect['run-ios'] = {
-    builder: '@nrwl/react-native:run-ios',
+    executor: '@nrwl/react-native:run-ios',
     options: {},
   };
 
   architect['bundle-ios'] = {
-    builder: '@nrwl/react-native:bundle',
+    executor: '@nrwl/react-native:bundle',
     outputs: [`${options.appProjectRoot}/build`],
     options: {
       entryFile: `${options.appProjectRoot}/src/main.tsx`,
@@ -56,12 +57,12 @@ function getTargets(options: NormalizedSchema) {
   };
 
   architect['run-android'] = {
-    builder: '@nrwl/react-native:run-android',
+    executor: '@nrwl/react-native:run-android',
     options: {},
   };
 
   architect['build-android'] = {
-    builder: '@nrwl/react-native:build-android',
+    executor: '@nrwl/react-native:build-android',
     outputs: [
       `${options.appProjectRoot}/android/app/build/outputs/bundle`,
       `${options.appProjectRoot}/android/app/build/outputs/apk`,
@@ -70,7 +71,7 @@ function getTargets(options: NormalizedSchema) {
   };
 
   architect['bundle-android'] = {
-    builder: '@nrwl/react-native:bundle',
+    executor: '@nrwl/react-native:bundle',
     options: {
       entryFile: `${options.appProjectRoot}/src/main.tsx`,
       platform: 'android',
@@ -79,7 +80,7 @@ function getTargets(options: NormalizedSchema) {
   };
 
   architect['sync-deps'] = {
-    builder: '@nrwl/react-native:sync-deps',
+    executor: '@nrwl/react-native:sync-deps',
     options: {},
   };
 

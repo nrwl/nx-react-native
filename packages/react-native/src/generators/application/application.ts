@@ -1,4 +1,5 @@
 import { formatFiles } from '@nrwl/workspace';
+import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import { Schema } from './schema';
 import { runPodInstall } from '../../utils/pod-install-task';
 import { runChmod } from '../../utils/chmod-task';
@@ -10,7 +11,7 @@ import initGenerator from '../init/init';
 import { join } from 'path';
 import { addProject } from './lib/add-project';
 import { createApplicationFiles } from './lib/create-application-files';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import { addJest } from './lib/add-jest';
 
 export async function reactNativeApplicationGenerator(
   host: Tree,
@@ -23,6 +24,7 @@ export async function reactNativeApplicationGenerator(
 
   const initTask = await initGenerator(host, { ...options, skipFormat: true });
   const lintTask = await addLinting(host, options);
+  const jestTask = await addJest(host, options);
   const symlinkTask = runSymlink(options.appProjectRoot);
   const podInstallTask = runPodInstall(options.iosProjectRoot);
   const chmodTaskGradlew = runChmod(
@@ -41,6 +43,7 @@ export async function reactNativeApplicationGenerator(
   return runTasksInSerial(
     initTask,
     lintTask,
+    jestTask,
     symlinkTask,
     podInstallTask,
     chmodTaskGradlew,

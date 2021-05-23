@@ -37,7 +37,6 @@ export default async function* runIosExecutor(
   const projectRoot = context.workspace.projects[context.projectName].root;
   ensureNodeModulesSymlink(context.root, projectRoot);
   if (options.sync) {
-    // TODO figure out it is projectName or TargetName
     displayNewlyAddedDepsMessage(
       context.projectName,
       syncDeps(context.projectName, projectRoot)
@@ -47,7 +46,6 @@ export default async function* runIosExecutor(
     await podInstall(join(projectRoot, 'ios'));
   }
   if (options.packager) {
-    // TODO change runCliStart to promise
     await runCliStart(context.root, projectRoot, {
       port: options.port,
     });

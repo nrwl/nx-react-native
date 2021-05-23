@@ -19,10 +19,9 @@ export default async function* syncDepsExecutor(
   context: ExecutorContext
 ): AsyncGenerator<ReactNativeSyncDepsOutput> {
   const projectRoot = context.workspace.projects[context.projectName].root;
-  // TODO determin whether it is targetName or projectName
   displayNewlyAddedDepsMessage(
-    context.targetName,
-    syncDeps(context.targetName, projectRoot, options.include)
+    context.projectName,
+    syncDeps(context.projectName, projectRoot, options.include)
   );
 
   yield { success: true };

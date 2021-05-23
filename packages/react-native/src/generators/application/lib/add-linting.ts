@@ -28,7 +28,7 @@ export async function addLinting(host: Tree, options: NormalizedSchema) {
     joinPathFragments(options.appProjectRoot, '.eslintrc.json'),
     (json: ESLintLinter.Config) => {
       json = reactEslintJson;
-      json.ignorePatterns = ['!**/*', 'public', '.cache'];
+      json.ignorePatterns = ['!**/*', 'public', '.cache', 'node_modules'];
 
       for (const override of json.overrides) {
         if (!override.files || override.files.length !== 2) {

@@ -1,6 +1,7 @@
 {
   "name": "nrwl",
   "version": "0.0.0",
+  "private": true,
   "license": "MIT",
   "scripts": {
     "nx": "nx",
@@ -28,7 +29,6 @@
     "doctoc": "doctoc packages/react-native/README.md",
     "workspace-generator": "nx workspace-generator"
   },
-  "private": true,
   "dependencies": {},
   "devDependencies": {
     "@nrwl/devkit": "12.3.3",
