@@ -23,7 +23,7 @@ export default async function* startExecutor(
   await runCliStart(context.root, projectRoot, options);
 
   const baseUrl = `http://localhost:${options.port}`;
-  const appName = context.target;
+  const appName = context.projectName;
   logger.info(chalk.cyan(`Packager is ready at ${baseUrl}`));
   logger.info(
     `Use ${chalk.bold(`nx run-android ${appName}`)} or ${chalk.bold(

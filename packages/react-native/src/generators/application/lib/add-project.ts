@@ -2,11 +2,14 @@ import {
   addProjectConfiguration,
   NxJsonProjectConfiguration,
   ProjectConfiguration,
+  readWorkspaceConfiguration,
   TargetConfiguration,
+  Tree,
+  updateWorkspaceConfiguration,
 } from '@nrwl/devkit';
 import { NormalizedSchema } from './normalize-options';
 
-export function addProject(host, options: NormalizedSchema) {
+export function addProject(host: Tree, options: NormalizedSchema) {
   const nxConfig: NxJsonProjectConfiguration = {
     tags: options.parsedTags,
   };
@@ -22,6 +25,14 @@ export function addProject(host, options: NormalizedSchema) {
     ...project,
     ...nxConfig,
   });
+
+  const workspace = readWorkspaceConfiguration(host);
+
+  if (!workspace.defaultProject) {
+    workspace.defaultProject = options.projectName;
+
+    updateWorkspaceConfiguration(host, workspace);
+  }
 }
 
 function getTargets(options: NormalizedSchema) {
