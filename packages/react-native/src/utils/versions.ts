@@ -10,7 +10,7 @@ export const metroVersion = '0.66.0';
 
 export const reactNativeCommunityCli = '5.0.1-alpha.2';
 export const reactNativeCommunityCliIos = '5.0.1-alpha.2';
-export const reactNativeCommunityCliAndroid = '4.13.0';
+export const reactNativeCommunityCliAndroid = '5.0.1-alpha.2';
 
 export const metroReactNativeBabelPresetVersion = '0.66.0';
 

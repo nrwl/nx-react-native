@@ -1,20 +1,21 @@
-import { Tree } from '@angular-devkit/schematics';
-import { createEmptyWorkspace } from '@nrwl/workspace/testing';
+import { Tree, readJson, updateJson } from '@nrwl/devkit';
 import { readJsonInTree } from '@nrwl/workspace';
 import { updateJsonInTree } from '@nrwl/workspace';
 import { runSchematic, callRule } from '../../utils/testing';
+import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { reactNativeInitGenerator } from './init';
+import { join } from 'path';
 
 describe('init', () => {
   let tree: Tree;
 
   beforeEach(() => {
-    tree = Tree.empty();
-    tree = createEmptyWorkspace(tree);
+    tree = createTreeWithEmptyWorkspace();
   });
 
   it('should add react dependencies', async () => {
-    const result = await runSchematic('init', {}, tree);
-    const packageJson = readJsonInTree(result, 'package.json');
+    await reactNativeInitGenerator(tree, {});
+    const packageJson = readJson(tree, 'package.json');
     expect(packageJson.dependencies['@nrwl/react']).toBeUndefined();
     expect(packageJson.dependencies['react']).toBeDefined();
     expect(packageJson.dependencies['react-native']).toBeDefined();
@@ -24,12 +25,15 @@ describe('init', () => {
   });
 
   it('should add .gitignore entries for React native files and directories', async () => {
-    tree.create('/.gitignore', `
+    tree.write(
+      '/.gitignore',
+      `
 /node_modules
-`)
-    tree=await runSchematic('init', {}, tree);
+`
+    );
+    await reactNativeInitGenerator(tree, {});
 
-    const content = tree.read('/.gitignore').toString()
+    const content = tree.read('/.gitignore').toString();
 
     expect(content).toMatch(/# React Native/);
     expect(content).toMatch(/# Nested node_modules/);
@@ -37,26 +41,23 @@ describe('init', () => {
 
   describe('defaultCollection', () => {
     it('should be set if none was set before', async () => {
-      const result = await runSchematic('init', {}, tree);
-      const workspaceJson = readJsonInTree(result, 'workspace.json');
+      await reactNativeInitGenerator(tree, {});
+      const workspaceJson = readJson(tree, 'workspace.json');
       expect(workspaceJson.cli.defaultCollection).toEqual('@nrwl/react-native');
     });
 
     it('should not be set if something else was set before', async () => {
-      tree = await callRule(
-        updateJsonInTree('workspace.json', (json) => {
-          json.cli = {
-            defaultCollection: '@nrwl/react',
-          };
+      updateJson(tree, 'workspace.json', (json) => {
+        json.cli = {
+          defaultCollection: '@nrwl/react',
+        };
 
-          json.schematics = {};
+        json.targets = {};
 
-          return json;
-        }),
-        tree
-      );
-      const result = await runSchematic('init', {}, tree);
-      const workspaceJson = readJsonInTree(result, 'workspace.json');
+        return json;
+      });
+      await reactNativeInitGenerator(tree, {});
+      const workspaceJson = readJson(tree, 'workspace.json');
       expect(workspaceJson.cli.defaultCollection).toEqual('@nrwl/react');
     });
   });

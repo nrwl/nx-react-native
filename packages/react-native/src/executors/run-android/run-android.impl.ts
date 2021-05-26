@@ -6,7 +6,7 @@ import {
   displayNewlyAddedDepsMessage,
   syncDeps,
 } from '../sync-deps/sync-deps.impl';
-import { runCliStart } from '../start/start.impl';
+import { runCliStart } from '../start/lib/run-cli-start';
 import { chmodSync } from 'fs';
 
 export interface ReactNativeRunAndroidOptions {
@@ -66,7 +66,10 @@ function runCliRunAndroid(
     childProcess = fork(
       join(workspaceRoot, './node_modules/react-native/cli.js'),
       ['run-android', ...createRunAndroidOptions(options), '--no-packager'],
-      { cwd: projectRoot }
+      {
+        cwd: projectRoot,
+        env: { ...process.env, RCT_METRO_PORT: options.port.toString() },
+      }
     );
 
     // Ensure the child process is killed when the parent exits

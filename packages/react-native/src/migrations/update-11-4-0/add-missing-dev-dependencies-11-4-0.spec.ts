@@ -3,6 +3,11 @@ import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { readJsonInTree } from '@nrwl/workspace';
 import * as path from 'path';
 import { createEmptyWorkspace } from '@nrwl/workspace/testing';
+import {
+  metroVersion,
+  reactNativeCommunityCli,
+  reactNativeCommunityCliAndroid,
+} from '../../utils/versions';
 
 describe('Update 11.4.0', () => {
   let tree: Tree;
@@ -34,10 +39,10 @@ describe('Update 11.4.0', () => {
     expect(packageJson).toMatchObject({
       dependencies: {},
       devDependencies: {
-        metro: '0.59.0',
-        'metro-resolver': '0.59.0',
-        '@react-native-community/cli': '4.14.0',
-        '@react-native-community/cli-platform-android': '4.13.0',
+        metro: metroVersion,
+        'metro-resolver': metroVersion,
+        '@react-native-community/cli': reactNativeCommunityCli,
+        '@react-native-community/cli-platform-android': reactNativeCommunityCliAndroid,
       },
     });
   });

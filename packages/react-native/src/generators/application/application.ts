@@ -1,11 +1,10 @@
-import { formatFiles } from '@nrwl/workspace';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import { Schema } from './schema';
 import { runPodInstall } from '../../utils/pod-install-task';
 import { runChmod } from '../../utils/chmod-task';
 import { runSymlink } from '../../utils/symlink-task';
 import { addLinting } from './lib/add-linting';
-import { convertNxGenerator, Tree } from '@nrwl/devkit';
+import { convertNxGenerator, Tree, formatFiles } from '@nrwl/devkit';
 import { normalizeOptions } from './lib/normalize-options';
 import initGenerator from '../init/init';
 import { join } from 'path';
@@ -37,7 +36,7 @@ export async function reactNativeApplicationGenerator(
   );
 
   if (!options.skipFormat) {
-    await formatFiles(options);
+    await formatFiles(host);
   }
 
   return runTasksInSerial(

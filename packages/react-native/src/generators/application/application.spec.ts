@@ -1,31 +1,40 @@
-import { Tree } from '@angular-devkit/schematics';
-import { createEmptyWorkspace } from '@nrwl/workspace/testing';
-import { NxJson, readJsonInTree } from '@nrwl/workspace';
-import { runSchematic } from '../../utils/testing';
+import {
+  Tree,
+  readWorkspaceConfiguration,
+  getProjects,
+  readJson,
+} from '@nrwl/devkit';
+import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { NxJson } from '@nrwl/workspace';
+import { reactNativeApplicationGenerator } from './application';
 
 describe('app', () => {
   let appTree: Tree;
 
   beforeEach(() => {
-    appTree = Tree.empty();
-    appTree = createEmptyWorkspace(appTree);
+    appTree = createTreeWithEmptyWorkspace();
   });
 
   it('should update workspace.json', async () => {
-    const tree = await runSchematic('app', { name: 'myApp' }, appTree);
-    const workspaceJson = readJsonInTree(tree, '/workspace.json');
+    await reactNativeApplicationGenerator(appTree, {
+      name: 'myApp',
+      displayName: 'myApp',
+    });
+    const workspaceJson = readWorkspaceConfiguration(appTree);
+    const projects = getProjects(appTree);
 
-    expect(workspaceJson.projects['my-app'].root).toEqual('apps/my-app');
+    expect(projects.get('my-app').root).toEqual('apps/my-app');
     expect(workspaceJson.defaultProject).toEqual('my-app');
   });
 
   it('should update nx.json', async () => {
-    const tree = await runSchematic(
-      'app',
-      { name: 'myApp', tags: 'one,two' },
-      appTree
-    );
-    const nxJson = readJsonInTree<NxJson>(tree, '/nx.json');
+    await reactNativeApplicationGenerator(appTree, {
+      name: 'myApp',
+      displayName: 'myApp',
+      tags: 'one,two',
+    });
+
+    const nxJson = readJson<NxJson>(appTree, '/nx.json');
     expect(nxJson).toMatchObject({
       npmScope: 'proj',
       projects: {
@@ -37,13 +46,16 @@ describe('app', () => {
   });
 
   it('should generate files', async () => {
-    const tree = await runSchematic('app', { name: 'myApp' }, appTree);
-    expect(tree.exists('apps/my-app/src/app/App.tsx')).toBeTruthy();
-    expect(tree.exists('apps/my-app/src/main.tsx')).toBeTruthy();
+    await reactNativeApplicationGenerator(appTree, {
+      name: 'myApp',
+      displayName: 'myApp',
+    });
+    expect(appTree.exists('apps/my-app/src/app/App.tsx')).toBeTruthy();
+    expect(appTree.exists('apps/my-app/src/main.tsx')).toBeTruthy();
 
-    const tsconfig = readJsonInTree(tree, 'apps/my-app/tsconfig.json');
+    const tsconfig = readJson(appTree, 'apps/my-app/tsconfig.json');
     expect(tsconfig.extends).toEqual('../../tsconfig.base.json');
 
-    expect(tree.exists('apps/my-app/.eslintrc.json')).toBe(true);
+    expect(appTree.exists('apps/my-app/.eslintrc.json')).toBe(true);
   });
 });

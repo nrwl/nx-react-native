@@ -8,7 +8,7 @@ import {
   syncDeps,
 } from '../sync-deps/sync-deps.impl';
 import { podInstall } from '../../utils/pod-install-task';
-import { runCliStart } from '../start/start.impl';
+import { runCliStart } from '../start/lib/run-cli-start';
 
 export interface ReactNativeRunIosOptions {
   configuration: string;
