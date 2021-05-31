@@ -1,20 +1,21 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "rootDir": ".",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
     "target": "es2015",
+    "sourceMap": true,
+    "importHelpers": true,
     "module": "esnext",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2017", "dom"],
+    "moduleResolution": "node",
+    "outDir": "build",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
+    "types": ["node", "jest"],
+    "lib": ["es2018"],
+    "declaration": true,
+    "resolveJsonModule": true,
     "baseUrl": ".",
+    "rootDir": ".",
     "paths": {
       "nrwl/react-native": ["packages/react-native/src/index.ts"]
     }

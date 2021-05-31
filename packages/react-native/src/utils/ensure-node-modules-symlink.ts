@@ -17,7 +17,7 @@ const packagesToSymlink = [
 export function ensureNodeModulesSymlink(
   workspaceRoot: string,
   projectRoot: string
-) {
+): void {
   const appNodeModulesPath = join(projectRoot, 'node_modules');
   // `mklink /D` requires admin privilege in Windows so we need to use junction
   const symlinkType = platform() === 'win32' ? 'junction' : 'dir';

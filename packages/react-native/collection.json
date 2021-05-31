@@ -1,25 +1,18 @@
 {
   "name": "Nx React Native",
   "version": "0.1",
+  "extends": ["@nrwl/workspace"],
   "schematics": {
     "init": {
-      "factory": "./src/schematics/init/init.impl",
-      "schema": "./src/schematics/init/schema.json",
+      "factory": "./src/generators/init/init#reactNativeInitSchematic",
+      "schema": "./src/generators/init/schema.json",
       "description": "Initialize the @nrwl/react-native plugin",
-      "aliases": ["ng-add"],
       "hidden": true
     },
     "application": {
-      "factory": "./src/schematics/application/application.impl",
-      "schema": "./src/schematics/application/schema.json",
-      "description": "Create an application",
-      "aliases": ["app"]
-    },
-    "library": {
-      "factory": "./src/schematics/library/library.impl",
-      "schema": "./src/schematics/library/schema.json",
-      "description": "Create an library",
-      "aliases": ["lib"]
+      "factory": "./src/generators/application/application#reactNativeApplicationSchematic",
+      "schema": "./src/generators/application/schema.json",
+      "description": "Create an application"
     }
   }
 }

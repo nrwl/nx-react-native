@@ -44,6 +44,61 @@
           "alwaysAddToPackageJson": false
         }
       }
+    },
+    "12.3.5": {
+      "version": "12.3.5-beta.0",
+      "packages": {
+        "react-native": {
+          "version": "0.64.1",
+          "alwaysAddToPackageJson": false
+        },
+        "@nrwl/react": { "version": "12.3.5", "alwaysAddToPackageJson": false },
+        "@nrwl/jest": { "version": "12.3.5", "alwaysAddToPackageJson": false },
+        "@nrwl/linter": {
+          "version": "12.3.5",
+          "alwaysAddToPackageJson": false
+        },
+        "@types/react": {
+          "version": "17.0.6",
+          "alwaysAddToPackageJson": false
+        },
+        "@types/react-native": {
+          "version": "0.64.5",
+          "alwaysAddToPackageJson": false
+        },
+        "@react-native-community/cli": {
+          "version": "5.0.1-alpha.2",
+          "alwaysAddToPackageJson": false
+        },
+        "@react-native-community/cli-platform-android": {
+          "version": "5.0.1-alpha.1",
+          "alwaysAddToPackageJson": false
+        },
+        "@react-native-community/cli-platform-ios": {
+          "version": "5.0.1-alpha.2",
+          "alwaysAddToPackageJson": false
+        },
+        "metro-react-native-babel-preset": {
+          "version": "0.66.0",
+          "alwaysAddToPackageJson": false
+        },
+        "@testing-library/react-native": {
+          "version": "7.2.0",
+          "alwaysAddToPackageJson": false
+        },
+        "@testing-library/jest-native": {
+          "version": "4.0.1",
+          "alwaysAddToPackageJson": false
+        },
+        "metro": {
+          "version": "0.66.0",
+          "alwaysAddToPackageJson": false
+        },
+        "metro-resolver": {
+          "version": "0.66.0",
+          "alwaysAddToPackageJson": false
+        }
+      }
     }
   }
 }
