@@ -16,7 +16,7 @@ export async function reactNativeApplicationGenerator(
   host: Tree,
   schema: Schema
 ) {
-  const options = normalizeOptions(host, schema);
+  const options = normalizeOptions(schema);
 
   createApplicationFiles(host, options);
   addProject(host, options);

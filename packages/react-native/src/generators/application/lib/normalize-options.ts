@@ -1,8 +1,9 @@
-import { names, Tree } from '@nrwl/devkit';
+import { names } from '@nrwl/devkit';
 import { join } from 'path';
 import { Schema } from '../schema';
 
 export interface NormalizedSchema extends Schema {
+  className: string;
   projectName: string;
   appProjectRoot: string;
   lowerCaseName: string;
@@ -11,16 +12,13 @@ export interface NormalizedSchema extends Schema {
   parsedTags: string[];
 }
 
-export function normalizeOptions(
-  host: Tree,
-  options: Schema
-): NormalizedSchema {
-  const fileName = names(options.name).fileName;
+export function normalizeOptions(options: Schema): NormalizedSchema {
+  const { fileName, className } = names(options.name);
 
   const directoryName = options.directory
     ? names(options.directory).fileName
     : '';
-  const projectDirectory = options.directory
+  const projectDirectory = directoryName
     ? `${directoryName}/${fileName}`
     : fileName;
 
@@ -34,9 +32,18 @@ export function normalizeOptions(
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
+  /**
+   * if options.name is "my-app"
+   * name: "my-app", className: 'MyApp', lowerCaseName: 'myapp', displayName: 'MyApp', projectName: 'my-app', appProjectRoot: 'apps/my-app', androidProjectRoot: 'apps/my-app/android', iosProjectRoot: 'apps/my-app/ios'
+   * if options.name is "myApp"
+   * name: "my-app", className: 'MyApp', lowerCaseName: 'myapp', displayName: 'MyApp', projectName: 'my-app', appProjectRoot: 'apps/my-app', androidProjectRoot: 'apps/my-app/android', iosProjectRoot: 'apps/my-app/ios'
+   */
   return {
     ...options,
-    lowerCaseName: names(options.name).className.toLowerCase(),
+    name: fileName,
+    className,
+    lowerCaseName: className.toLowerCase(),
+    displayName: options.displayName || className,
     projectName: appProjectName,
     appProjectRoot,
     iosProjectRoot,
