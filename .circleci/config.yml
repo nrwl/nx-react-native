@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  node: circleci/node@4.4.0
+
 defaults: &defaults
   working_directory: ~/repo
   environment:
@@ -26,6 +29,15 @@ commands:
         type: string
     steps:
       - checkout
+      - when:
+          condition:
+            equal: [<< parameters.os >>, macos]
+          steps:
+            - node/install:
+                node-version: '14.17.0'
+                install-yarn: true
+            - run: node --version
+            - run: sudo gem install cocoapods
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:

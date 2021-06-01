@@ -11,7 +11,7 @@ import { join } from 'path';
 test('create ios and android JS bundles', async () => {
   const appName = uniq('my-app');
   ensureNxProject('@nrwl/react-native', 'dist/packages/react-native');
-  await runNxCommandAsync(`generate @nrwl/react-native:app ${appName}`);
+  await runNxCommandAsync(`generate @nrwl/react-native:application ${appName}`);
 
   await expect(runNxCommandAsync(`test ${appName}`)).resolves.toMatchObject({
     stdout: expect.any(String),
@@ -35,7 +35,7 @@ test('create ios and android JS bundles', async () => {
 test('sync npm dependencies for autolink', async () => {
   const appName = uniq('my-app');
   ensureNxProject('@nrwl/react-native', 'dist/packages/react-native');
-  await runNxCommandAsync(`generate @nrwl/react-native:app ${appName}`);
+  await runNxCommandAsync(`generate @nrwl/react-native:application ${appName}`);
   // Add npm package with native modules
   updateFile(join('package.json'), (content) => {
     const json = JSON.parse(content);

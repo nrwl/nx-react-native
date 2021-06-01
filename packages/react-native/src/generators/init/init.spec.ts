@@ -1,10 +1,6 @@
 import { Tree, readJson, updateJson } from '@nrwl/devkit';
-import { readJsonInTree } from '@nrwl/workspace';
-import { updateJsonInTree } from '@nrwl/workspace';
-import { runSchematic, callRule } from '../../utils/testing';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { reactNativeInitGenerator } from './init';
-import { join } from 'path';
 
 describe('init', () => {
   let tree: Tree;
