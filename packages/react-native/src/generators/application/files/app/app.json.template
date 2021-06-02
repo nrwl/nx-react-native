@@ -1,4 +1,4 @@
 {
   "name": "<%= className %>",
-  "displayName": "<%= className %>"
+  "displayName": "<%= displayName %>"
 }
