@@ -9,4 +9,5 @@ export interface Schema {
   pascalCaseFiles?: boolean;
   classComponent?: boolean;
   js?: boolean;
+  setParserOptionsProject?: boolean;
 }

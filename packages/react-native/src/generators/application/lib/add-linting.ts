@@ -21,7 +21,10 @@ export async function addLinting(host: Tree, options: NormalizedSchema) {
     skipFormat: true,
   });
 
-  const reactEslintJson = createReactEslintJson(options.appProjectRoot);
+  const reactEslintJson = createReactEslintJson(
+    options.appProjectRoot,
+    options.setParserOptionsProject
+  );
 
   updateJson(
     host,
