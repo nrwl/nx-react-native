@@ -12,6 +12,7 @@
     "application": {
       "factory": "./src/generators/application/application#reactNativeApplicationSchematic",
       "schema": "./src/generators/application/schema.json",
+      "aliases": ["app"],
       "description": "Create an application"
     }
   }
