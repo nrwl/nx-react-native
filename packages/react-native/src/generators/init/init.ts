@@ -3,6 +3,7 @@ import {
   addDependenciesToPackageJson,
   convertNxGenerator,
   formatFiles,
+  removeDependenciesFromPackageJson,
   Tree,
   updateJson,
 } from '@nrwl/devkit';
@@ -31,7 +32,11 @@ export async function reactNativeInitGenerator(host: Tree, schema: Schema) {
   setDefaultCollection(host, '@nrwl/react-native');
   addGitIgnoreEntry(host);
 
-  const tasks = [updateDependencies(host)];
+  const tasks = [
+    // remove react dependency because react-native library requires a specify version of react to be installed
+    removeDependenciesFromPackageJson(host, ['react'], []),
+    updateDependencies(host),
+  ];
 
   if (!schema.unitTestRunner || schema.unitTestRunner === 'jest') {
     const jestTask = jestInitGenerator(host, {});
