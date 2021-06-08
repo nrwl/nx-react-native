@@ -9,49 +9,58 @@ import * as chalk from 'chalk';
  * This resolve function requires projectRoot to be set to
  * workspace root in order modules and assets to be registered and watched.
  */
-export function resolveRequest(
-  _context: any,
-  realModuleName: string,
-  platform: string | null,
-  moduleName: string
-) {
-  const DEBUG = process.env.NX_REACT_NATIVE_DEBUG === 'true';
+export function getResolveRequest(extensions: string[]) {
+  return function (
+    _context: any,
+    realModuleName: string,
+    platform: string | null,
+    moduleName: string
+  ) {
+    const DEBUG = process.env.NX_REACT_NATIVE_DEBUG === 'true';
 
-  if (DEBUG) console.log(chalk.cyan(`[Nx] Resolving: ${moduleName}`));
+    if (DEBUG) console.log(chalk.cyan(`[Nx] Resolving: ${moduleName}`));
 
-  const { resolveRequest, ...context } = _context;
-  try {
-    return metroResolver.resolve(context, moduleName, platform);
-  } catch {
-    if (DEBUG)
-      console.log(
-        chalk.cyan(
-          `[Nx] Unable to resolve with default Metro resolver: ${moduleName}`
-        )
-      );
-  }
-  const matcher = getMatcher();
-  const match = matcher(realModuleName);
-  if (match) {
-    return {
-      type: 'sourceFile',
-      filePath: match,
-    };
-  } else {
-    if (DEBUG) {
-      console.log(
-        chalk.red(`[Nx] Failed to resolve ${chalk.bold(moduleName)}`)
-      );
-      console.log(
-        chalk.cyan(
-          `[Nx] The following tsconfig paths was used:\n:${chalk.bold(
-            JSON.stringify(paths, null, 2)
-          )}`
-        )
-      );
+    const { resolveRequest, ...context } = _context;
+    try {
+      return metroResolver.resolve(context, moduleName, platform);
+    } catch {
+      if (DEBUG)
+        console.log(
+          chalk.cyan(
+            `[Nx] Unable to resolve with default Metro resolver: ${moduleName}`
+          )
+        );
     }
-    throw new Error(`Cannot resolve ${chalk.bold(moduleName)}`);
-  }
+    const matcher = getMatcher();
+    let match;
+    const matchExtension = extensions.find((extension) => {
+      match = matcher(realModuleName, undefined, undefined, ['.' + extension]);
+      return !!match;
+    });
+
+    if (match) {
+      return {
+        type: 'sourceFile',
+        filePath: match.endsWith(`.${matchExtension}`)
+          ? match
+          : `${match}.${matchExtension}`,
+      };
+    } else {
+      if (DEBUG) {
+        console.log(
+          chalk.red(`[Nx] Failed to resolve ${chalk.bold(moduleName)}`)
+        );
+        console.log(
+          chalk.cyan(
+            `[Nx] The following tsconfig paths was used:\n:${chalk.bold(
+              JSON.stringify(paths, null, 2)
+            )}`
+          )
+        );
+      }
+      throw new Error(`Cannot resolve ${chalk.bold(moduleName)}`);
+    }
+  };
 }
 
 let matcher: MatchPath;
