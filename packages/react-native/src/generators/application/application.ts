@@ -3,27 +3,45 @@ import { Schema } from './schema';
 import { runPodInstall } from '../../utils/pod-install-task';
 import { runChmod } from '../../utils/chmod-task';
 import { runSymlink } from '../../utils/symlink-task';
-import { addLinting } from './lib/add-linting';
-import { convertNxGenerator, Tree, formatFiles } from '@nrwl/devkit';
+import { addLinting } from '../../utils/add-linting';
+import { addJest } from '../../utils/add-jest';
+import {
+  convertNxGenerator,
+  Tree,
+  formatFiles,
+  joinPathFragments,
+  GeneratorCallback,
+} from '@nrwl/devkit';
 import { normalizeOptions } from './lib/normalize-options';
 import initGenerator from '../init/init';
 import { join } from 'path';
 import { addProject } from './lib/add-project';
 import { createApplicationFiles } from './lib/create-application-files';
-import { addJest } from './lib/add-jest';
 
 export async function reactNativeApplicationGenerator(
   host: Tree,
   schema: Schema
-) {
+): Promise<GeneratorCallback> {
   const options = normalizeOptions(schema);
 
   createApplicationFiles(host, options);
   addProject(host, options);
 
   const initTask = await initGenerator(host, { ...options, skipFormat: true });
-  const lintTask = await addLinting(host, options);
-  const jestTask = await addJest(host, options);
+  const lintTask = await addLinting(
+    host,
+    options.projectName,
+    options.appProjectRoot,
+    [joinPathFragments(options.appProjectRoot, 'tsconfig.app.json')],
+    options.linter,
+    options.setParserOptionsProject
+  );
+  const jestTask = await addJest(
+    host,
+    options.unitTestRunner,
+    options.projectName,
+    options.appProjectRoot
+  );
   const symlinkTask = runSymlink(options.appProjectRoot);
   const podInstallTask = runPodInstall(options.iosProjectRoot);
   const chmodTaskGradlew = runChmod(

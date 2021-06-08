@@ -1,3 +1,5 @@
+import { Linter } from '@nrwl/linter';
+
 export interface Schema {
   name: string;
   displayName?: string;
@@ -9,5 +11,6 @@ export interface Schema {
   pascalCaseFiles?: boolean;
   classComponent?: boolean;
   js?: boolean;
+  linter?: Linter;
   setParserOptionsProject?: boolean;
 }

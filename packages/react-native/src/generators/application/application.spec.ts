@@ -5,6 +5,7 @@ import {
   readJson,
 } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { Linter } from '@nrwl/linter';
 import { reactNativeApplicationGenerator } from './application';
 
 describe('app', () => {
@@ -12,12 +13,14 @@ describe('app', () => {
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
+    appTree.write('.gitignore', '');
   });
 
   it('should update workspace.json', async () => {
     await reactNativeApplicationGenerator(appTree, {
       name: 'myApp',
       displayName: 'myApp',
+      linter: Linter.EsLint,
     });
     const workspaceJson = readWorkspaceConfiguration(appTree);
     const projects = getProjects(appTree);
@@ -31,6 +34,7 @@ describe('app', () => {
       name: 'myApp',
       displayName: 'myApp',
       tags: 'one,two',
+      linter: Linter.EsLint,
     });
 
     const nxJson = readJson(appTree, '/nx.json');
@@ -48,6 +52,7 @@ describe('app', () => {
     await reactNativeApplicationGenerator(appTree, {
       name: 'myApp',
       displayName: 'myApp',
+      linter: Linter.EsLint,
     });
     expect(appTree.exists('apps/my-app/src/app/App.tsx')).toBeTruthy();
     expect(appTree.exists('apps/my-app/src/main.tsx')).toBeTruthy();

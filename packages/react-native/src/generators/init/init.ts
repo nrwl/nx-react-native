@@ -3,8 +3,8 @@ import {
   addDependenciesToPackageJson,
   convertNxGenerator,
   formatFiles,
+  removeDependenciesFromPackageJson,
   Tree,
-  updateJson,
 } from '@nrwl/devkit';
 import { Schema } from './schema';
 import {
@@ -31,7 +31,7 @@ export async function reactNativeInitGenerator(host: Tree, schema: Schema) {
   setDefaultCollection(host, '@nrwl/react-native');
   addGitIgnoreEntry(host);
 
-  const tasks = [updateDependencies(host)];
+  const tasks = [moveDependency(host), updateDependencies(host)];
 
   if (!schema.unitTestRunner || schema.unitTestRunner === 'jest') {
     const jestTask = jestInitGenerator(host, {});
@@ -46,8 +46,6 @@ export async function reactNativeInitGenerator(host: Tree, schema: Schema) {
 }
 
 export function updateDependencies(host: Tree) {
-  moveDependency(host);
-
   return addDependenciesToPackageJson(
     host,
     {
@@ -75,12 +73,7 @@ export function updateDependencies(host: Tree) {
 }
 
 function moveDependency(host: Tree) {
-  updateJson(host, 'package.json', (json) => {
-    json.dependencies = json.dependencies || {};
-
-    delete json.dependencies['@nrwl/react'];
-    return json;
-  });
+  return removeDependenciesFromPackageJson(host, ['@nrwl/react-native'], []);
 }
 
 export default reactNativeInitGenerator;
