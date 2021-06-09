@@ -45,17 +45,17 @@
         }
       }
     },
-    "12.3.5": {
-      "version": "12.3.5-beta.0",
+    "12.3.6": {
+      "version": "12.3.6-beta.0",
       "packages": {
         "react-native": {
           "version": "0.64.1",
           "alwaysAddToPackageJson": false
         },
-        "@nrwl/react": { "version": "12.3.5", "alwaysAddToPackageJson": false },
-        "@nrwl/jest": { "version": "12.3.5", "alwaysAddToPackageJson": false },
+        "@nrwl/react": { "version": "12.3.6", "alwaysAddToPackageJson": false },
+        "@nrwl/jest": { "version": "12.3.6", "alwaysAddToPackageJson": false },
         "@nrwl/linter": {
-          "version": "12.3.5",
+          "version": "12.3.6",
           "alwaysAddToPackageJson": false
         },
         "@types/react": {
