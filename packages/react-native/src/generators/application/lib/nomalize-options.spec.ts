@@ -1,3 +1,4 @@
+import { Linter } from '@nrwl/linter';
 import { Schema } from '../schema';
 import { normalizeOptions } from './normalize-options';
 
@@ -5,6 +6,7 @@ describe('Normalize Options', () => {
   it('should normalize options with name in kebab case', () => {
     const schema: Schema = {
       name: 'my-app',
+      linter: Linter.EsLint,
     };
     const options = normalizeOptions(schema);
     expect(options).toEqual({
@@ -17,6 +19,7 @@ describe('Normalize Options', () => {
       name: 'my-app',
       parsedTags: [],
       projectName: 'my-app',
+      linter: Linter.EsLint,
     });
   });
 

@@ -7,6 +7,7 @@ describe('init', () => {
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();
+    tree.write('.gitignore', '');
   });
 
   it('should add react dependencies', async () => {

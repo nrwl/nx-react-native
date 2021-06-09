@@ -1,14 +1,18 @@
 import { Tree } from '@nrwl/devkit';
 import { jestProjectGenerator } from '@nrwl/jest';
-import { NormalizedSchema } from './normalize-options';
 
-export async function addJest(host: Tree, options: NormalizedSchema) {
-  if (options.unitTestRunner !== 'jest') {
+export async function addJest(
+  host: Tree,
+  unitTestRunner: 'jest' | 'none',
+  projectName: string,
+  appProjectRoot: string
+) {
+  if (unitTestRunner !== 'jest') {
     return () => {};
   }
 
   const jestTask = await jestProjectGenerator(host, {
-    project: options.projectName,
+    project: projectName,
     supportTsx: true,
     skipSerializers: true,
     setupFile: 'none',
@@ -16,11 +20,11 @@ export async function addJest(host: Tree, options: NormalizedSchema) {
   });
 
   // overwrite the jest.config.js file because react native needs to have special transform property
-  const configPath = `${options.appProjectRoot}/jest.config.js`;
+  const configPath = `${appProjectRoot}/jest.config.js`;
   const content = `const workspacePreset = require('../../jest.preset')
 module.exports = {
   ...workspacePreset,
-  displayName: '${options.name}',
+  displayName: '${projectName}',
   preset: 'react-native',
   moduleFileExtensions: ['ts', 'js', 'html', 'tsx', 'jsx'],
   setupFilesAfterEnv: ['<rootDir>/test-setup.ts'],

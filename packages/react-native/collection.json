@@ -14,6 +14,18 @@
       "schema": "./src/generators/application/schema.json",
       "aliases": ["app"],
       "description": "Create an application"
+    },
+    "library": {
+      "factory": "./src/generators/library/library#reactNativeLibrarySchematic",
+      "schema": "./src/generators/library/schema.json",
+      "aliases": ["lib"],
+      "description": "Create a library"
+    },
+    "component": {
+      "factory": "./src/generators/component/component#reactNativeComponentSchematic",
+      "schema": "./src/generators/component/schema.json",
+      "description": "Create a component",
+      "aliases": ["c"]
     }
   }
 }
