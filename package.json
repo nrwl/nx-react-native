@@ -6,10 +6,11 @@
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
-    "build": "nx build react-native",
+    "build": "nx build detox && nx build react-native",
     "test": "nx run-many --target=test --all --parallel",
     "lint": "nx workspace-lint && nx run-many --target=lint --all --parallel",
-    "e2e": "nx e2e react-native-e2e",
+    "e2e": "nx e2e react-native-e2e && nx e2e detox-e2e",
+    "detox-e2e": "nx e2e detox-e2e",
     "release": "./tools/scripts/publish.sh",
     "local-registry": "./tools/scripts/local-registry.sh",
     "affected:apps": "nx affected:apps",
@@ -26,7 +27,7 @@
     "update": "nx migrate latest",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "doctoc": "doctoc packages/react-native/README.md",
+    "doctoc": "doctoc packages/react-native/README.md && doctoc packages/detox/README.md",
     "workspace-generator": "nx workspace-generator"
   },
   "dependencies": {},

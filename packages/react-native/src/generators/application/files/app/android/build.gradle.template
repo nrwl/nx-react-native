@@ -33,6 +33,14 @@ allprojects {
         }
 
         google()
-        maven { url 'https://www.jitpack.io' }
+
+
+        <% if (e2eTestRunner === 'detox') { %>
+        maven {
+            // All of the Detox artifacts are provided via the npm module
+            url("$rootDir/../../../node_modules/detox/Detox-android")
+        }
+        <% } %>
+
     }
 }
