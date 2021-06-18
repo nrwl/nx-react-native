@@ -95,5 +95,10 @@ function getTargets(options: NormalizedSchema) {
     options: {},
   };
 
+  architect['ensure-symlink'] = {
+    executor: '@nrwl/react-native:ensure-symlink',
+    options: {},
+  };
+
   return architect;
 }

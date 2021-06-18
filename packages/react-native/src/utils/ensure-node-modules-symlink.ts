@@ -1,10 +1,10 @@
-import * as chalk from 'chalk';
 import { join } from 'path';
 import { platform } from 'os';
 import * as fs from 'fs';
 import { createDirectory, readJsonFile } from '@nrwl/workspace';
+import chalk = require('chalk');
 
-const packagesToSymlink = [
+const requiredPackages = [
   'react-native',
   'jsc-android',
   '@react-native-community/cli-platform-ios',
@@ -14,13 +14,58 @@ const packagesToSymlink = [
   '@babel/runtime',
 ];
 
+/**
+ * This function symlink workspace node_modules folder with app project's node_mdules folder.
+ * For yarn and npm, it will symlink the entire node_modules folder.
+ * If app project's node_modules already exist, it will remove it first then symlink it.
+ * For pnpm, it will go through the package.json' dependencies and devDependencies, and also the required packages listed above.
+ * @param workspaceRoot path of the workspace root
+ * @param projectRoot path of app project root
+ */
 export function ensureNodeModulesSymlink(
   workspaceRoot: string,
   projectRoot: string
 ): void {
+  const worksapceNodeModulesPath = join(workspaceRoot, 'node_modules');
+  if (!fs.existsSync(worksapceNodeModulesPath)) {
+    throw new Error(`Cannot find ${worksapceNodeModulesPath}`);
+  }
+
   const appNodeModulesPath = join(projectRoot, 'node_modules');
   // `mklink /D` requires admin privilege in Windows so we need to use junction
   const symlinkType = platform() === 'win32' ? 'junction' : 'dir';
+
+  if (fs.existsSync(appNodeModulesPath)) {
+    fs.rmdirSync(appNodeModulesPath, { recursive: true });
+  }
+  fs.symlinkSync(worksapceNodeModulesPath, appNodeModulesPath, symlinkType);
+
+  if (isPnpm(workspaceRoot)) {
+    symlinkPnpm(workspaceRoot, appNodeModulesPath, symlinkType);
+  }
+}
+
+function isPnpm(workspaceRoot: string): boolean {
+  const pnpmDir = join(workspaceRoot, 'node_modules/.pnpm');
+  return fs.existsSync(pnpmDir);
+}
+
+function symlinkPnpm(
+  workspaceRoot: string,
+  appNodeModulesPath: string,
+  symlinkType: 'junction' | 'dir'
+) {
+  const worksapcePackageJsonPath = join(workspaceRoot, 'package.json');
+  const workspacePackageJson = readJsonFile(worksapcePackageJsonPath);
+  const workspacePackages = Object.keys({
+    ...workspacePackageJson.dependencies,
+    ...workspacePackageJson.devDependencies,
+  });
+
+  const packagesToSymlink = new Set([
+    ...workspacePackages,
+    ...requiredPackages,
+  ]);
 
   createDirectory(appNodeModulesPath);
 
@@ -43,19 +88,17 @@ export function ensureNodeModulesSymlink(
 
 function locateNpmPackage(workspaceRoot: string, packageName: string): string {
   const pnpmDir = join(workspaceRoot, 'node_modules/.pnpm');
-  const isPnpm = fs.existsSync(pnpmDir);
-  if (!isPnpm) {
-    return join(workspaceRoot, 'node_modules', packageName);
-  }
 
   let candidates: string[];
   if (isScopedPackage(packageName)) {
     const { scope, name } = getScopedData(packageName);
-    const scopedDir = join(pnpmDir, scope);
     candidates = fs
-      .readdirSync(scopedDir)
-      .filter((f) => f.startsWith(name))
-      .map((p) => join(scope, p));
+      .readdirSync(pnpmDir)
+      .filter(
+        (f) =>
+          f.startsWith(`${scope}+${name}`) &&
+          fs.lstatSync(join(pnpmDir, f)).isDirectory()
+      );
   } else {
     candidates = fs
       .readdirSync(pnpmDir)
@@ -76,7 +119,7 @@ function locateNpmPackage(workspaceRoot: string, packageName: string): string {
       ...packageJson.dependencies,
       ...packageJson.devDependencies,
     };
-    const version = deps['react-native'];
+    const version = deps[packageName];
     const found = candidates.find((c) => c.includes(version));
     if (found) {
       return join(pnpmDir, found, 'node_modules', packageName);

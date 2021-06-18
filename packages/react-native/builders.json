@@ -29,6 +29,11 @@
       "implementation": "./src/executors/sync-deps/sync-deps.impl",
       "schema": "./src/executors/sync-deps/schema.json",
       "description": "Syncs dependencies to package.json (required for autolinking)."
+    },
+    "ensure-symlink": {
+      "implementation": "./src/executors/ensure-symlink/ensure-symlink.impl",
+      "schema": "./src/executors/ensure-symlink//schema.json",
+      "description": "Ensure workspace node_modules is symlink under app's node_modules folder."
     }
   },
   "builders": {
@@ -61,6 +66,11 @@
       "implementation": "./src/executors/sync-deps/compat",
       "schema": "./src/executors/sync-deps/schema.json",
       "description": "Syncs dependencies to package.json (required for autolinking)."
+    },
+    "ensure-symlink": {
+      "implementation": "./src/executors/ensure-symlink/compat",
+      "schema": "./src/executors/ensure-symlink//schema.json",
+      "description": "Ensure workspace node_modules is symlink under app's node_modules folder."
     }
   }
 }
