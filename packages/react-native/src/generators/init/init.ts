@@ -12,6 +12,7 @@ import {
   metroReactNativeBabelPresetVersion,
   metroVersion,
   nxVersion,
+  reactNativeCodegenVersion,
   reactNativeCommunityCli,
   reactNativeCommunityCliAndroid,
   reactNativeCommunityCliIos,
@@ -53,7 +54,6 @@ export function updateDependencies(host: Tree) {
       'react-native': reactNativeVersion,
     },
     {
-      '@nrwl/react': nxVersion,
       '@nrwl/jest': nxVersion,
       '@nrwl/linter': nxVersion,
       '@types/react': typesReactVersion,
@@ -67,6 +67,7 @@ export function updateDependencies(host: Tree) {
       'jest-react-native': jestReactNativeVersion,
       metro: metroVersion,
       'metro-resolver': metroVersion,
+      'react-native-codegen': reactNativeCodegenVersion,
       'react-test-renderer': reactTestRendererVersion,
     }
   );

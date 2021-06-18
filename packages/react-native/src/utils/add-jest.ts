@@ -21,9 +21,7 @@ export async function addJest(
 
   // overwrite the jest.config.js file because react native needs to have special transform property
   const configPath = `${appProjectRoot}/jest.config.js`;
-  const content = `const workspacePreset = require('../../jest.preset')
-module.exports = {
-  ...workspacePreset,
+  const content = `module.exports = {
   displayName: '${projectName}',
   preset: 'react-native',
   moduleFileExtensions: ['ts', 'js', 'html', 'tsx', 'jsx'],
@@ -33,7 +31,7 @@ module.exports = {
     '^.+\\\\.(bmp|gif|jpg|jpeg|mp4|png|psd|svg|webp)$': require.resolve(
       'react-native/jest/assetFileTransformer.js',
     ),
-  },
+  }
 };`;
   host.write(configPath, content);
 

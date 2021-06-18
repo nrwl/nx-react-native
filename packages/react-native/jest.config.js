@@ -1,14 +1,11 @@
 module.exports = {
-  name: 'react-native',
-  preset: '../../jest.config.js',
-  globals: {
-    'ts-jest': {
-      tsConfig: '<rootDir>/tsconfig.spec.json',
-    },
-  },
+  preset: '../../jest.preset.js',
   transform: {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/packages/react-native',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'html', 'json'],
+  globals: {
+    'ts-jest': { tsconfig: '<rootDir>/tsconfig.spec.json' },
+  },
+  displayName: 'react-native',
 };
