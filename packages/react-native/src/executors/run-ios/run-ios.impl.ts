@@ -39,7 +39,7 @@ export default async function* runIosExecutor(
 
   try {
     const tasks = [runCliRunIOS(context.root, projectRoot, options)];
-    if (options.packager) {
+    if (options.packager && options.xcodeConfiguration !== 'Release') {
       tasks.push(
         runCliStart(context.root, projectRoot, { port: options.port })
       );
@@ -96,7 +96,11 @@ const nxOptions = ['sync', 'install', 'packager'];
 function createRunIOSOptions(options) {
   return Object.keys(options).reduce((acc, k) => {
     const v = options[k];
-    if (v && !nxOptions.includes(k)) acc.push(`--${k}`, options[k]);
+    if (k === 'xcodeConfiguration') {
+      acc.push('--configuration', v);
+    } else if (v && !nxOptions.includes(k)) {
+      acc.push(`--${k}`, options[k]);
+    }
     return acc;
   }, []);
 }

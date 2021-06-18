@@ -1,10 +1,13 @@
 export interface ReactNativeRunAndroidOptions {
-  configuration: string;
+  variant: string;
+  appId: string;
+  appIdSuffix: string;
+  mainActiviy: string;
+  deviceId: string;
+  tasks?: string;
+  jetifier: boolean;
+  sync: boolean;
   port: number;
-  scheme: string;
-  simulator: string;
-  device: string;
-  packager: boolean;
-  sync?: boolean;
   terminal?: string;
+  packager: boolean;
 }
