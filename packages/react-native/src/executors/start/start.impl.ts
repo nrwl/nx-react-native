@@ -54,9 +54,9 @@ export async function runCliStart(
 ): Promise<void> {
   const result = await isPackagerRunning(options.port);
   if (result === 'running') {
-    throw new Error('JS server already running.');
+    logger.info('JS server already running.');
   } else if (result === 'unrecognized') {
-    throw new Error('JS server not recognized.');
+    logger.warn('JS server not recognized.');
   } else {
     // result === 'not_running'
     logger.info('Starting JS server...');

@@ -10,6 +10,7 @@ import {
 } from '../sync-deps/sync-deps.impl';
 import { podInstall } from '../../utils/pod-install-task';
 import { ReactNativeRunIosOptions } from './schema';
+import { runCliStart } from '../start/start.impl';
 
 export interface ReactNativeRunIosOutput {
   success: boolean;
@@ -37,7 +38,14 @@ export default async function* runIosExecutor(
   }
 
   try {
-    await runCliRunIOS(context.root, projectRoot, options);
+    const tasks = [runCliRunIOS(context.root, projectRoot, options)];
+    if (options.packager) {
+      tasks.push(
+        runCliStart(context.root, projectRoot, { port: options.port })
+      );
+    }
+
+    await Promise.all(tasks);
 
     yield { success: true };
   } finally {
@@ -53,9 +61,13 @@ function runCliRunIOS(
   options: ReactNativeRunIosOptions
 ) {
   return new Promise((resolve, reject) => {
+    /**
+     * Call the react native cli with option `--no-packager`
+     * Not passing '--packager' due to cli will launch start command from the project root
+     */
     childProcess = fork(
       join(workspaceRoot, './node_modules/react-native/cli.js'),
-      ['run-ios', ...createRunIOSOptions(options)],
+      ['run-ios', ...createRunIOSOptions(options), '--no-packager'],
       {
         cwd: projectRoot,
         env: { ...process.env, RCT_METRO_PORT: options.port.toString() },
@@ -79,16 +91,12 @@ function runCliRunIOS(
   });
 }
 
-const nxOptions = ['sync', 'install'];
+const nxOptions = ['sync', 'install', 'packager'];
 
 function createRunIOSOptions(options) {
   return Object.keys(options).reduce((acc, k) => {
     const v = options[k];
-    if (k === 'packager') {
-      if (!v) {
-        acc.push('--no-packager');
-      }
-    } else if (v && !nxOptions.includes(k)) acc.push(`--${k}`, options[k]);
+    if (v && !nxOptions.includes(k)) acc.push(`--${k}`, options[k]);
     return acc;
   }, []);
 }

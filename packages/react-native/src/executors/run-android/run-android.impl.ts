@@ -9,6 +9,7 @@ import {
 } from '../sync-deps/sync-deps.impl';
 import { chmodSync } from 'fs';
 import { ReactNativeRunAndroidOptions } from './schema';
+import { runCliStart } from '../start/start.impl';
 
 export interface ReactNativeRunAndroidOutput {
   success: boolean;
@@ -33,7 +34,14 @@ export default async function* runAndroidExecutor(
   }
 
   try {
-    await runCliRunAndroid(context.root, projectRoot, options);
+    const tasks = [runCliRunAndroid(context.root, projectRoot, options)];
+    if (options.packager) {
+      tasks.push(
+        runCliStart(context.root, projectRoot, { port: options.port })
+      );
+    }
+
+    await Promise.all(tasks);
 
     yield { success: true };
   } finally {
@@ -49,9 +57,13 @@ function runCliRunAndroid(
   options: ReactNativeRunAndroidOptions
 ) {
   return new Promise((resolve, reject) => {
+    /**
+     * Call the react native cli with option `--no-packager`
+     * Not passing '--packager' due to cli will launch start command from the project root
+     */
     childProcess = fork(
       join(workspaceRoot, './node_modules/react-native/cli.js'),
-      ['run-android', ...createRunAndroidOptions(options)],
+      ['run-android', ...createRunAndroidOptions(options), '--no-packager'],
       {
         cwd: projectRoot,
         env: { ...process.env, RCT_METRO_PORT: options.port.toString() },
@@ -75,7 +87,7 @@ function runCliRunAndroid(
   });
 }
 
-const nxOptions = ['sync', 'install'];
+const nxOptions = ['sync', 'install', 'packager'];
 
 function createRunAndroidOptions(options) {
   return Object.keys(options).reduce((acc, k) => {
@@ -85,10 +97,6 @@ function createRunAndroidOptions(options) {
     } else if (k === 'jetifier') {
       if (!v) {
         acc.push(`--no-jetifier`);
-      }
-    } else if (k === 'packager') {
-      if (!v) {
-        acc.push('--no-packager');
       }
     } else if (v && !nxOptions.includes(k)) {
       acc.push(`--${k}`, v);
