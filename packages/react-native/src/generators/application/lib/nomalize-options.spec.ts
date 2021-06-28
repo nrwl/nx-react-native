@@ -1,14 +1,22 @@
+import { Tree } from '@nrwl/devkit';
+import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 import { Schema } from '../schema';
 import { normalizeOptions } from './normalize-options';
 
 describe('Normalize Options', () => {
+  let appTree: Tree;
+
+  beforeEach(() => {
+    appTree = createTreeWithEmptyWorkspace();
+  });
+
   it('should normalize options with name in kebab case', () => {
     const schema: Schema = {
       name: 'my-app',
       linter: Linter.EsLint,
     };
-    const options = normalizeOptions(schema);
+    const options = normalizeOptions(appTree, schema);
     expect(options).toEqual({
       androidProjectRoot: 'apps/my-app/android',
       appProjectRoot: 'apps/my-app',
@@ -20,6 +28,7 @@ describe('Normalize Options', () => {
       parsedTags: [],
       projectName: 'my-app',
       linter: Linter.EsLint,
+      entryFile: '/virtual/apps/my-app/src/main.tsx',
     });
   });
 
@@ -27,7 +36,7 @@ describe('Normalize Options', () => {
     const schema: Schema = {
       name: 'myApp',
     };
-    const options = normalizeOptions(schema);
+    const options = normalizeOptions(appTree, schema);
     expect(options).toEqual({
       androidProjectRoot: 'apps/my-app/android',
       appProjectRoot: 'apps/my-app',
@@ -38,6 +47,7 @@ describe('Normalize Options', () => {
       name: 'my-app',
       parsedTags: [],
       projectName: 'my-app',
+      entryFile: '/virtual/apps/my-app/src/main.tsx',
     });
   });
 
@@ -46,7 +56,7 @@ describe('Normalize Options', () => {
       name: 'my-app',
       directory: 'directory',
     };
-    const options = normalizeOptions(schema);
+    const options = normalizeOptions(appTree, schema);
     expect(options).toEqual({
       androidProjectRoot: 'apps/directory/my-app/android',
       appProjectRoot: 'apps/directory/my-app',
@@ -58,6 +68,7 @@ describe('Normalize Options', () => {
       directory: 'directory',
       parsedTags: [],
       projectName: 'directory-my-app',
+      entryFile: '/virtual/apps/directory/my-app/src/main.tsx',
     });
   });
 
@@ -66,7 +77,7 @@ describe('Normalize Options', () => {
       name: 'my-app',
       displayName: 'My App',
     };
-    const options = normalizeOptions(schema);
+    const options = normalizeOptions(appTree, schema);
     expect(options).toEqual({
       androidProjectRoot: 'apps/my-app/android',
       appProjectRoot: 'apps/my-app',
@@ -77,6 +88,7 @@ describe('Normalize Options', () => {
       name: 'my-app',
       parsedTags: [],
       projectName: 'my-app',
+      entryFile: '/virtual/apps/my-app/src/main.tsx',
     });
   });
 });

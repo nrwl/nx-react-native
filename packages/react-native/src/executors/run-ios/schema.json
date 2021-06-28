@@ -3,7 +3,7 @@
   "description": "Run iOS target options",
   "type": "object",
   "properties": {
-    "configuration": {
+    "xcodeConfiguration": {
       "type": "string",
       "description": "Explicitly set the Xcode configuration to use",
       "default": "Debug"

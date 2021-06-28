@@ -1,4 +1,4 @@
-import { names } from '@nrwl/devkit';
+import { names, Tree } from '@nrwl/devkit';
 import { join } from 'path';
 import { Schema } from '../schema';
 
@@ -10,9 +10,13 @@ export interface NormalizedSchema extends Schema {
   iosProjectRoot: string;
   androidProjectRoot: string;
   parsedTags: string[];
+  entryFile: string;
 }
 
-export function normalizeOptions(options: Schema): NormalizedSchema {
+export function normalizeOptions(
+  host: Tree,
+  options: Schema
+): NormalizedSchema {
   const { fileName, className } = names(options.name);
 
   const directoryName = options.directory
@@ -32,6 +36,8 @@ export function normalizeOptions(options: Schema): NormalizedSchema {
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
+  const entryFile = join(host.root, appProjectRoot, '/src/main.tsx');
+
   /**
    * if options.name is "my-app"
    * name: "my-app", className: 'MyApp', lowerCaseName: 'myapp', displayName: 'MyApp', projectName: 'my-app', appProjectRoot: 'apps/my-app', androidProjectRoot: 'apps/my-app/android', iosProjectRoot: 'apps/my-app/ios'
@@ -49,5 +55,6 @@ export function normalizeOptions(options: Schema): NormalizedSchema {
     iosProjectRoot,
     androidProjectRoot,
     parsedTags,
+    entryFile,
   };
 }

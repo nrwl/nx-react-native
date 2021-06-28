@@ -1,5 +1,5 @@
 export interface ReactNativeRunIosOptions {
-  configuration: string;
+  xcodeConfiguration: string;
   port: number;
   scheme: string;
   simulator: string;
