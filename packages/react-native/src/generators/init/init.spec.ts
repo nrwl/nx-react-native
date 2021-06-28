@@ -13,10 +13,8 @@ describe('init', () => {
   it('should add react dependencies', async () => {
     await reactNativeInitGenerator(tree, {});
     const packageJson = readJson(tree, 'package.json');
-    expect(packageJson.dependencies['@nrwl/react']).toBeUndefined();
     expect(packageJson.dependencies['react']).toBeDefined();
     expect(packageJson.dependencies['react-native']).toBeDefined();
-    expect(packageJson.devDependencies['@nrwl/react']).toBeDefined();
     expect(packageJson.devDependencies['@types/react']).toBeDefined();
     expect(packageJson.devDependencies['@types/react-native']).toBeDefined();
   });

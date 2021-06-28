@@ -9,6 +9,18 @@
       "version": "11.4.0-beta.0",
       "description": "Add missing libraries",
       "factory": "./src/migrations/update-11-4-0/add-missing-dev-dependencies-11-4-0"
+    },
+    "add-react-native-codegen-dev-dependencies": {
+      "version": "12.4.0-beta.0",
+      "cli": "nx",
+      "description": "Add react-native-codegen to dev dependencies",
+      "factory": "./src/migrations/update-12-4-0/add-react-native-codegen-dev-dependencies"
+    },
+    "update-jest-for-react-native": {
+      "version": "12.4.0-beta.0",
+      "cli": "nx",
+      "description": "Update jest for react native",
+      "factory": "./src/migrations/update-12-4-0/update-jest-for-react-native"
     }
   },
   "packageJsonUpdates": {
@@ -96,6 +108,52 @@
         },
         "metro-resolver": {
           "version": "0.66.0",
+          "alwaysAddToPackageJson": false
+        }
+      }
+    },
+    "12.4.0": {
+      "version": "12.4.0-beta.0",
+      "packages": {
+        "@nrwl/jest": { "version": "12.4.0", "alwaysAddToPackageJson": false },
+        "@nrwl/linter": {
+          "version": "12.4.0",
+          "alwaysAddToPackageJson": false
+        },
+        "react": {
+          "version": "17.0.2",
+          "alwaysAddToPackageJson": false
+        },
+        "react-native": {
+          "version": "0.65.0-rc.2",
+          "alwaysAddToPackageJson": false
+        },
+        "react-test-renderer": {
+          "version": "17.0.2",
+          "alwaysAddToPackageJson": false
+        },
+        "react-native-codegen": {
+          "version": "0.0.7",
+          "alwaysAddToPackageJson": false
+        },
+        "@types/react-native": {
+          "version": "0.64.10",
+          "alwaysAddToPackageJson": false
+        },
+        "@react-native-community/cli": {
+          "version": "6.0.0-rc.0",
+          "alwaysAddToPackageJson": false
+        },
+        "@react-native-community/cli-platform-android": {
+          "version": "6.0.0-rc.0",
+          "alwaysAddToPackageJson": false
+        },
+        "@react-native-community/cli-platform-ios": {
+          "version": "6.0.0-rc.0",
+          "alwaysAddToPackageJson": false
+        },
+        "@testing-library/react-native": {
+          "version": "8.0.0-rc.0",
           "alwaysAddToPackageJson": false
         }
       }

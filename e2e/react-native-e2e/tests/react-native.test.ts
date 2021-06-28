@@ -30,7 +30,7 @@ test('create ios and android JS bundles', async () => {
   expect(() =>
     checkFilesExist(`dist/apps/${appName}/android/main.bundle`)
   ).not.toThrow();
-}, 360000);
+});
 
 test('sync npm dependencies for autolink', async () => {
   const appName = uniq('my-app');
@@ -61,4 +61,4 @@ test('sync npm dependencies for autolink', async () => {
       'react-native-safe-area-context': '*',
     },
   });
-}, 360000);
+});

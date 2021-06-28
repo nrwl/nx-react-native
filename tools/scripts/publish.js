@@ -30,7 +30,7 @@ if (!version) {
   throw new Error('Need the version');
 }
 const projectMeta = getProject(project);
-const outputPath = projectMeta.targets.build.options.outputPath;
+const outputPath = projectMeta.architect.build.options.outputPath;
 if (!existsSync(outputPath)) {
   throw new Error('Must build the project first');
 }

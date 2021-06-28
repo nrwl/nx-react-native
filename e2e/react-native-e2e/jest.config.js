@@ -1,14 +1,11 @@
 module.exports = {
-  name: 'react-native-e2e',
-  preset: '../../jest.config.js',
-  globals: {
-    'ts-jest': {
-      tsConfig: '<rootDir>/tsconfig.spec.json',
-    },
-  },
+  preset: '../../jest.preset.js',
   transform: {
-    '^.+\\.[tj]s$': 'ts-jest',
+    '^.+\\.[tj]sx?$': 'ts-jest',
   },
-  moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/e2e/react-native-e2e',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'html'],
+  maxWorkers: 1,
+  globals: { 'ts-jest': { tsconfig: '<rootDir>/tsconfig.spec.json' } },
+  displayName: 'e2e-react-native',
+  testTimeout: 600000,
 };
