@@ -41,9 +41,10 @@ export function getResolveRequest(extensions: string[]) {
     if (match) {
       return {
         type: 'sourceFile',
-        filePath: match.endsWith(`.${matchExtension}`)
-          ? match
-          : `${match}.${matchExtension}`,
+        filePath:
+          !matchExtension || match.endsWith(`.${matchExtension}`)
+            ? match
+            : `${match}.${matchExtension}`,
       };
     } else {
       if (DEBUG) {
