@@ -1,7 +1,6 @@
 import {
   checkFilesExist,
-  ensureNxProject,
-  readFile,
+  readJson,
   runNxCommandAsync,
   uniq,
   updateFile,
@@ -10,7 +9,6 @@ import { join } from 'path';
 
 test('create ios and android JS bundles', async () => {
   const appName = uniq('my-app');
-  ensureNxProject('@nrwl/react-native', 'dist/packages/react-native');
   await runNxCommandAsync(`generate @nrwl/react-native:application ${appName}`);
 
   await expect(runNxCommandAsync(`test ${appName}`)).resolves.toMatchObject({
@@ -34,7 +32,6 @@ test('create ios and android JS bundles', async () => {
 
 test('sync npm dependencies for autolink', async () => {
   const appName = uniq('my-app');
-  ensureNxProject('@nrwl/react-native', 'dist/packages/react-native');
   await runNxCommandAsync(`generate @nrwl/react-native:application ${appName}`);
   // Add npm package with native modules
   updateFile(join('package.json'), (content) => {
@@ -53,7 +50,7 @@ test('sync npm dependencies for autolink', async () => {
     `sync-deps ${appName} --include=react-native-gesture-handler,react-native-safe-area-context`
   );
 
-  const result = JSON.parse(readFile(join('apps', appName, 'package.json')));
+  const result = readJson(join('apps', appName, 'package.json'));
   expect(result).toMatchObject({
     dependencies: {
       'react-native-image-picker': '*',

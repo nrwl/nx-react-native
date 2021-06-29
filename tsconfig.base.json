@@ -17,7 +17,8 @@
     "baseUrl": ".",
     "rootDir": ".",
     "paths": {
-      "nrwl/react-native": ["packages/react-native/src/index.ts"]
+      "@nrwl/react-native": ["packages/react-native"],
+      "@nrwl/detox": ["packages/detox"]
     }
   },
   "exclude": ["node_modules", "tmp"]

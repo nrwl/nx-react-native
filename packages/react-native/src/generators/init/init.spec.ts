@@ -10,8 +10,8 @@ describe('init', () => {
     tree.write('.gitignore', '');
   });
 
-  it('should add react dependencies', async () => {
-    await reactNativeInitGenerator(tree, {});
+  it('should add react native dependencies', async () => {
+    await reactNativeInitGenerator(tree, { e2eTestRunner: 'none' });
     const packageJson = readJson(tree, 'package.json');
     expect(packageJson.dependencies['react']).toBeDefined();
     expect(packageJson.dependencies['react-native']).toBeDefined();
@@ -26,7 +26,7 @@ describe('init', () => {
 /node_modules
 `
     );
-    await reactNativeInitGenerator(tree, {});
+    await reactNativeInitGenerator(tree, { e2eTestRunner: 'none' });
 
     const content = tree.read('/.gitignore').toString();
 
@@ -36,7 +36,7 @@ describe('init', () => {
 
   describe('defaultCollection', () => {
     it('should be set if none was set before', async () => {
-      await reactNativeInitGenerator(tree, {});
+      await reactNativeInitGenerator(tree, { e2eTestRunner: 'none' });
       const workspaceJson = readJson(tree, 'workspace.json');
       expect(workspaceJson.cli.defaultCollection).toEqual('@nrwl/react-native');
     });
@@ -51,7 +51,7 @@ describe('init', () => {
 
         return json;
       });
-      await reactNativeInitGenerator(tree, {});
+      await reactNativeInitGenerator(tree, { e2eTestRunner: 'none' });
       const workspaceJson = readJson(tree, 'workspace.json');
       expect(workspaceJson.cli.defaultCollection).toEqual('@nrwl/react');
     });

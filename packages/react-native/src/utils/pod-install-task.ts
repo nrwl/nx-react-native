@@ -1,5 +1,5 @@
 import { spawn } from 'child_process';
-import * as os from 'os';
+import { platform } from 'os';
 import * as chalk from 'chalk';
 import { GeneratorCallback, logger } from '@nrwl/devkit';
 
@@ -21,7 +21,7 @@ ${chalk.bold('sudo xcode-select --switch /Applications/Xcode.app')}
  */
 export function runPodInstall(cwd: string): GeneratorCallback {
   return () => {
-    if (os.platform() !== 'darwin') {
+    if (platform() !== 'darwin') {
       logger.info('Skipping `pod install` on non-darwin platform');
       return;
     }

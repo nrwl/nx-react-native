@@ -27,6 +27,7 @@ import {
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import { addGitIgnoreEntry } from './lib/add-git-ignore-entry';
 import { jestInitGenerator } from '@nrwl/jest';
+import { detoxInitGenerator } from '@nrwl/detox';
 
 export async function reactNativeInitGenerator(host: Tree, schema: Schema) {
   setDefaultCollection(host, '@nrwl/react-native');
@@ -37,6 +38,11 @@ export async function reactNativeInitGenerator(host: Tree, schema: Schema) {
   if (!schema.unitTestRunner || schema.unitTestRunner === 'jest') {
     const jestTask = jestInitGenerator(host, {});
     tasks.push(jestTask);
+  }
+
+  if (!schema.e2eTestRunner || schema.e2eTestRunner === 'detox') {
+    const detoxTask = await detoxInitGenerator(host, {});
+    tasks.push(detoxTask);
   }
 
   if (!schema.skipFormat) {
@@ -54,7 +60,6 @@ export function updateDependencies(host: Tree) {
       'react-native': reactNativeVersion,
     },
     {
-      '@nrwl/jest': nxVersion,
       '@nrwl/linter': nxVersion,
       '@types/react': typesReactVersion,
       '@types/react-native': typesReactNativeVersion,

@@ -24,6 +24,13 @@
   - [Run on devices](#run-on-devices)
   - [Release build](#release-build)
   - [Test/lint the app](#testlint-the-app)
+  - [E2e test the app](#e2e-test-the-app)
+    - [Setup](#setup)
+      - [Install applesimutils (Mac only)](#install-applesimutils-mac-only)
+      - [Install Jest Globally](#install-jest-globally)
+    - [Commands](#commands)
+    - [Manually Add E2E Folder](#manually-add-e2e-folder)
+    - [Change Testing Simulator/Emulator](#change-testing-simulatoremulator)
 - [Using components from React library](#using-components-from-react-library)
 - [CLI Commands and Options](#cli-commands-and-options)
   - [`start`](#start)
@@ -36,7 +43,10 @@
     - [`--port [number]`](#--port-number-2)
     - [`--sync`](#--sync-1)
   - [`sync-deps`](#sync-deps)
+    - [`--include [string]`](#--include-string)
 - [Learn more](#learn-more)
+- [Contributing](#contributing)
+- [Debugging](#debugging)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -110,6 +120,59 @@ No CLI support yet. Run in the Xcode project. See: https://reactnative.dev/docs/
 npx nx test <app-name>
 npx nx lint <app-name>
 ```
+
+### E2e test the app
+
+#### Setup
+
+##### Install applesimutils (Mac only)
+
+[applesimutils](https://github.com/wix/AppleSimulatorUtils) is a collection of utils for Apple simulators.
+
+```sh
+brew tap wix/brew
+brew install applesimutils
+```
+
+##### Install Jest Globally
+
+```sh
+npm install -g jest
+```
+
+#### Commands
+
+A built app must exist before run test commands.
+
+- `nx build-ios <app-name-e2e>`: build the iOS app (Mac only)
+- `nx test-ios <app-name-e2e>`: run e2e tests on the built iOS app (Mac only)
+- `nx build-ios <app-name-e2e> --prod` and `nx test-ios <app-name-e2e> --prod`: build and run release version of iOS app. Note: you might need open the xcode project under iOS and choose a team under "Sign & Capabilities".
+- `nx build-android <app-name-e2e>`: build the android app
+- `nx test-android <app-name-e2d>`: run e2e tests on the built android app
+- `nx build-android <app-name-e2e> --prod` and `nx test-android <app-name-e2e> --prod`: build and run release version of android app.
+
+#### Manually Add E2E Folder
+
+A `<app-name-e2e>` folder is automatically generate when you create a react native app. However, if you want to add e2e folder manually, you need to:
+
+- Install @nrwl/detox
+
+  ```sh
+  # Using npm
+  npm install --save-dev @nrwl/detox
+
+  # Using yarn
+  yarn add -D @nrwl/detox
+  ```
+
+- Run `nx generate @nrwl/detox:app <app-name-e2e>`
+- Follow instructions https://github.com/wix/Detox/blob/master/docs/Introduction.Android.md to manully change android files.
+
+#### Change Testing Simulator/Emulator
+
+For iOS, in terminal, run `xcrun simctl list` to view a list of simulators on your Mac. To open your active simulator, `run open -a simulator`. In `<app-name-e2e>/.detoxrc.json`, you could change the simulator under `devices.simulator.device`.
+
+For Android: in terminal, run `emulator -list-avds` to view a list of emulators installed. To open your emulator, run `emulator -avd <your emulator name>`. In `<app-name-e2e>/.detoxrc.json`, you could change the simulator under `devices.emulator.device`.
 
 ## Using components from React library
 
@@ -194,3 +257,8 @@ To publish packages to a local registry, do the following:
 - Run `yarn release 999.9.9 latest --local` in Terminal 3
 - Run `cd /tmp` in Terminal 3
 - Run `npx create-nx-workspace` in Terminal 3
+
+## Debugging
+
+- If you got a pod install error like "None of your spec sources contain a spec satisfying the dependency", go to ios folder and run `pod install --repo-update` in your terminal.
+- If you got an error "error: Signing for "App" requires a development team. Select a development team in the Signing & Capabilities editor." when build for iOS, you need to open the xcode project under iOS and choose a team under "Sign & Capabilities".

@@ -1,4 +1,4 @@
-import { generateFiles, offsetFromRoot, Tree } from '@nrwl/devkit';
+import { generateFiles, offsetFromRoot, toJS, Tree } from '@nrwl/devkit';
 import { join } from 'path';
 import { NormalizedSchema } from './normalize-options';
 
@@ -9,5 +9,16 @@ export function createApplicationFiles(host: Tree, options: NormalizedSchema) {
   });
   if (options.unitTestRunner === 'none') {
     host.delete(join(options.appProjectRoot, `/src/app/App.spec.tsx`));
+  }
+  if (options.e2eTestRunner === 'none') {
+    host.delete(
+      join(
+        options.androidProjectRoot,
+        `/app/src/androidTest/java/com/${options.lowerCaseName}/DetoxTest.java`
+      )
+    );
+  }
+  if (options.js) {
+    toJS(host);
   }
 }

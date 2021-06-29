@@ -3,7 +3,6 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import libraryGenerator from './library';
 import { Linter } from '@nrwl/linter';
 import { Schema } from './schema';
-import applicationGenerator from '../application/application';
 
 describe('lib', () => {
   let appTree: Tree;

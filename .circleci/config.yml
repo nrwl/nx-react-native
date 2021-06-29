@@ -20,7 +20,7 @@ executors:
   macos:
     <<: *defaults
     macos:
-      xcode: &_XCODE_VERSION '12.1.0'
+      xcode: &_XCODE_VERSION '12.5.0'
 
 commands:
   setup:
@@ -77,6 +77,10 @@ jobs:
     steps:
       - setup:
           os: << parameters.os >>
+      - run:
+          name: Build
+          command: yarn build
+          no_output_timeout: 30m
       - run:
           name: E2E
           command: yarn e2e

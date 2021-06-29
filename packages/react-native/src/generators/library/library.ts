@@ -37,6 +37,7 @@ export async function reactNativeLibraryGenerator(
   const initTask = await init(host, {
     ...options,
     skipFormat: true,
+    e2eTestRunner: 'none',
   });
 
   const lintTask = await addLinting(

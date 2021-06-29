@@ -17,6 +17,7 @@ import initGenerator from '../init/init';
 import { join } from 'path';
 import { addProject } from './lib/add-project';
 import { createApplicationFiles } from './lib/create-application-files';
+import { addDetox } from './lib/add-detox';
 
 export async function reactNativeApplicationGenerator(
   host: Tree,
@@ -42,6 +43,7 @@ export async function reactNativeApplicationGenerator(
     options.projectName,
     options.appProjectRoot
   );
+  const detoxTask = await addDetox(host, options);
   const symlinkTask = runSymlink(options.appProjectRoot);
   const podInstallTask = runPodInstall(options.iosProjectRoot);
   const chmodTaskGradlew = runChmod(
@@ -61,6 +63,7 @@ export async function reactNativeApplicationGenerator(
     initTask,
     lintTask,
     jestTask,
+    detoxTask,
     symlinkTask,
     podInstallTask,
     chmodTaskGradlew,

@@ -13,6 +13,12 @@
       "description": "Skip formatting files",
       "type": "boolean",
       "default": false
+    },
+    "e2eTestRunner": {
+      "description": "Adds the specified e2e test runner",
+      "type": "string",
+      "enum": ["detox", "none"],
+      "default": "detox"
     }
   },
   "required": []

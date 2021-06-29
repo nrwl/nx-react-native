@@ -1,6 +1,89 @@
 {
   "version": 1,
   "projects": {
+    "detox": {
+      "projectType": "library",
+      "root": "packages/detox",
+      "sourceRoot": "packages/detox/src",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "packages/detox/**/*.ts",
+              "packages/detox/**/*.spec.ts",
+              "packages/detox/**/*.spec.tsx",
+              "packages/detox/**/*.spec.js",
+              "packages/detox/**/*.spec.jsx",
+              "packages/detox/**/*.d.ts"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "packages/detox/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": ["coverage/packages/detox"]
+        },
+        "build": {
+          "builder": "@nrwl/node:package",
+          "options": {
+            "outputPath": "dist/packages/detox",
+            "tsConfig": "packages/detox/tsconfig.lib.json",
+            "packageJson": "packages/detox/package.json",
+            "main": "packages/detox/index.ts",
+            "assets": [
+              "packages/detox/*.md",
+              {
+                "input": "packages/detox",
+                "glob": "**/files/**",
+                "output": "/"
+              },
+              {
+                "input": "packages/detox",
+                "glob": "**/files/**/.babelrc.template",
+                "output": "/"
+              },
+              {
+                "input": "packages/detox",
+                "glob": "**/files/**/.detoxrc.json.template",
+                "output": "/"
+              },
+              {
+                "input": "./packages/detox",
+                "glob": "**/*.json",
+                "ignore": ["**/tsconfig*.json"],
+                "output": "/"
+              }
+            ]
+          },
+          "outputs": ["{options.outputPath}"]
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "node tools/scripts/publish.js detox"
+          }
+        }
+      }
+    },
+    "detox-e2e": {
+      "projectType": "application",
+      "root": "e2e/detox-e2e",
+      "sourceRoot": "e2e/detox-e2e",
+      "architect": {
+        "e2e": {
+          "executor": "@nrwl/jest:jest",
+          "options": {
+            "passWithNoTests": true,
+            "runInBand": true,
+            "jestConfig": "e2e/detox-e2e/jest.config.js"
+          }
+        }
+      }
+    },
     "react-native": {
       "root": "packages/react-native",
       "sourceRoot": "packages/react-native/src",
@@ -8,14 +91,16 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@nrwl/linter:lint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "packages/react-native/tsconfig.lib.json",
-              "packages/react-native/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!packages/react-native/**/*"]
+            "lintFilePatterns": [
+              "packages/react-native/**/*.ts",
+              "packages/react-native/**/*.spec.ts",
+              "packages/react-native/**/*.spec.tsx",
+              "packages/react-native/**/*.spec.js",
+              "packages/react-native/**/*.spec.jsx",
+              "packages/react-native/**/*.d.ts"
+            ]
           }
         },
         "test": {
@@ -57,18 +142,9 @@
               },
               {
                 "input": "./packages/react-native",
-                "glob": "collection.json",
-                "output": "."
-              },
-              {
-                "input": "./packages/react-native",
-                "glob": "builders.json",
-                "output": "."
-              },
-              {
-                "input": "./packages/react-native",
-                "glob": "migrations.json",
-                "output": "."
+                "glob": "**/*.json",
+                "ignore": ["**/tsconfig*.json"],
+                "output": "/"
               }
             ]
           },
@@ -85,14 +161,13 @@
     "react-native-e2e": {
       "projectType": "application",
       "root": "e2e/react-native-e2e",
-      "sourceRoot": "e2e/react-native-e2e/src",
+      "sourceRoot": "e2e/react-native-e2e",
       "architect": {
         "e2e": {
-          "builder": "@nrwl/nx-plugin:e2e",
+          "executor": "@nrwl/jest:jest",
           "options": {
-            "target": "react-native:build",
-            "npmPackageName": "@nrwl/react-native",
-            "pluginOutputPath": "dist/packages/react-native",
+            "passWithNoTests": true,
+            "runInBand": true,
             "jestConfig": "e2e/react-native-e2e/jest.config.js"
           }
         }

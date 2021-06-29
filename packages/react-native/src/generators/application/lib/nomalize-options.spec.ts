@@ -15,6 +15,7 @@ describe('Normalize Options', () => {
     const schema: Schema = {
       name: 'my-app',
       linter: Linter.EsLint,
+      e2eTestRunner: 'none',
     };
     const options = normalizeOptions(appTree, schema);
     expect(options).toEqual({
@@ -29,12 +30,14 @@ describe('Normalize Options', () => {
       projectName: 'my-app',
       linter: Linter.EsLint,
       entryFile: '/virtual/apps/my-app/src/main.tsx',
+      e2eTestRunner: 'none',
     });
   });
 
   it('should normalize options with name in camel case', () => {
     const schema: Schema = {
       name: 'myApp',
+      e2eTestRunner: 'none',
     };
     const options = normalizeOptions(appTree, schema);
     expect(options).toEqual({
@@ -48,6 +51,7 @@ describe('Normalize Options', () => {
       parsedTags: [],
       projectName: 'my-app',
       entryFile: '/virtual/apps/my-app/src/main.tsx',
+      e2eTestRunner: 'none',
     });
   });
 
@@ -55,6 +59,7 @@ describe('Normalize Options', () => {
     const schema: Schema = {
       name: 'my-app',
       directory: 'directory',
+      e2eTestRunner: 'none',
     };
     const options = normalizeOptions(appTree, schema);
     expect(options).toEqual({
@@ -69,6 +74,7 @@ describe('Normalize Options', () => {
       parsedTags: [],
       projectName: 'directory-my-app',
       entryFile: '/virtual/apps/directory/my-app/src/main.tsx',
+      e2eTestRunner: 'none',
     });
   });
 
@@ -76,6 +82,7 @@ describe('Normalize Options', () => {
     const schema: Schema = {
       name: 'my-app',
       displayName: 'My App',
+      e2eTestRunner: 'none',
     };
     const options = normalizeOptions(appTree, schema);
     expect(options).toEqual({
@@ -89,6 +96,7 @@ describe('Normalize Options', () => {
       parsedTags: [],
       projectName: 'my-app',
       entryFile: '/virtual/apps/my-app/src/main.tsx',
+      e2eTestRunner: 'none',
     });
   });
 });

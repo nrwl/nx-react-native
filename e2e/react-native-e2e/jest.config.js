@@ -7,5 +7,6 @@ module.exports = {
   maxWorkers: 1,
   globals: { 'ts-jest': { tsconfig: '<rootDir>/tsconfig.spec.json' } },
   displayName: 'e2e-react-native',
+  setupFilesAfterEnv: ['<rootDir>/test-setup.ts'],
   testTimeout: 600000,
 };
