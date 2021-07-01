@@ -26,12 +26,15 @@ export async function addJest(
   preset: 'react-native',
   moduleFileExtensions: ['ts', 'js', 'html', 'tsx', 'jsx'],
   setupFilesAfterEnv: ['<rootDir>/test-setup.ts'],
+  moduleNameMapper: {
+    '\\.svg': require.resolve('@nrwl/react-native/src/utils/svg-mock.js'),
+  },
   transform: {
     '\\\\.(js|ts|tsx)$': require.resolve('react-native/jest/preprocessor.js'),
     '^.+\\\\.(bmp|gif|jpg|jpeg|mp4|png|psd|svg|webp)$': require.resolve(
       'react-native/jest/assetFileTransformer.js',
     ),
-  }
+  },
 };`;
   host.write(configPath, content);
 

@@ -16,6 +16,12 @@
       "description": "Add react-native-codegen to dev dependencies",
       "factory": "./src/migrations/update-12-4-0/add-react-native-codegen-dev-dependencies"
     },
+    "add-react-native-svg": {
+      "version": "12.4.0-beta.0",
+      "cli": "nx",
+      "description": "Add support for svg",
+      "factory": "./src/migrations/update-12-4-0/add-react-native-svg"
+    },
     "update-jest-for-react-native": {
       "version": "12.4.0-beta.0",
       "cli": "nx",
@@ -154,6 +160,14 @@
         },
         "@testing-library/react-native": {
           "version": "8.0.0-rc.0",
+          "alwaysAddToPackageJson": false
+        },
+        "react-native-svg-transformer": {
+          "version": "0.14.3",
+          "alwaysAddToPackageJson": false
+        },
+        "react-native-svg": {
+          "version": "12.1.1",
           "alwaysAddToPackageJson": false
         }
       }

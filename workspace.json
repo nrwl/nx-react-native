@@ -145,6 +145,11 @@
                 "glob": "**/*.json",
                 "ignore": ["**/tsconfig*.json"],
                 "output": "/"
+              },
+              {
+                "input": "./packages/react-native",
+                "glob": "**/*.d.ts",
+                "output": "/"
               }
             ]
           },

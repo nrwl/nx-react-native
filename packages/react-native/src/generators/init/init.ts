@@ -16,6 +16,8 @@ import {
   reactNativeCommunityCli,
   reactNativeCommunityCliAndroid,
   reactNativeCommunityCliIos,
+  reactNativeSvgTransformerVersion,
+  reactNativeSvgVersion,
   reactNativeVersion,
   reactTestRendererVersion,
   reactVersion,
@@ -74,6 +76,8 @@ export function updateDependencies(host: Tree) {
       'metro-resolver': metroVersion,
       'react-native-codegen': reactNativeCodegenVersion,
       'react-test-renderer': reactTestRendererVersion,
+      'react-native-svg-transformer': reactNativeSvgTransformerVersion,
+      'react-native-svg': reactNativeSvgVersion,
     }
   );
 }

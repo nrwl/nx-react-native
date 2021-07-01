@@ -17,6 +17,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 // @ts-ignore
 import openURLInBrowser from 'react-native/Libraries/Core/Devtools/openURLInBrowser';
+import Star from './star.svg';
 
 const App = () => {
   return (
@@ -64,6 +65,23 @@ const App = () => {
                   about Nx.
                 </Text>
               </TouchableOpacity>
+
+              <Text style={styles.sectionDescription}>
+                Thank you for using and showing some ♥ for Nx. If you like Nx
+                React Native, please give it a star:
+              </Text>
+
+              <View style={styles.githubStarContainer}>
+                <TouchableOpacity
+                  style={styles.githubStarBadge}
+                  onPress={() =>
+                    openURLInBrowser('https://github.com/nrwl/nx-react-native')
+                  }
+                >
+                  <Star width={24} height={24} fill={Colors.dark} />
+                  <Text> Star</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -124,6 +142,23 @@ const styles = StyleSheet.create({
   },
   link: {
     color: '#45bc98',
+  },
+  githubStarContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 10,
+  },
+  githubStarBadge: {
+    borderWidth: 1,
+    borderColor: Colors.dark,
+    borderRadius: 3,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    fontWeight: '600',
   },
 });
 
