@@ -6,7 +6,7 @@
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
-    "build": "nx build detox && nx build react-native",
+    "build": "nx run-many --target=build --all --parallel",
     "test": "nx run-many --target=test --all --parallel",
     "lint": "nx workspace-lint && nx run-many --target=lint --all --parallel",
     "e2e": "nx e2e react-native-e2e && nx e2e detox-e2e",
