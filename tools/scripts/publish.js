@@ -4,13 +4,16 @@ const { readFileSync, writeFileSync, existsSync } = require('fs');
 
 const { join } = require('path');
 
-function publish(dir, tag) {
-  execSync(`npm publish ${dir} --access public --tag ${tag}`);
-}
-
-function updatePackageJson(packageJsonPath, version) {
+function updatePackageJson(packageJsonPath, version, isDist) {
   const packageJson = JSON.parse(readFileSync(packageJsonPath).toString());
   packageJson.version = version;
+  if (isDist) {
+    Object.keys(packageJson.dependencies).forEach((k) => {
+      if (k === '@nrwl/detox') {
+        packageJson.dependencies[k] = version;
+      }
+    });
+  }
   writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 }
 
@@ -36,6 +39,8 @@ if (!existsSync(outputPath)) {
 }
 
 const root = projectMeta.root;
+
 updatePackageJson(join(root, 'package.json'), version);
-updatePackageJson(join(outputPath, 'package.json'), version);
-publish(outputPath, tag);
+updatePackageJson(join(outputPath, 'package.json'), version, true);
+
+execSync(`npm publish ${outputPath} --access public --tag ${tag}`);
