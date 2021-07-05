@@ -1,4 +1,5 @@
 export const nxVersion = '*';
+export const nxLintVersion = '12.5.7';
 
 export const reactVersion = '17.0.2';
 export const typesReactVersion = '17.0.6';
