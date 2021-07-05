@@ -10,7 +10,23 @@ describe('Add react-native-codegen to dev dependencies 12.4.0', () => {
     tree = createTreeWithEmptyWorkspace();
   });
 
-  it(`should update libs`, async () => {
+  it(`should update libs if dependencies contain react-native`, async () => {
+    tree.write(
+      'package.json',
+      JSON.stringify({
+        dependencies: { 'react-native': '*' },
+        devDependencies: {},
+      })
+    );
+
+    await update(tree);
+
+    expect(
+      readJson(tree, 'package.json').devDependencies['react-native-codegen']
+    ).toEqual(reactNativeCodegenVersion);
+  });
+
+  it(`should not update libs if dependencies do not contain react-native`, async () => {
     tree.write(
       'package.json',
       JSON.stringify({
@@ -23,6 +39,6 @@ describe('Add react-native-codegen to dev dependencies 12.4.0', () => {
 
     expect(
       readJson(tree, 'package.json').devDependencies['react-native-codegen']
-    ).toEqual(reactNativeCodegenVersion);
+    ).toEqual(undefined);
   });
 });
