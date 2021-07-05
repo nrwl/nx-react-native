@@ -11,6 +11,10 @@ if [ "$TAG" = "--local" ]; then
   LOCAL="--local"
 fi
 
+echo "Running build"
+
+bash tools/scripts/package.sh $VERSION
+
 echo "Publishing to registry:"
 
 echo $NPM_REGISTRY
