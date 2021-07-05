@@ -21,6 +21,14 @@
       }
     }
   },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
   "projects": {
     "detox": {
       "tags": []
