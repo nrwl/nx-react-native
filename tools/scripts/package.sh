@@ -14,4 +14,4 @@ npx nx run-many --target=build --all --parallel || { echo 'Build failed' ; exit 
 
 cd dist/packages
 
-sed -i "" "s|exports.nxVersion = '\*';|exports.nxVersion = '$NX_VERSION';|g" react-native/src/utils/versions.js
+sed -i "" "s|exports.nxVersion = '\*';|exports.nxVersion = '$NX_VERSION';|g" {detox,react-native}/src/utils/versions.js
