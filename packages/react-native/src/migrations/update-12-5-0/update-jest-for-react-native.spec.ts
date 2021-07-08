@@ -13,7 +13,7 @@ jest.mock('@nrwl/jest/src/migrations/update-10-0-0/require-jest-config', () => {
   };
 });
 
-describe('update jest for react native 12.4.0', () => {
+describe('update jest for react native 12.5.0', () => {
   let tree: Tree;
 
   beforeEach(() => {

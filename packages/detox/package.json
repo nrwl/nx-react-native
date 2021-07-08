@@ -23,8 +23,8 @@
   "main": "index.js",
   "types": "index.d.ts",
   "dependencies": {
-    "@nrwl/jest": "^12.5.2",
-    "@nrwl/linter": "^12.5.2",
+    "@nrwl/jest": "^12.5.7",
+    "@nrwl/linter": "^12.5.7",
     "chalk": "^4.1.0"
   },
   "peerDependencies": {

@@ -3,7 +3,7 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { reactNativeCodegenVersion } from '../../utils/versions';
 import update from './add-react-native-codegen-dev-dependencies';
 
-describe('Add react-native-codegen to dev dependencies 12.4.0', () => {
+describe('Add react-native-codegen to dev dependencies 12.5.0', () => {
   let tree: Tree;
 
   beforeEach(async () => {

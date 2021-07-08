@@ -11,16 +11,16 @@
       "factory": "./src/migrations/update-11-4-0/add-missing-dev-dependencies-11-4-0"
     },
     "add-react-native-codegen-dev-dependencies": {
-      "version": "12.4.0-beta.0",
+      "version": "12.5.0-beta.0",
       "cli": "nx",
       "description": "Add react-native-codegen to dev dependencies",
-      "factory": "./src/migrations/update-12-4-0/add-react-native-codegen-dev-dependencies"
+      "factory": "./src/migrations/update-12-5-0/add-react-native-codegen-dev-dependencies"
     },
     "update-jest-for-react-native": {
-      "version": "12.4.0-beta.0",
+      "version": "12.5.0-beta.0",
       "cli": "nx",
       "description": "Update jest for react native",
-      "factory": "./src/migrations/update-12-4-0/update-jest-for-react-native"
+      "factory": "./src/migrations/update-12-5-0/update-jest-for-react-native"
     }
   },
   "packageJsonUpdates": {
@@ -112,12 +112,12 @@
         }
       }
     },
-    "12.4.0": {
-      "version": "12.4.0-beta.0",
+    "12.5.0": {
+      "version": "12.5.0-beta.0",
       "packages": {
-        "@nrwl/jest": { "version": "12.4.0", "alwaysAddToPackageJson": false },
+        "@nrwl/jest": { "version": "12.5.7", "alwaysAddToPackageJson": false },
         "@nrwl/linter": {
-          "version": "12.4.0",
+          "version": "12.5.7",
           "alwaysAddToPackageJson": false
         },
         "react": {

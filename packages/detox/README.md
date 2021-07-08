@@ -41,7 +41,7 @@ npm install -g jest
 
 ### Commands
 
-A built app must exist before run test commands.
+Note: For e2e tests to work, the app must be running (`nx start <app-name>`). A built app must exist before run test commands.
 
 - `nx build-ios <app-name-e2e>`: build the iOS app (Mac only)
 - `nx test-ios <app-name-e2e>`: run e2e tests on the built iOS app (Mac only)
@@ -52,7 +52,7 @@ A built app must exist before run test commands.
 
 ### Manually Add E2E Folder
 
-A `<app-name-e2e>` folder is automatically generate when you create a react native app. However, if you want to add e2e folder manually, you need to:
+A `<app-name-e2e>` folder is automatically generated when you create a react native app. However, if you want to add e2e folder manually, you need to:
 
 - Install @nrwl/detox
 
@@ -72,6 +72,8 @@ A `<app-name-e2e>` folder is automatically generate when you create a react nati
 For iOS, in terminal, run `xcrun simctl list` to view a list of simulators on your Mac. To open your active simulator, `run open -a simulator`. In `<app-name-e2e>/.detoxrc.json`, you could change the simulator under `devices.simulator.device`.
 
 For Android: in terminal, run `emulator -list-avds` to view a list of emulators installed. To open your emulator, run `emulator -avd <your emulator name>`. In `<app-name-e2e>/.detoxrc.json`, you could change the simulator under `devices.emulator.device`.
+
+To override the device name specified in a configuration, you could use `--device-name` option: `nx test-ios <app-name-e2e> --device-name "iPhone 11"`.
 
 ## Learn more
 

@@ -11,6 +11,7 @@ import {
   jestReactNativeVersion,
   metroReactNativeBabelPresetVersion,
   metroVersion,
+  nxLintVersion,
   nxVersion,
   reactNativeCodegenVersion,
   reactNativeCommunityCli,
@@ -60,7 +61,8 @@ export function updateDependencies(host: Tree) {
       'react-native': reactNativeVersion,
     },
     {
-      '@nrwl/linter': nxVersion,
+      '@nrwl/linter': nxLintVersion,
+      '@nrwl/react-native': nxVersion,
       '@types/react': typesReactVersion,
       '@types/react-native': typesReactNativeVersion,
       '@react-native-community/cli': reactNativeCommunityCli,
