@@ -4,7 +4,7 @@ import {
   patchPackageJsonForPlugin,
   runPackageManagerInstall,
 } from '@nrwl/nx-plugin/testing';
-import { appRootPath } from '@nrwl/workspace/src/utilities/app-root';
+import { appRootPath } from '@nrwl/tao/src/utils/app-root';
 import { readJsonFile, writeJsonFile } from '@nrwl/devkit';
 
 beforeAll(() => {

@@ -11,6 +11,8 @@ export function addProject(host: Tree, options: NormalizedSchema) {
     sourceRoot: `${options.projectRoot}/src`,
     projectType: 'application',
     targets: { ...getTargets(options) },
+    tags: [],
+    implicitDependencies: options.project ? [options.project] : undefined,
   });
 }
 
@@ -62,13 +64,6 @@ function getTargets(options: NormalizedSchema) {
       production: {
         detoxConfiguration: 'android.emu.release',
       },
-    },
-  };
-
-  architect['lint'] = {
-    executor: '@nrwl/linter:eslint',
-    options: {
-      lintFilePatterns: [`${options.projectRoot}/**/*.{js,ts}`],
     },
   };
 

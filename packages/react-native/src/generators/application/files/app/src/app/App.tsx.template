@@ -58,6 +58,7 @@ const App = () => {
               <TouchableOpacity
                 accessibilityRole="button"
                 onPress={() => openURLInBrowser('https://nx.dev')}
+                testID="nx-link"
               >
                 <Text style={styles.sectionDescription}>
                   Visit <Text style={styles.link}>nx.dev</Text> for more info
