@@ -75,7 +75,7 @@
       "sourceRoot": "e2e/detox-e2e",
       "architect": {
         "e2e": {
-          "executor": "@nrwl/jest:jest",
+          "builder": "@nrwl/jest:jest",
           "options": {
             "passWithNoTests": true,
             "runInBand": true,
@@ -164,7 +164,7 @@
       "sourceRoot": "e2e/react-native-e2e",
       "architect": {
         "e2e": {
-          "executor": "@nrwl/jest:jest",
+          "builder": "@nrwl/jest:jest",
           "options": {
             "passWithNoTests": true,
             "runInBand": true,

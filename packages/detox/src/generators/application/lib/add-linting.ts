@@ -10,6 +10,10 @@ import { extraEslintDependencies, createReactEslintJson } from '@nrwl/react';
 import { NormalizedSchema } from './normalize-options';
 
 export async function addLinting(host: Tree, options: NormalizedSchema) {
+  if (options.linter === Linter.None) {
+    return () => {};
+  }
+
   const lintTask = await lintProjectGenerator(host, {
     linter: options.linter,
     project: options.projectName,

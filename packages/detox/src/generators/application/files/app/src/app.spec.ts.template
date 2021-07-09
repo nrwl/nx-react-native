@@ -10,7 +10,7 @@ describe('<%= appClassName %>', () => {
   });
 
   it('should open nx link', async () => {
-    await expect(element(by.id('nx-link'))).toBeVisible;
+    await expect(element(by.id('nx-link'))).toBeVisible();
     element(by.id('nx-link')).tap();
   });
 });

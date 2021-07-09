@@ -17,6 +17,10 @@ export async function addLinting(
   linter: Linter,
   setParserOptionsProject?: boolean
 ) {
+  if (linter === Linter.None) {
+    return () => {};
+  }
+
   const lintTask = await lintProjectGenerator(host, {
     linter,
     project: projectName,
