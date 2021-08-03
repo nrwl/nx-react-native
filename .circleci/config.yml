@@ -77,6 +77,9 @@ jobs:
     steps:
       - setup:
           os: << parameters.os >>
+      - run: npm install -g detox-cli
+      - run: brew tap wix/brew
+      - run: brew install applesimutils
       - run:
           name: Build
           command: yarn build
