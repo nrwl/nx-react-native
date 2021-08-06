@@ -104,7 +104,9 @@ function startAsync(
 function createStartOptions(options) {
   return Object.keys(options).reduce((acc, k) => {
     if (k === 'resetCache') {
-      acc.push(`--reset-cache`);
+      if (options[k] === true) {
+        acc.push(`--reset-cache`);
+      }
     } else {
       acc.push(`--${k}`, options[k]);
     }
